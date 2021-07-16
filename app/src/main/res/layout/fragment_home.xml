@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.HomeFragment"
+        android:orientation="vertical"
+
+       >
+
+<TextView
+        android:id="@+id/textView"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+
+</TextView>
+
+
+    <com.github.mikephil.charting.charts.PieChart
+
+            android:id="@+id/idPieChart"
+            android:layout_below="@+id/textView"
+            android:layout_above="@+id/rltvlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+    </com.github.mikephil.charting.charts.PieChart>
+    <RelativeLayout
+            android:id="@+id/rltvlay"
+            android:layout_above="@+id/view_flipper"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginVertical="15dp"
+    >
+        <Button
+                android:typeface="serif"
+                android:background="@drawable/custombtn"
+                android:id="@+id/center"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+        </Button>
+        <Button
+
+                android:id="@+id/left"
+                android:foregroundTint="#66CC66"
+                android:background="@null"
+                android:layout_alignParentLeft="true"
+                android:layout_width="65dp"
+                android:layout_height="match_parent"
+                android:foreground="@android:drawable/ic_menu_upload"
+                android:stateListAnimator="@null">
+
+        </Button>
+        <Button
+                android:id="@+id/right"
+                android:foregroundTint="#66CC66"
+                android:background="@null"
+                android:layout_alignParentRight="true"
+                android:layout_width="65dp"
+                android:layout_height="match_parent"
+                android:foreground="@android:drawable/ic_menu_upload"
+                android:stateListAnimator="@null">
+
+        </Button>
+    </RelativeLayout>
+    <ViewFlipper
+            android:id="@+id/view_flipper"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="105dp"
+            tools:ignore="MissingConstraints">
+        <RelativeLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                      android:orientation="horizontal"
+        >
+            <Button
+                    android:id="@+id/minusbtn"
+                    android:layout_marginLeft="15dp"
+                    android:text="-"
+                    android:textSize="55dp"
+                    android:textColor="#FF6666"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/roundedbutton">
+
+            </Button>
+            <Button
+
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:text="+"
+                    android:textColor="#66CC66"
+                    android:textSize="55dp"
+                    android:id="@+id/plusbtn"
+                    android:background="@drawable/button_states"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+
+
+
+
+                    >
+
+            </Button>
+        </RelativeLayout>
+
+    </ViewFlipper>
+
+
+</RelativeLayout>

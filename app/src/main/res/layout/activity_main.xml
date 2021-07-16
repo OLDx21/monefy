@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+
+        tools:openDrawer="start">
+
+
+    <include
+            android:id="@+id/incldeis"
+            layout="@layout/content_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    </include>
+    <com.google.android.material.navigation.NavigationView
+
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:fitsSystemWindows="true"
+            app:itemTextAppearance="@style/NavDrawerTextStyle"
+            app:itemBackground="@drawable/calccustom"
+            android:theme="@style/NavigationTheme"
+            app:itemIconPadding="28dp"
+            app:itemHorizontalPadding="40dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+
+
+
+        <RelativeLayout
+
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+            <LinearLayout
+
+                    android:layout_marginVertical="100dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                <Button
+                        android:layout_weight="1"
+                        android:text="@string/menu_slideshow"
+                        android:background="@drawable/calccustom"
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/allday">
+
+                </Button>
+                <Button
+                        android:layout_weight="1"
+                        android:text="@string/week_day"
+                        android:background="@drawable/calccustom"
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/week">
+
+                </Button>
+                <Button
+                        android:layout_weight="1"
+                        android:text="@string/month"
+                        android:background="@drawable/calccustom"
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/month">
+
+                </Button>
+                <Button
+                        android:layout_weight="1"
+                        android:text="@string/menu_gallery"
+                        android:background="@drawable/calccustom"
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/year">
+
+                </Button>
+                <Button
+                        android:layout_weight="1"
+                        android:text="@string/menu_home"
+                        android:background="@drawable/calccustom"
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/all">
+
+                </Button>
+                <Button
+                        android:layout_weight="1"
+                        android:text="@string/interval"
+                        android:background="@drawable/calccustom"
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/interval">
+
+                </Button>
+
+                <Button
+                        android:layout_weight="1"
+                        android:text="@string/menu_day"
+                        android:background="@drawable/calccustom"
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/day">
+
+                </Button>
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+        </RelativeLayout>
+
+    </com.google.android.material.navigation.NavigationView>
+
+
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinner"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+</androidx.appcompat.widget.AppCompatSpinner>
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+
+            android:layout_weight="35"
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:mcv_showOtherDates="all"
+            app:mcv_selectionColor="@android:color/holo_green_dark"
+            android:background="#C2DDA1"
+            app:mcv_selectionMode="range"
+
+    >
+
+    </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
+</LinearLayout>

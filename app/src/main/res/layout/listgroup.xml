@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        android:padding="16dp"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+    <TextView
+
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textSize="23dp"
+            android:id="@+id/groupview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+    </TextView>
+    <TextView
+            android:gravity="center"
+            android:textColor="@color/white"
+            
+            android:text="9"
+            android:id="@+id/kolvobtn"
+            android:background="@drawable/greenoval"
+            android:clickable="false"
+            android:layout_width="20dp"
+            android:layout_height="20dp">
+
+    </TextView>
+    <TextView
+
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textSize="23dp"
+            android:id="@+id/groupview2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+    </TextView>
+
+</LinearLayout>

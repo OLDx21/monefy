@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        android:id="@+id/layout_root"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.appbar.AppBarLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:theme="@style/Theme.NewPr.AppBarOverlay">
+
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+    <DatePicker
+
+            android:theme="@style/datepicker"
+            android:id="@+id/datapicker"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:headerBackground="@android:color/holo_green_dark">
+
+    </DatePicker>
+
+
+</LinearLayout>

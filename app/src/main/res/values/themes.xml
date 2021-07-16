@@ -1,0 +1,54 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Monefy" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="Theme.Monefy.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.Monefy.AppBarOverlay" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+
+    </style>
+    <style name="Theme.Monefy.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="NavDrawerTextStyle">
+
+        <item name="android:textSize">16sp</item> <!-- Размер текста -->
+        <item name="android:textAllCaps">true</item>
+        <item name="android:itemBackground">@color/teal_700</item>
+        <item name="android:textColor">#000000</item>
+    </style>  <!-- Если chaked = true, то цвет текста оранжевый -->
+    <style name="StyleButton">
+        <item name="background">@drawable/calccustom</item>
+        <item name="android:minWidth">20dip</item>
+        <item name="android:padding">20dip</item>
+    </style>  <!-- Если chaked = true, то цвет текста оранжевый -->
+    <style name="NavigationTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginBottom">03dp</item>
+    </style>
+    <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker" tools:targetApi="lollipop">
+        <item name="android:headerBackground">@color/purple_200</item>
+        <item name="android:calendarTextColor">@color/purple_700</item>
+        <item name="android:dayOfWeekBackground">@color/purple_700</item>
+        <item name="android:yearListSelectorColor">@color/teal_200</item>
+        <item name="android:datePickerMode">calendar</item>
+        <item name="android:minDate">01/01/2000</item>
+    </style>
+    <style name="datepicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@android:color/holo_blue_dark</item>
+        <item name="colorPrimaryDark">@android:color/holo_orange_dark</item>
+        <item name="colorAccent">@android:color/holo_green_dark</item>
+    </style>
+    <style name="Theme.NewPr.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+</resources>
