@@ -43,8 +43,9 @@ import static java.util.stream.Collectors.toList;
 public class Weeks extends Fragment {
 
     static ArrayList<String> arrayList = new ArrayList<>();
+    static ArrayList<String> arrayList2 = new ArrayList<>();
     static TreeMap<Date, ArrayList<Date>> MndWeek = new TreeMap<>();
-    SQLiteDatabase sqLiteDatabase;
+
     TreeMap<Date, HistoryClass> Data = new TreeMap<>();
     public static SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd", new Locale("uk", "UA"));
     ViewPager viewPager;
@@ -55,15 +56,15 @@ public class Weeks extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
-        sqLiteDatabase = Action.getSqLiteDatabase();
-        setData(sqLiteDatabase);
+
+        setData();
         viewPager = root.findViewById(R.id.view_pager);
         Weeks.MyAdapter adapter = new Weeks.MyAdapter(getChildFragmentManager(), Data, viewPager);
 
         viewPager.setAdapter(adapter);
 
 
-        viewPager.setCurrentItem(MndWeek.size()-1);
+        viewPager.setCurrentItem(MndWeek.size() - 1);
 
 
         return root;
@@ -72,7 +73,7 @@ public class Weeks extends Fragment {
     public static class MyAdapter extends FragmentPagerAdapter {
         TreeMap<Date, HistoryClass> Data;
         ViewPager viewPager;
-        public SimpleDateFormat formatter2 = new SimpleDateFormat("dd MMMM", new Locale("uk", "UA"));
+        public SimpleDateFormat formatter2 = new SimpleDateFormat("dd MMMM", Locale.getDefault());
 
         MyAdapter(@NonNull FragmentManager fm, TreeMap<Date, HistoryClass> Data, ViewPager viewPager) {
             super(fm);
@@ -82,6 +83,8 @@ public class Weeks extends Fragment {
 
         @Override
         public int getCount() {
+            if (MndWeek.isEmpty())
+                return 1;
             return MndWeek.size();
         }
 
@@ -95,21 +98,29 @@ public class Weeks extends Fragment {
                 if (count == position) {
                     double result = 0;
                     LinkedHashMap<String, Double> names = new LinkedHashMap<>();
+                    LinkedHashMap<String, Double> stonks = new LinkedHashMap<>();
                     for (int i = 0; i < arrayList.size(); i++) {
                         names.put(arrayList.get(i), 0.0);
                     }
+                    for (int i = 0; i < arrayList2.size(); i++) {
+                        stonks.put(arrayList2.get(i), 0.0);
+                    }
                     for (int i = 0; i < s.getValue().size(); i++) {
                         if (Action.NamesAndValuesForWeeks.containsKey(format.format(s.getValue().get(i)))) {
+
                             result += Action.NamesAndValuesForWeeks.get(format.format(s.getValue().get(i))).getResult();
-                            Action.NamesAndValuesForWeeks.get(format.format(s.getValue().get(i))).getNames();
+
                             for (Map.Entry<String, Double> s2 : Action.NamesAndValuesForWeeks.get(format.format(s.getValue().get(i))).getNames().entrySet()) {
                                 names.put(s2.getKey(), names.get(s2.getKey()) + s2.getValue());
-
                             }
+                            for (Map.Entry<String, Double> s2 : Action.NamesAndValuesForWeeks.get(format.format(s.getValue().get(i))).getStonks().entrySet()) {
+                                stonks.put(s2.getKey(), stonks.get(s2.getKey()) + s2.getValue());
+                            }
+
                         }
                     }
                     return new SelWeek(formatter2.format(s.getValue().get(0)) + " - " + formatter2.format(s.getValue().get(s.getValue().size() - 1)),
-                            new NamesAndValues(names, result), Data, s.getValue());
+                            new NamesAndValues(names, result, stonks), Data, s.getValue());
 
                 }
                 count += 1;
@@ -120,49 +131,28 @@ public class Weeks extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void setData(SQLiteDatabase sqLiteDatabase) {
+    public void setData( ) {
         arrayList.clear();
         MndWeek.clear();
         Action.NamesAndValuesForWeeks.clear();
+        DataBase dataBase = DataBase.getInstance();
+        Data = dataBase.getData();
+
         LinkedHashMap<String, Double> names = new LinkedHashMap<>();
-        ArrayList<String> names2 = new ArrayList<>();
-
+        ArrayList<String> names2 = dataBase.getArray(DataBase.COST);
         LinkedHashMap<String, Double> stonks = new LinkedHashMap<>();
-        ArrayList<String> stonks2 = new ArrayList<>();
+        ArrayList<String> stonks2 = dataBase.getArray(DataBase.PROFIT);
 
-        Cursor cursor = sqLiteDatabase.query(DBhelp.TABLE_NAME3, null, null, null, null, null, null);
-        String name, sumaa, check, dates;
-        int nameid, suma, checkint, date, i = 0;
+        String  dates;
+        int i = 0;
         Date date1;
+        for (int in = 0; in < names2.size(); in++) {
+            names.put(names2.get(in), 0.0);
+        }
+        for (int in = 0; in < stonks2.size(); in++) {
+            stonks.put(stonks2.get(in), 0.0);
+        }
 
-        if (cursor.moveToFirst()) {
-            nameid = cursor.getColumnIndex(DBhelp.NAME_COLUMN);
-            suma = cursor.getColumnIndex(DBhelp.SUMA_COLUMN);
-            checkint = cursor.getColumnIndex(DBhelp.CHECK_COLUMN);
-            date = cursor.getColumnIndex(DBhelp.DATE_COLUMN);
-            do {
-
-                name = cursor.getString(nameid);
-                sumaa = cursor.getString(suma);
-                check = cursor.getString(checkint);
-                dates = cursor.getString(date);
-                date1 = new Date(dates);
-
-                Data.put(date1, new HistoryClass(name, dates, sumaa, check));
-                if (!names.containsKey(name) && check.equals("minus")) {
-                    names2.add(name);
-                    names.put(name, 0.0);
-                }
-                if (!stonks.containsKey(name) && check.equals("plus")) {
-
-                    stonks2.add(name);
-                    stonks.put(name, 0.0);
-                }
-
-            }
-
-            while (cursor.moveToNext());
-            cursor.close();
             if (Data.isEmpty()) {
                 return;
             }
@@ -189,13 +179,12 @@ public class Weeks extends Fragment {
                     result = 0;
                     stonks = new LinkedHashMap<>();
                     names = new LinkedHashMap<>();
-                    lastdate = format.format(s.getKey());
+                    lastdate  = format.format(s.getKey());
                     dates = format.format(s.getKey());
                     for (int in = 0; in < names2.size(); in++) {
                         names.put(names2.get(in), 0.0);
                     }
                     for (int in = 0; in < stonks2.size(); in++) {
-
                         stonks.put(stonks2.get(in), 0.0);
                     }
 
@@ -219,8 +208,9 @@ public class Weeks extends Fragment {
                 i += 1;
             }
             arrayList.addAll(names2);
+            arrayList2.addAll(stonks2);
 
-            System.out.println(lastdate);
+
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date(lastdate));
 
@@ -251,7 +241,7 @@ public class Weeks extends Fragment {
             }
 
 
-        }
+
     }
 
 

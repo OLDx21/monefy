@@ -60,6 +60,7 @@ public class PlusActivity extends AppCompatActivity {
         ActionBar actionBar =getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
         textView = findViewById(R.id.textview2);
         button0 = findViewById(R.id.btn0);
         button1 = findViewById(R.id.btn1);
@@ -83,8 +84,11 @@ public class PlusActivity extends AppCompatActivity {
         Animation animBeta = AnimationUtils.loadAnimation(this, R.anim.animka2);
         Animation animSeta = AnimationUtils.loadAnimation(this, R.anim.error);
 
-        selectedbtm.setText("ВИБІР КАТЕГОРІЇ");
+        selectedbtm.setText(getResources().getString(R.string.ktgsel));
         datetext.setText(Action.formatter.format(date));
+
+
+
 
         selectedbtm.setOnClickListener(v -> {
             v.startAnimation(animAlpha);
@@ -106,7 +110,7 @@ public class PlusActivity extends AppCompatActivity {
             }
             bottom2class = new Bottom2class(textView.getText().toString(), date, check);
             bottom2class.show(getSupportFragmentManager(), "exampleBottomSheet");
-            System.out.println(date);
+
 
         });
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">monefy</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Додати категорію</string>
+
+    <string name="menu_home">Усі</string>
+    <string name="menu_gallery">Рік</string>
+    <string name="menu_slideshow">День</string>
+    <string name="menu_day">Вибір дати</string>
+    <string name="week_day">Тиждень</string>
+    <string name="add">Додати</string>
+    <string name="month">Місяць</string>
+    <string name="interval">Інтервал</string>
+    <string name="skas">Скасувати</string>
+    <string name="okay">Гаразд</string>
+    <string name="cost">Витрати</string>
+    <string name="stonks">Прибуток</string>
+    <string name="balance">Баланс</string>
+    <string name="ktgsel">Вибір категорії</string>
+    <string name="settings">Налаштування</string>
+    <string name="onlyview">Тільки перегляд</string>
+    <string name="greatjob">Успішно додано!</string>
+    <string-array name="mode">
+        <item>Інтервал</item>
+        <item>Вибір дат</item>
+    </string-array>
+
+</resources>

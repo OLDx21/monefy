@@ -57,6 +57,7 @@ public class MinusActivity extends AppCompatActivity {
         ActionBar actionBar =getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        Action.setFontActionBar(actionBar, getApplicationContext());
         textView = findViewById(R.id.textview2);
         button0 = findViewById(R.id.btn0);
         button1 = findViewById(R.id.btn1);
@@ -77,7 +78,7 @@ public class MinusActivity extends AppCompatActivity {
         Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.animka);
         Animation animBeta = AnimationUtils.loadAnimation(this, R.anim.animka2);
         Animation animSeta = AnimationUtils.loadAnimation(this, R.anim.error);
-        selectedbtm.setText("ВИБІР КАТЕГОРІЇ");
+        selectedbtm.setText(getResources().getString(R.string.ktgsel));
         datetextview.setText(Action.formatter.format(date));
 
 

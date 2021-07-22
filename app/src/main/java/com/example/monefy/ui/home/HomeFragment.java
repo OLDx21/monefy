@@ -1,6 +1,8 @@
 package com.example.monefy.ui.home;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -13,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import com.example.monefy.*;
 
@@ -34,14 +37,12 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class HomeFragment extends Fragment {
-    SQLiteDatabase sqLiteDatabase;
+
+    SQLiteDatabase sqLiteDatabase=Action.getSqLiteDatabase();
 
     Button center, left, right, minusbtn, plusbtn;
     PieChart pieChart;
@@ -49,15 +50,20 @@ public class HomeFragment extends Fragment {
     BottomSheet bottomSheet = BottomSheet.getInstance();
     TextView textView;
     DoIntent doIntent = DoIntent.getInstance();
-    ArrayList<String> Kategories = new ArrayList<>();
-
+    RadioButton stonks, cost;
+    ArrayList<String> KategoriesStonks = new ArrayList<>();
+    ArrayList<String> KategoriesCost = new ArrayList<>();
+    ArrayList<PieEntry> yEntrys = new ArrayList<>();
+    HashMap <String, Double> stonksmap = new HashMap<>();
+    ArrayList<PieEntry> arraystonks = new ArrayList<>();
+    PieData pieData;
+    PieDataSet pieDataSet;
     @RequiresApi(api = Build.VERSION_CODES.R)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        Action.Createdb(getContext());
-        sqLiteDatabase = Action.getSqLiteDatabase();
+
 
         pieChart = root.findViewById(R.id.idPieChart);
         Animation animAlpha = AnimationUtils.loadAnimation(getContext(), R.anim.animka3);
@@ -84,23 +90,37 @@ public class HomeFragment extends Fragment {
         textView = root.findViewById(R.id.textView);
         minusbtn = root.findViewById(R.id.minusbtn);
         plusbtn = root.findViewById(R.id.plusbtn);
+        stonks = root.findViewById(R.id.offer);
+        cost = root.findViewById(R.id.search);
         textView.setText(Action.formatter2.format(new Date()));
         Action.checked = 0;
 
 
         center.startAnimation(animAlpha);
-
-
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Action.display = display;
-
-
         center.setWidth((display.getWidth()) - (display.getWidth() / 2));
-
-
         popupMenu = new PopupMenu(getContext(), textView);
         addDataSet(sqLiteDatabase);
+        cost.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
+        stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
+        cost.setChecked(true);
 
+        stonks.setOnClickListener(v -> {
+            stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
+            cost.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
+            pieDataSet.setValues(arraystonks);
+            pieChart.notifyDataSetChanged();
+            pieChart.animateY(1000, Easing.EaseInOutCubic);
+        });
+        cost.setOnClickListener(v -> {
+            cost.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
+            stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
+            pieDataSet.setValues(yEntrys);
+            pieChart.notifyDataSetChanged();
+            pieChart.animateY(1000, Easing.EaseInOutCubic);
+
+        });
 
         plusbtn.setOnClickListener(v -> {
             v.startAnimation(animbeta);
@@ -158,7 +178,13 @@ public class HomeFragment extends Fragment {
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                pieChart.setCenterText(Kategories.get((Integer) e.getData()) + "\n" + e.getY());
+
+                if(cost.isChecked()) {
+                    pieChart.setCenterText(KategoriesCost.get((Integer) e.getData()) + "\n" + e.getY());
+                }
+                else {
+                    pieChart.setCenterText(KategoriesStonks.get((Integer) e.getData()) + "\n" + e.getY());
+                }
             }
 
             @Override
@@ -166,27 +192,12 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        center.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.startAnimation(animAlpha);
-                bottomSheet.show(getParentFragmentManager(), "exampleBottomSheet");
-            }
+        center.setOnClickListener(v -> {
+            v.startAnimation(animAlpha);
+            bottomSheet.show(getParentFragmentManager(), "exampleBottomSheet");
         });
-        left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                bottomSheet.show(getParentFragmentManager(), "exampleBottomSheet");
-            }
-        });
-        right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                bottomSheet.show(getParentFragmentManager(), "exampleBottomSheet");
-            }
-        });
+        left.setOnClickListener(v -> bottomSheet.show(getParentFragmentManager(), "exampleBottomSheet"));
+        right.setOnClickListener(v -> bottomSheet.show(getParentFragmentManager(), "exampleBottomSheet"));
 
 
         return root;
@@ -198,7 +209,7 @@ public class HomeFragment extends Fragment {
         String name, value;
         int i = 0, nameid, kolvotable;
 
-        ArrayList<PieEntry> yEntrys = new ArrayList<>();
+
         if (cursor.moveToFirst()) {
             nameid = cursor.getColumnIndex(DBhelp.NAMES_COLUMS);
             kolvotable = cursor.getColumnIndex(DBhelp.VALUES_COLUMNS);
@@ -211,7 +222,7 @@ public class HomeFragment extends Fragment {
                 Action.NamesAndValues.put(name, value);
                 if (Float.parseFloat(value) > 0) {
                     yEntrys.add(new PieEntry(Float.parseFloat(value), name, i));
-                    Kategories.add(name);
+                    KategoriesCost.add(name);
                 }
 
                 i += 1;
@@ -225,69 +236,37 @@ public class HomeFragment extends Fragment {
 
 
         //create the data set
-        PieDataSet pieDataSet = new PieDataSet(yEntrys, "");
-        pieDataSet.setDrawValues(true);
-        pieDataSet.setSliceSpace(3);
-        pieDataSet.setValueTextSize(15);
-
-
-        pieDataSet.setValueFormatter(new MyValueFormatter(new DecimalFormat("0"), pieChart));
-        pieDataSet.setValueLinePart1Length(0.3f);
-        pieDataSet.setValueLinePart2Length(0.4f);
-        pieDataSet.setValueLineWidth(2f);
-        pieDataSet.setValueLinePart1OffsetPercentage(80); // Line starts outside of chart
-        pieDataSet.setUsingSliceColorAsValueLineColor(true);
-        pieDataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
-        pieDataSet.setValueTypeface(Typeface.DEFAULT_BOLD);
-        ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.parseColor("#FFFF66"));
-        colors.add(Color.parseColor("#FF6600"));
-        colors.add(Color.parseColor("#FF33CC"));
-        colors.add(Color.parseColor("#9933FF"));
-        colors.add(Color.parseColor("#6633FF"));
-        colors.add(Color.parseColor("#3366CC"));
-        colors.add(Color.parseColor("#33FFCC"));
-        colors.add(Color.parseColor("#33FF66"));
-        colors.add(Color.parseColor("#00FF00"));
-        colors.add(Color.parseColor("#CCFF33"));
-        colors.add(Color.parseColor("#66FFFF"));
-        colors.add(Color.parseColor("#6666CC"));
-        colors.add(Color.parseColor("#CC00CC"));
-        colors.add(Color.parseColor("#0000FF"));
-        colors.add(Color.parseColor("#0099FF"));
-        pieDataSet.setColors(colors);
-
-        //add legend to chart
-        Legend legend = pieChart.getLegend();
-        legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        legend.setDrawInside(false);
-        legend.setFormSize(20);
-
-
-        //create pie data object
-        PieData pieData = new PieData(pieDataSet);
-        pieChart.setData(pieData);
-        pieChart.invalidate();
+        pieDataSet = new PieDataSet(yEntrys, "");
+        pieData = new PieData();
+        Action.drawChart(pieChart, pieData, pieDataSet);
     }
 
+    @SuppressLint("SetTextI18n")
     public void setbuttoninfo(HashMap<String, String> hashMap) {
         double sum = 0;
         double sum2 = 0;
 
         Cursor cursor = sqLiteDatabase.query(DBhelp.TABLE_NAME2, null, null, null, null, null, null);
         String value;
+        String name;
 
         if (cursor.moveToFirst()) {
-            int nameid = cursor.getColumnIndex(DBhelp.SUMA_COLUMS);
+            int valueid = cursor.getColumnIndex(DBhelp.SUMA_COLUMS);
+            int nameid = cursor.getColumnIndex(DBhelp.TAG_COLUMS);
 
 
             do {
 
-                value = cursor.getString(nameid);
+                value = cursor.getString(valueid);
+                name = cursor.getString(nameid);
                 sum2 += Double.parseDouble(value);
+
+                if(!stonksmap.containsKey(name)){
+                    stonksmap.put(name, Double.parseDouble(value));
+                }
+                else {
+                    stonksmap.put(name, Double.parseDouble(value)+stonksmap.get(name));
+                }
 
             }
 
@@ -301,14 +280,21 @@ public class HomeFragment extends Fragment {
             sum += Double.parseDouble(s.getValue());
 
         }
-        System.out.println(sum2);
+        int count=0;
+        for(Map.Entry<String, Double> s: stonksmap.entrySet()){
+            arraystonks.add(new PieEntry(Float.parseFloat(String.valueOf(s.getValue())), s.getKey(), count));
+            KategoriesStonks.add(s.getKey());
+            count+=1;
+        }
+
+
         if (sum > sum2) {
 
             center.setBackground(getContext().getResources().getDrawable(R.drawable.redmainbtm));
-            center.setText("Баланс -" + String.valueOf(sum - sum2));
+            center.setText(Objects.requireNonNull(getActivity()).getResources().getString(R.string.balance)+" -"+ String.valueOf(sum - sum2));
         } else {
             center.setBackground(getContext().getResources().getDrawable(R.drawable.custombtn));
-            center.setText("Баланс " + String.valueOf(sum2 - sum));
+            center.setText(getActivity().getResources().getString(R.string.balance)+" "+String.valueOf(sum2 - sum));
 
         }
 

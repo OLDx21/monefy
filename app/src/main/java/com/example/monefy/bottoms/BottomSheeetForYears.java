@@ -21,7 +21,7 @@ import java.util.*;
 public class BottomSheeetForYears extends BottomSheetDialogFragment {
     private BottomSheet.BottomSheetListener mListener;
     public static BottomSheeetForYears bottomSheet = new BottomSheeetForYears();
-    public static TreeMap<Date, HistoryClass> Data = new TreeMap<>();
+    public static TreeMap<Date, HistoryClass> Data = new TreeMap<>(Collections.reverseOrder());
     public static String CheckDate;
 
     public static BottomSheeetForYears getInstance() {
@@ -46,20 +46,21 @@ public class BottomSheeetForYears extends BottomSheetDialogFragment {
         expandableListView = v.findViewById(R.id.expanded_menu);
         int i = 0;
         String date = "";
-
-
+        boolean bool = true;
+        System.out.format(CheckDate);
         List<HistoryAdapterClass> colors = new ArrayList<HistoryAdapterClass>();
         for (Map.Entry<Date, HistoryClass> s : Data.entrySet()) {
             if (!CheckDate.equals(GalleryFragment.format.format(s.getKey()))) {
 
-                if (i == Data.size() - 1 && !arrayList.isEmpty()) {
+                if (i == Data.size() - 1 && !colors.isEmpty()) {
                     arrayList.add(colors);
                 }
                 i += 1;
                 continue;
 
             }
-            if (i == 0) {
+            if (bool) {
+                bool = false;
                 colors = new ArrayList<>();
                 date = Action.formatter.format(s.getKey());
                 listDataParent.add(date);
@@ -98,7 +99,7 @@ public class BottomSheeetForYears extends BottomSheetDialogFragment {
 
         ExpandbleListAdapter listAdapter = new ExpandbleListAdapter(listDataChild, getActivity());
         expandableListView.setAdapter(listAdapter);
-        if (listDataParent.size() == 0) {
+        if (listDataParent.isEmpty()) {
             textView.setText("Жодної транзакції");
         }
 

@@ -5,21 +5,28 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Додати категорію</string>
+    <string name="action_settings">Add a category</string>
 
-    <string name="menu_home">Усі</string>
-    <string name="menu_gallery">Рік</string>
-    <string name="menu_slideshow">День</string>
-    <string name="menu_day">Вибір дати</string>
-    <string name="week_day">Тиждень</string>
-    <string name="add">Тиждень</string>
-    <string name="month">Місяць</string>
-    <string name="interval">Інтервал</string>
-    <string name="skas">Скасувати</string>
-    <string name="okay">Гаразд</string>
+    <string name="menu_home" formatted="true">All</string>
+    <string name="menu_gallery">Year</string>
+    <string name="menu_slideshow">Day</string>
+    <string name="menu_day">Date selection</string>
+    <string name="week_day">Week</string>
+    <string name="add">Add</string>
+    <string name="month">Month</string>
+    <string name="interval">Interval</string>
+    <string name="skas">Cancel</string>
+    <string name="okay">Okay</string>
+    <string name="cost">Costs</string>
+    <string name="stonks">Profit</string>
+    <string name="balance">Balance</string>
+    <string name="ktgsel">Category selection</string>
+    <string name="settings">Settings</string>
+    <string name="onlyview">View only</string>
+    <string name="greatjob">Successfully added!</string>
     <string-array name="mode">
-        <item>Інтервал</item>
-        <item>Вибір дат</item>
+        <item>Interval</item>
+        <item>Choice of dates</item>
     </string-array>
 
 </resources>

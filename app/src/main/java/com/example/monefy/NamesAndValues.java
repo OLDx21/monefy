@@ -7,7 +7,7 @@ public class NamesAndValues {
 
     private LinkedHashMap<String, Double> names;
     private LinkedHashMap<String, Double> stonks;
-    double result;
+    double result=0;
     public NamesAndValues() {
 
 

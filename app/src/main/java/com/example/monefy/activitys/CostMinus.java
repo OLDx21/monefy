@@ -16,10 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.monefy.Action;
-import com.example.monefy.DBhelp;
-import com.example.monefy.DoIntent;
-import com.example.monefy.R;
+import com.example.monefy.*;
 
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -74,7 +71,7 @@ public class CostMinus extends AppCompatActivity {
         buttonpoint = findViewById(R.id.btnpoint);
         deletebtn = findViewById(R.id.delete);
         selectedbtm = findViewById(R.id.selectedbtn);
-        selectedbtm.setText("ДОДАТИ: "+kategory);
+        selectedbtm.setText(getResources().getString(R.string.add)+" "+kategory);
         datetext = findViewById(R.id.date);
         textView.setEnabled(false);
          Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.animka);
@@ -144,6 +141,10 @@ public class CostMinus extends AppCompatActivity {
             sqLiteDatabase.insert(DBhelp.TABLE_NAME3, null, contentValues);
 
             Toast.makeText(CostMinus.this, "Успіх!", Toast.LENGTH_SHORT).show();
+
+            DataBase dataBase = DataBase.getInstance();
+            dataBase.addLine(date, new HistoryClass(kategory, date.toString(), textView.getText().toString(), "minus"));
+            dataBase.addKategory(kategory, DataBase.COST);
 
             DoIntent doIntent  = DoIntent.getInstance();
             doIntent.setDoIntent(CostMinus.this, MainActivity.class);

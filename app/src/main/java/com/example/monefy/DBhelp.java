@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 public class DBhelp extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "saversec";
     public static final int VERSION = 1;

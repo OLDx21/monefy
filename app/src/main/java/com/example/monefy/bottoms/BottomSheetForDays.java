@@ -53,7 +53,7 @@ public class BottomSheetForDays extends BottomSheetDialogFragment {
         for (Map.Entry<Date, HistoryClass> s : Data.entrySet()) {
             if(!CheckDate.equals(SlideshowFragment.format.format(s.getKey()))){
 
-                if (i == Data.size() - 1&&!arrayList.isEmpty()) {
+                if (i == Data.size() - 1&&!colors.isEmpty()) {
 
                     arrayList.add(colors);
                 }

@@ -53,7 +53,7 @@ public class BottomSheetForIntervals extends BottomSheetDialogFragment {
         for (Map.Entry<Date, HistoryClass> s : Data.entrySet()) {
             if (!CheckDate.contains(Action.formatter.format(s.getKey()))) {
 
-                if (i == Data.size() - 1 && !arrayList.isEmpty()) {
+                if (i == Data.size() - 1 && !colors.isEmpty()) {
 
                     arrayList.add(colors);
                 }

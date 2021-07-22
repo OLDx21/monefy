@@ -48,6 +48,8 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                 <Button
+                        android:typeface="monospace"
+                        android:textAllCaps="false"
                         android:layout_weight="1"
                         android:text="@string/menu_slideshow"
                         android:background="@drawable/calccustom"
@@ -58,6 +60,8 @@
 
                 </Button>
                 <Button
+                        android:typeface="monospace"
+                        android:textAllCaps="false"
                         android:layout_weight="1"
                         android:text="@string/week_day"
                         android:background="@drawable/calccustom"
@@ -68,6 +72,8 @@
 
                 </Button>
                 <Button
+                        android:typeface="monospace"
+                        android:textAllCaps="false"
                         android:layout_weight="1"
                         android:text="@string/month"
                         android:background="@drawable/calccustom"
@@ -78,6 +84,8 @@
 
                 </Button>
                 <Button
+                        android:typeface="monospace"
+                        android:textAllCaps="false"
                         android:layout_weight="1"
                         android:text="@string/menu_gallery"
                         android:background="@drawable/calccustom"
@@ -88,9 +96,11 @@
 
                 </Button>
                 <Button
+                        android:typeface="monospace"
+                        android:textAllCaps="false"
                         android:layout_weight="1"
                         android:text="@string/menu_home"
-                        android:background="@drawable/calccustom"
+                        android:background="@drawable/calccustomvtwo"
                         android:layout_margin="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -98,6 +108,8 @@
 
                 </Button>
                 <Button
+                        android:typeface="monospace"
+                        android:textAllCaps="false"
                         android:layout_weight="1"
                         android:text="@string/interval"
                         android:background="@drawable/calccustom"
@@ -109,6 +121,10 @@
                 </Button>
 
                 <Button
+
+                        android:typeface="monospace"
+                        android:drawableLeft="@android:drawable/ic_menu_today"
+                        android:textAllCaps="false"
                         android:layout_weight="1"
                         android:text="@string/menu_day"
                         android:background="@drawable/calccustom"
@@ -116,6 +132,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/day">
+
+                </Button>
+                <Button
+                        android:typeface="monospace"
+                        android:drawableLeft="@android:drawable/ic_menu_edit"
+                        android:textAllCaps="false"
+                        android:layout_weight="1"
+                        android:text="@string/settings"
+                        android:background="@drawable/calccustom"
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/settings">
 
                 </Button>
 

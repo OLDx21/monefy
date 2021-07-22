@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/layout_root"
+        xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/layout_root"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:padding="10dp" >
-
+        android:padding="10dp">
 
 <RelativeLayout
         android:layout_weight="2"
@@ -69,37 +69,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <Button
-
+                android:typeface="monospace"
+                android:textColor="#424141"
                 android:id="@+id/btn1"
                 android:layout_margin="3dp"
                 android:stateListAnimator="@null"
                 android:background="@drawable/calccustom"
                 android:text="1"
-                android:textSize="25dp"
+                android:textSize="30dp"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
         </Button>
         <Button
+                android:typeface="monospace"
+                android:textColor="#424141"
                 android:id="@+id/btn2"
                 android:layout_margin="3dp"
                 android:stateListAnimator="@null"
                 android:background="@drawable/calccustom"
                 android:text="2"
-                android:textSize="25dp"
+                android:textSize="30dp"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
         </Button>
         <Button
+                android:typeface="monospace"
+                android:textColor="#424141"
                 android:id="@+id/btn3"
                 android:layout_margin="3dp"
                 android:stateListAnimator="@null"
                 android:background="@drawable/calccustom"
                 android:text="3"
-                android:textSize="25dp"
+                android:textSize="30dp"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
@@ -113,24 +118,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <Button
+                android:typeface="monospace"
+                android:textColor="#424141"
                 android:id="@+id/btn4"
                 android:layout_margin="3dp"
                 android:stateListAnimator="@null"
                 android:background="@drawable/calccustom"
                 android:text="4"
-                android:textSize="25dp"
+                android:textSize="30dp"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
         </Button>
         <Button
+                android:typeface="monospace"
+                android:textColor="#424141"
                 android:id="@+id/btn5"
                 android:layout_margin="3dp"
                 android:stateListAnimator="@null"
                 android:background="@drawable/calccustom"
                 android:text="5"
-                android:textSize="25dp"
+                android:textSize="30dp"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
@@ -138,12 +147,14 @@
         </Button>
 
         <Button
+                android:typeface="monospace"
+                android:textColor="#424141"
                 android:id="@+id/btn6"
                 android:layout_margin="3dp"
                 android:stateListAnimator="@null"
                 android:background="@drawable/calccustom"
                 android:text="6"
-                android:textSize="25dp"
+                android:textSize="30dp"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
@@ -156,12 +167,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <Button
+                android:typeface="monospace"
+                android:textColor="#424141"
                 android:id="@+id/btn7"
                 android:layout_margin="3dp"
                 android:stateListAnimator="@null"
                 android:background="@drawable/calccustom"
                 android:text="7"
-                android:textSize="25dp"
+                android:textSize="30dp"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
@@ -169,24 +182,28 @@
         </Button>
 
         <Button
+                android:typeface="monospace"
+                android:textColor="#424141"
                 android:id="@+id/btn8"
                 android:layout_margin="3dp"
                 android:stateListAnimator="@null"
                 android:background="@drawable/calccustom"
                 android:text="8"
-                android:textSize="25dp"
+                android:textSize="30dp"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
         </Button>
         <Button
+                android:typeface="monospace"
+                android:textColor="#424141"
                 android:id="@+id/btn9"
                 android:layout_margin="3dp"
                 android:stateListAnimator="@null"
                 android:background="@drawable/calccustom"
                 android:text="9"
-                android:textSize="25dp"
+                android:textSize="30dp"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
@@ -199,12 +216,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <Button
+                android:typeface="monospace"
+                android:textColor="#424141"
                 android:id="@+id/btnpoint"
                 android:layout_margin="3dp"
                 android:stateListAnimator="@null"
                 android:background="@drawable/calccustom"
                 android:text="."
-                android:textSize="25dp"
+                android:textSize="30dp"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
@@ -212,24 +231,28 @@
         </Button>
 
         <Button
+                android:typeface="monospace"
+                android:textColor="#424141"
                 android:id="@+id/btn0"
                 android:layout_margin="3dp"
                 android:stateListAnimator="@null"
                 android:background="@drawable/calccustom"
                 android:text="0"
-                android:textSize="25dp"
+                android:textSize="30dp"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
         </Button>
         <Button
+                android:typeface="monospace"
+                android:textColor="#424141"
                 android:id="@+id/btnravno"
                 android:layout_margin="3dp"
                 android:stateListAnimator="@null"
                 android:background="@drawable/calccustom"
                 android:text="="
-                android:textSize="25dp"
+                android:textSize="30dp"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
@@ -242,12 +265,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <Button
+                android:typeface="monospace"
+                android:textColor="#424141"
                 android:id="@+id/selectedbtn"
                 android:layout_margin="3dp"
                 android:stateListAnimator="@null"
                 android:background="@drawable/calccustom"
                 android:text=""
-                android:textSize="18dp"
+                android:textSize="20dp"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">

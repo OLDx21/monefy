@@ -18,15 +18,61 @@
 
 </TextView>
 
+    <RadioGroup
+            android:background="@drawable/customswitch1"
+            android:layout_below="@+id/textView"
+            android:checkedButton="@+id/offer"
+            android:id="@+id/toggle"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:orientation="horizontal">
+
+        <RadioButton
+                android:typeface="monospace"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_marginLeft="1dp"
+                android:id="@+id/search"
+                android:background="@drawable/selectedbtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+
+                android:text="@string/cost"
+                android:textColor="@color/black" />
+
+        <RadioButton
+                android:typeface="monospace"
+                android:layout_marginRight="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:id="@+id/offer"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selectedbtn"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/stonks"
+                android:textColor="@color/black" />
+    </RadioGroup>
 
     <com.github.mikephil.charting.charts.PieChart
 
             android:id="@+id/idPieChart"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/toggle"
             android:layout_above="@+id/rltvlay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp">
 
     </com.github.mikephil.charting.charts.PieChart>
     <RelativeLayout
@@ -37,6 +83,7 @@
             android:layout_marginVertical="15dp"
     >
         <Button
+                android:textAllCaps="false"
                 android:typeface="serif"
                 android:background="@drawable/custombtn"
                 android:id="@+id/center"
@@ -46,7 +93,7 @@
 
         </Button>
         <Button
-
+                android:typeface="monospace"
                 android:id="@+id/left"
                 android:foregroundTint="#66CC66"
                 android:background="@null"

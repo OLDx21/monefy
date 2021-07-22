@@ -42,21 +42,26 @@ import java.util.Map;
 public class SelectedDay extends Fragment {
 
     public static Date date;
-    SQLiteDatabase sqLiteDatabase;
 
     Button center, left, right, minusbtn, plusbtn;
     PieChart pieChart;
     BottomSheetDayHistory bottomSheet = BottomSheetDayHistory.getInstance();
     public TextView textView;
     DoIntent doIntent = DoIntent.getInstance();
-    ArrayList<String> Kategories = new ArrayList<>();
+    ArrayList<String> KategoriesCost = new ArrayList<>();
+    ArrayList<String> KategoriesStonks = new ArrayList<>();
+    RadioButton stonks, cost;
+    PieDataSet pieDataSet;
+    PieData pieData;
+    ArrayList<PieEntry> yEntrys = new ArrayList<>();
+    ArrayList<PieEntry> arraystonks = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
 
-        sqLiteDatabase = Action.getSqLiteDatabase();
+
 
         pieChart = root.findViewById(R.id.idPieChart);
         Animation animAlpha = AnimationUtils.loadAnimation(getContext(), R.anim.animka3);
@@ -83,7 +88,8 @@ public class SelectedDay extends Fragment {
         textView = root.findViewById(R.id.textView);
         minusbtn = root.findViewById(R.id.minusbtn);
         plusbtn = root.findViewById(R.id.plusbtn);
-
+        stonks = root.findViewById(R.id.offer);
+        cost = root.findViewById(R.id.search);
         Action.checked = 1;
 
         center.startAnimation(animAlpha);
@@ -95,8 +101,30 @@ public class SelectedDay extends Fragment {
         }
 
         textView.setText(Action.formatter2.format(date));
-        addDataSet(sqLiteDatabase);
+        addDataSet();
 
+        center.setWidth((Action.display.getWidth()) - (Action.display.getWidth() / 2));
+        cost.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
+        stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
+        cost.setChecked(true);
+        stonks.setOnClickListener(v -> {
+            stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
+            cost.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
+            pieDataSet.setValues(arraystonks);
+            pieChart.notifyDataSetChanged();
+            pieChart.animateY(1000, Easing.EaseInOutCubic);
+
+
+        });
+
+        cost.setOnClickListener(v -> {
+            cost.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
+            stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
+            pieDataSet.setValues(yEntrys);
+            pieChart.notifyDataSetChanged();
+            pieChart.animateY(1000, Easing.EaseInOutCubic);
+
+        });
 
         plusbtn.setOnClickListener(v -> {
             v.startAnimation(animbeta);
@@ -117,31 +145,20 @@ public class SelectedDay extends Fragment {
         });
 
 
-        center.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.startAnimation(animAlpha);
-                bottomSheet.show(getParentFragmentManager(), "exampleBottomSheet");
-            }
+        center.setOnClickListener(v -> {
+            v.startAnimation(animAlpha);
+            bottomSheet.show(getParentFragmentManager(), "exampleBottomSheet");
         });
-        left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                bottomSheet.show(getParentFragmentManager(), "exampleBottomSheet");
-            }
-        });
-        right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                bottomSheet.show(getParentFragmentManager(), "exampleBottomSheet");
-            }
-        });
+        left.setOnClickListener(v -> bottomSheet.show(getParentFragmentManager(), "exampleBottomSheet"));
+        right.setOnClickListener(v -> bottomSheet.show(getParentFragmentManager(), "exampleBottomSheet"));
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                pieChart.setCenterText(Kategories.get((Integer) e.getData()) + "\n" + e.getY());
+                if (cost.isChecked()) {
+                    pieChart.setCenterText(KategoriesCost.get((Integer) e.getData()) + "\n" + e.getY());
+                } else {
+                    pieChart.setCenterText(KategoriesStonks.get((Integer) e.getData()) + "\n" + e.getY());
+                }
             }
 
             @Override
@@ -154,122 +171,84 @@ public class SelectedDay extends Fragment {
         return root;
     }
 
-    private void addDataSet(SQLiteDatabase sqLiteDatabase) {
+    private void addDataSet( ) {
         double result = 0;
         Action.NamesAndValuesForSelectedDay.clear();
+        Action.StonksNamesAndValuesForSelectedDay.clear();
         Action.SelectedDay.clear();
 
-        Cursor cursor = sqLiteDatabase.query(DBhelp.TABLE_NAME3, null, null, null, null, null, null);
+
         String name, sumaa, check, dates;
-        int i = 0, nameid, suma, checkint, date;
+        int i = 0;
 
         Date date1;
-        ArrayList<PieEntry> yEntrys = new ArrayList<>();
 
-        if (cursor.moveToFirst()) {
-            nameid = cursor.getColumnIndex(DBhelp.NAME_COLUMN);
-            suma = cursor.getColumnIndex(DBhelp.SUMA_COLUMN);
-            checkint = cursor.getColumnIndex(DBhelp.CHECK_COLUMN);
-            date = cursor.getColumnIndex(DBhelp.DATE_COLUMN);
+        DataBase dataBase = DataBase.getInstance();
 
-            do {
+        for (Map.Entry<Date, HistoryClass> s : dataBase.getData().entrySet()) {
 
-                name = cursor.getString(nameid);
-                sumaa = cursor.getString(suma);
-                check = cursor.getString(checkint);
-                dates = cursor.getString(date);
-                date1 = new Date(dates);
+            name = s.getValue().getName();
+            sumaa = s.getValue().getSuma();
+            check = s.getValue().getCheck();
+            dates = s.getValue().getDate();
+            date1 = new Date(dates);
 
-                if (Action.formatter.format(date1).equals(Action.formatter.format(SelectedDay.date))) {
-                    Action.SelectedDay.put(date1, new HistoryClass(name, dates, sumaa, check));
-                    if (!check.equals("plus")) {
-                        if (!Action.NamesAndValuesForSelectedDay.containsKey(name)) {
-                            Action.NamesAndValuesForSelectedDay.put(name, Double.parseDouble(sumaa));
-                        } else {
-
-                            Action.NamesAndValuesForSelectedDay.put(name, (Double.parseDouble(sumaa) + Action.NamesAndValuesForSelectedDay.get(name)));
-                        }
-
-
+            if (Action.formatter.format(date1).equals(Action.formatter.format(SelectedDay.date))) {
+                Action.SelectedDay.put(date1, new HistoryClass(name, dates, sumaa, check));
+                if (check.equals("minus")) {
+                    if (!Action.NamesAndValuesForSelectedDay.containsKey(name)) {
+                        Action.NamesAndValuesForSelectedDay.put(name, Double.parseDouble(sumaa));
                     } else {
-                        result += Double.parseDouble(sumaa);
+
+                        Action.NamesAndValuesForSelectedDay.put(name, (Double.parseDouble(sumaa) + Action.NamesAndValuesForSelectedDay.get(name)));
                     }
+
+
+                } else {
+                    if (!Action.StonksNamesAndValuesForSelectedDay.containsKey(name)) {
+                        Action.StonksNamesAndValuesForSelectedDay.put(name, Double.parseDouble(sumaa));
+                    } else {
+
+                        Action.StonksNamesAndValuesForSelectedDay.put(name, (Double.parseDouble(sumaa) + Action.StonksNamesAndValuesForSelectedDay.get(name)));
+                    }
+
+                    result += Double.parseDouble(sumaa);
                 }
-
-
             }
 
-            while (cursor.moveToNext());
+
         }
-
-        cursor.close();
-
 
         for (Map.Entry<String, Double> map : Action.NamesAndValuesForSelectedDay.entrySet()) {
             if (Float.parseFloat(String.valueOf(map.getValue())) > 0) {
                 yEntrys.add(new PieEntry(Float.parseFloat(String.valueOf(map.getValue())), map.getKey(), i));
-                Kategories.add(map.getKey());
+                KategoriesCost.add(map.getKey());
                 i += 1;
             }
             result -= map.getValue();
 
         }
+        i = 0;
+        for (Map.Entry<String, Double> map : Action.StonksNamesAndValuesForSelectedDay.entrySet()) {
+            if (Float.parseFloat(String.valueOf(map.getValue())) > 0) {
+                arraystonks.add(new PieEntry(Float.parseFloat(String.valueOf(map.getValue())), map.getKey(), i));
+                KategoriesStonks.add(map.getKey());
+                i += 1;
+            }
+        }
         if (result < 0) {
 
             center.setBackground(getContext().getResources().getDrawable(R.drawable.redmainbtm));
-            center.setText("Баланс " + result);
+            center.setText(getActivity().getResources().getString(R.string.balance) + " " + result);
         } else {
             center.setBackground(getContext().getResources().getDrawable(R.drawable.custombtn));
-            center.setText("Баланс " + result);
+            center.setText(getActivity().getResources().getString(R.string.balance) + " " + result);
 
         }
         //create the data set
-        PieDataSet pieDataSet = new PieDataSet(yEntrys, "");
-        pieDataSet.setDrawValues(true);
-        pieDataSet.setSliceSpace(3);
-        pieDataSet.setValueTextSize(15);
-
-
-        pieDataSet.setValueFormatter(new MyValueFormatter(new DecimalFormat("0"), pieChart));
-        pieDataSet.setValueLinePart1Length(0.3f);
-        pieDataSet.setValueLinePart2Length(0.4f);
-        pieDataSet.setValueLineWidth(2f);
-        pieDataSet.setValueLinePart1OffsetPercentage(80); // Line starts outside of chart
-        pieDataSet.setUsingSliceColorAsValueLineColor(true);
-        pieDataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
-        pieDataSet.setValueTypeface(Typeface.DEFAULT_BOLD);
-        ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.parseColor("#FFFF66"));
-        colors.add(Color.parseColor("#FF6600"));
-        colors.add(Color.parseColor("#FF33CC"));
-        colors.add(Color.parseColor("#9933FF"));
-        colors.add(Color.parseColor("#6633FF"));
-        colors.add(Color.parseColor("#3366CC"));
-        colors.add(Color.parseColor("#33FFCC"));
-        colors.add(Color.parseColor("#33FF66"));
-        colors.add(Color.parseColor("#00FF00"));
-        colors.add(Color.parseColor("#CCFF33"));
-        colors.add(Color.parseColor("#66FFFF"));
-        colors.add(Color.parseColor("#6666CC"));
-        colors.add(Color.parseColor("#CC00CC"));
-        colors.add(Color.parseColor("#0000FF"));
-        colors.add(Color.parseColor("#0099FF"));
-        pieDataSet.setColors(colors);
-
-        //add legend to chart
-        Legend legend = pieChart.getLegend();
-        legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        legend.setDrawInside(false);
-        legend.setFormSize(20);
-
-
-        //create pie data object
-        PieData pieData = new PieData(pieDataSet);
-        pieChart.setData(pieData);
-        pieChart.invalidate();
+        pieDataSet = new PieDataSet(yEntrys, "");
+        pieData = new PieData();
+        Action.drawChart(pieChart, pieData, pieDataSet);
     }
 
 }

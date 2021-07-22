@@ -67,6 +67,11 @@ public Bottom2class(String value, Date date, int check){
                 contentValues.put(DBhelp.SUMA_COLUMN, value);
                 sqLiteDatabase.insert(DBhelp.TABLE_NAME3, null, contentValues);
 
+
+            DataBase dataBase = DataBase.getInstance();
+            dataBase.addLine(date,new HistoryClass(buttons[finalI].getText().toString(), date.toString(), value, "plus"));
+            dataBase.addKategory(buttons[finalI].getText().toString(), DataBase.PROFIT);
+
             DoIntent doIntent  = DoIntent.getInstance();
             doIntent.setDoIntent(getContext(), com.example.monefy.activitys.MainActivity.class);
             Intent intent = doIntent.getDoIntent();

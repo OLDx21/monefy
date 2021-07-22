@@ -19,7 +19,9 @@
     </style>
     <style name="Theme.Monefy.AppBarOverlay" parent="Base.Theme.AppCompat.Light.DarkActionBar">
 
+
     </style>
+
     <style name="Theme.Monefy.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
     <style name="NavDrawerTextStyle">
 
@@ -51,4 +53,8 @@
         <item name="colorAccent">@android:color/holo_green_dark</item>
     </style>
     <style name="Theme.NewPr.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="SwitchTextAppearance" parent="@android:style/TextAppearance.Holo.Small">
+        <item name="android:textColor">@android:color/holo_green_dark</item>
+    </style>
 </resources>

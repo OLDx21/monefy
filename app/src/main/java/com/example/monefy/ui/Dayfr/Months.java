@@ -43,8 +43,8 @@ import static java.util.stream.Collectors.toList;
 public class Months extends Fragment {
 
 
-    SQLiteDatabase sqLiteDatabase;
-    TreeMap<Date, HistoryClass> Data = new TreeMap<>();
+
+    TreeMap<Date, HistoryClass> Data;
     public static SimpleDateFormat format = new SimpleDateFormat("yyyy.MM", new Locale("uk", "UA"));
     ViewPager viewPager;
 
@@ -54,8 +54,7 @@ public class Months extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
-        sqLiteDatabase = Action.getSqLiteDatabase();
-        setData(sqLiteDatabase);
+        setData();
         viewPager = root.findViewById(R.id.view_pager);
         Months.MyAdapter adapter = new Months.MyAdapter(getChildFragmentManager(), Data, viewPager);
 
@@ -80,6 +79,8 @@ public class Months extends Fragment {
 
         @Override
         public int getCount() {
+            if(Action.NamesAndValuesForMonth.isEmpty())
+                return 1;
             return Action.NamesAndValuesForMonth.size();
         }
 
@@ -106,53 +107,33 @@ public class Months extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void setData(SQLiteDatabase sqLiteDatabase) {
-
+    public void setData() {
         Action.NamesAndValuesForMonth.clear();
+        DataBase dataBase = DataBase.getInstance();
+        Data = dataBase.getData();
         LinkedHashMap<String, Double> names = new LinkedHashMap<>();
-        ArrayList<String> names2 = new ArrayList<>();
+        ArrayList<String> names2 = dataBase.getArray(DataBase.COST);
 
         LinkedHashMap<String, Double> stonks = new LinkedHashMap<>();
-        ArrayList<String> stonks2 = new ArrayList<>();
+        ArrayList<String> stonks2 = dataBase.getArray(DataBase.PROFIT);
 
-        Cursor cursor = sqLiteDatabase.query(DBhelp.TABLE_NAME3, null, null, null, null, null, null);
-        String name, sumaa, check, dates;
-        int nameid, suma, checkint, date, i = 0;
-        Date date1;
+        for (int in = 0; in < names2.size(); in++) {
+            names.put(names2.get(in), 0.0);
+        }
+        for (int in = 0; in < stonks2.size(); in++) {
+            stonks.put(stonks2.get(in), 0.0);
+        }
 
-        if (cursor.moveToFirst()) {
-            nameid = cursor.getColumnIndex(DBhelp.NAME_COLUMN);
-            suma = cursor.getColumnIndex(DBhelp.SUMA_COLUMN);
-            checkint = cursor.getColumnIndex(DBhelp.CHECK_COLUMN);
-            date = cursor.getColumnIndex(DBhelp.DATE_COLUMN);
-            do {
+        String  dates;
+        int  i = 0;
 
-                name = cursor.getString(nameid);
-                sumaa = cursor.getString(suma);
-                check = cursor.getString(checkint);
-                dates = cursor.getString(date);
-                date1 = new Date(dates);
 
-                Data.put(date1, new HistoryClass(name, dates, sumaa, check));
-                if (!names.containsKey(name) && check.equals("minus")) {
-                    names2.add(name);
-                    names.put(name, 0.0);
-                }
-                if (!stonks.containsKey(name) && check.equals("plus")) {
 
-                    stonks2.add(name);
-                    stonks.put(name, 0.0);
-                }
-
-            }
-
-            while (cursor.moveToNext());
-            cursor.close();
             if (Data.isEmpty()) {
                 return;
             }
             double result = 0;
-            String lastdate = format.format(Data.keySet().iterator().next());
+            String lastdate = Data.keySet().iterator().next().toString();
             dates = format.format(Data.keySet().iterator().next());
 
 
@@ -208,4 +189,3 @@ public class Months extends Fragment {
     }
 
 
-}

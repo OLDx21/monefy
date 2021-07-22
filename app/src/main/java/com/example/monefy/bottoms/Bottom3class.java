@@ -16,11 +16,8 @@ import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
-import com.example.monefy.Action;
+import com.example.monefy.*;
 import com.example.monefy.activitys.MainActivity;
-import com.example.monefy.DBhelp;
-import com.example.monefy.DoIntent;
-import com.example.monefy.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
@@ -88,6 +85,10 @@ public class Bottom3class extends BottomSheetDialogFragment {
                 sqLiteDatabase.insert(DBhelp.TABLE_NAME3, null, contentValues);
 
                 Toast.makeText(getActivity(), "Операція успішна!", Toast.LENGTH_SHORT).show();
+
+                DataBase dataBase = DataBase.getInstance();
+                dataBase.addLine(date, new HistoryClass(buttons.get(finalI).getText().toString(), date.toString(), value, "minus"));
+                dataBase.addKategory(buttons.get(finalI).getText().toString(), DataBase.COST);
 
                 DoIntent doIntent  = DoIntent.getInstance();
                 doIntent.setDoIntent(getContext(), MainActivity.class);

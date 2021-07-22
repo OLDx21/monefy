@@ -5,7 +5,7 @@ import android.content.Intent;
 
 public class DoIntent {
    static DoIntent doIntent = new DoIntent();
-    Intent intent = new Intent();
+   private Intent intent = new Intent();
 
  public static DoIntent getInstance(){
      return  doIntent;
