@@ -11,11 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import com.example.monefy.*;
 import com.example.monefy.activitys.MinusActivity;
@@ -24,6 +23,7 @@ import com.example.monefy.bottoms.BottomSheeetForYears;
 import com.example.monefy.bottoms.BottomSheetForDays;
 import com.example.monefy.bottoms.BottomSheetForMonths;
 import com.example.monefy.bottoms.BottomSheetForWeeks;
+import com.example.monefy.interfacee.DataChange;
 import com.example.monefy.ui.slideshow.SlideshowFragment;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -35,7 +35,9 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.PrintStream;
 import java.text.DateFormatSymbols;
@@ -45,12 +47,16 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class SelMonth extends Fragment {
+public class SelMonth extends Fragment implements DataChange {
+
+    boolean ishave = true;
+    SelMonth selMonth = this;
+    BottomSheetBehavior<View> bottomSheetBehavior;
+    ExpandableListView expandableListView;
     SQLiteDatabase sqLiteDatabase;
-    public SimpleDateFormat format = new SimpleDateFormat("MMMM, yyyy", Locale.getDefault());
     Button center, left, right, minusbtn, plusbtn;
     PieChart pieChart;
-    BottomSheetForMonths bottomSheet = BottomSheetForMonths.getInstance();
+    BottomSheetForMonths bottomSheets = BottomSheetForMonths.getInstance();
     public TextView textView;
     String years;
     NamesAndValues namesAndValues;
@@ -63,8 +69,9 @@ public class SelMonth extends Fragment {
     PieData pieData;
     ArrayList<PieEntry> yEntrys = new ArrayList<>();
     ArrayList<PieEntry> arraystonks = new ArrayList<>();
+    boolean check = true;
     public SelMonth(Date years, NamesAndValues namesAndValues, TreeMap<Date, HistoryClass> Data) {
-        this.years = format.format(years);
+        this.years = Action.format.format(years);
         this.namesAndValues = namesAndValues;
         this.Data = Data;
         this.date = years;
@@ -79,15 +86,6 @@ public class SelMonth extends Fragment {
 
     }
 
-    private static DateFormatSymbols myDateFormatSymbols = new DateFormatSymbols() {
-
-        @Override
-        public String[] getMonths() {
-            return new String[]{"Січень", "Лютий", "Березень", "Квітень", "Травень", "Червень",
-                    "Липень", "Серпень", "Вересень", "Жовтень", "Листопад", "Грудень"};
-        }
-
-    };
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -97,33 +95,24 @@ public class SelMonth extends Fragment {
         pieChart = root.findViewById(R.id.idPieChart);
         Animation animAlpha = AnimationUtils.loadAnimation(getContext(), R.anim.animka3);
         Animation animbeta = AnimationUtils.loadAnimation(getContext(), R.anim.animka);
-        pieChart.setRotationEnabled(true);
-        pieChart.setUsePercentValues(true);
-        pieChart.setCenterTextColor(Color.BLACK);
-        pieChart.setEntryLabelTextSize(15f);
-        pieChart.setEntryLabelTypeface(Typeface.DEFAULT_BOLD);
-        pieChart.setCenterTextTypeface(Typeface.SERIF);
-        pieChart.setEntryLabelColor(Color.BLACK);
-        pieChart.setCenterTextSize(30);
-        pieChart.getDescription().setText("");
-        pieChart.setHoleRadius(60f);
-        pieChart.setTransparentCircleColor(Color.WHITE);
-        pieChart.setTransparentCircleAlpha(110);
-        pieChart.setTransparentCircleRadius(67f);
-        pieChart.setHoleColor(Color.WHITE);
-        pieChart.animateY(1000, Easing.EaseInOutCubic);
-        pieChart.setRotationAngle(20);
+        Action.SettingsPieChart(pieChart);
         center = root.findViewById(R.id.center);
         right = root.findViewById(R.id.right);
         left = root.findViewById(R.id.left);
-        textView = root.findViewById(R.id.textView);
+        textView = root.findViewById(R.id.textViewlist);
         minusbtn = root.findViewById(R.id.minusbtn);
         plusbtn = root.findViewById(R.id.plusbtn);
         stonks = root.findViewById(R.id.offer);
         cost = root.findViewById(R.id.search);
-        Action.checked = 3;
+        expandableListView = root.findViewById(R.id.expanded_menu);
 
-        textView.setText(years);
+        TextView textViewttx = root.findViewById(R.id.textView);
+        textViewttx.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,15));
+        ConstraintLayout constraintLayout = root.findViewById(R.id.bottomSheet);
+        bottomSheetBehavior = BottomSheetBehavior.from(constraintLayout);
+        Action.checked = 6;
+
+
         center.startAnimation(animAlpha);
         center.setWidth((Action.display.getWidth()) - (Action.display.getWidth() / 2));
         if (namesAndValues.getResult() >= 0) {
@@ -135,31 +124,31 @@ public class SelMonth extends Fragment {
         }
 
         center.setWidth((Action.display.getWidth()) - (Action.display.getWidth() / 2));
-        cost.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
-        stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
+
         cost.setChecked(true);
         stonks.setOnClickListener(v -> {
+            if(!check) return;
             stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
             cost.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
             pieDataSet.setValues(arraystonks);
             pieChart.notifyDataSetChanged();
             pieChart.animateY(1000, Easing.EaseInOutCubic);
+            check = false;
 
 
         });
         cost.setOnClickListener(v -> {
+            if(check) return;
             cost.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
             stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
             pieDataSet.setValues(yEntrys);
             pieChart.notifyDataSetChanged();
             pieChart.animateY(1000, Easing.EaseInOutCubic);
+            check = true;
 
         });
 
-//        if (Data.isEmpty() || years.equals("Жодної транзакції")) {
-//
-//            return root;
-//        }
+
 
 
 
@@ -183,6 +172,32 @@ public class SelMonth extends Fragment {
         right.setOnClickListener(v -> {
             clickbtns();
         });
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull @NotNull View bottomSheet, int newState) {
+                if(date==null){
+                    textView.setText(getActivity().getResources().getString(R.string.wthtran));
+
+                }
+
+                if (ishave && date!=null){
+                    BottomSheetForMonths.Data.clear();
+                    BottomSheetForMonths.Data.putAll(Data);
+                    BottomSheetForMonths.CheckDate = Months.format.format(date);
+                    bottomSheets.setDataList(textView, expandableListView, getActivity(), selMonth);
+                    ishave= false;
+
+                }
+
+
+            }
+
+            @Override
+            public void onSlide(@NonNull @NotNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
@@ -202,10 +217,11 @@ public class SelMonth extends Fragment {
     }
 
     void clickbtns() {
-        BottomSheetForMonths.Data.clear();
-        BottomSheetForMonths.Data.putAll(Data);
-        BottomSheetForMonths.CheckDate = Months.format.format(date);
-        bottomSheet.show(getParentFragmentManager(), "exampleBottomSheet");
+        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        } else {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }
     }
 
     void addDataToChart() {
@@ -244,4 +260,18 @@ public class SelMonth extends Fragment {
 
     }
 
+    @Override
+    public void Update(HistoryAdapterClass historyAdapterClass) {
+        KategoriesCost.clear();
+        KategoriesStonks.clear();
+        arraystonks.clear();
+        yEntrys.clear();
+
+        Action.DataChanged(namesAndValues, center, yEntrys, arraystonks, KategoriesCost, KategoriesStonks, pieChart, pieDataSet, historyAdapterClass, getActivity());
+
+        cost.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
+        stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
+        check=true;
+        cost.setChecked(true);
+    }
 }

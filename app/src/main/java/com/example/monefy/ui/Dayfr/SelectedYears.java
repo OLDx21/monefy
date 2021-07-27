@@ -10,15 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import com.example.monefy.*;
 import com.example.monefy.bottoms.BottomSheeetForYears;
 import com.example.monefy.bottoms.BottomSheetForDays;
+import com.example.monefy.interfacee.DataChange;
+import com.example.monefy.ui.slideshow.SlideshowFragment;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -29,18 +30,23 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
+import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 import java.util.*;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class SelectedYears extends Fragment {
+public class SelectedYears extends Fragment implements DataChange {
+    boolean ishave = true;
+    SelectedYears selectedYears = this;
     SQLiteDatabase sqLiteDatabase;
-
+    BottomSheetBehavior<View> bottomSheetBehavior;
+    ExpandableListView expandableListView;
     Button center, left, right, minusbtn, plusbtn;
     PieChart pieChart;
-    BottomSheeetForYears bottomSheet = BottomSheeetForYears.getInstance();
+    BottomSheeetForYears bottomSheets = BottomSheeetForYears.getInstance();
     public TextView textView;
     String years;
     NamesAndValues namesAndValues;
@@ -52,6 +58,7 @@ public class SelectedYears extends Fragment {
     PieData pieData;
     ArrayList<PieEntry> yEntrys = new ArrayList<>();
     ArrayList<PieEntry> arraystonks = new ArrayList<>();
+    boolean check = true;
 
     public SelectedYears(String years, NamesAndValues namesAndValues, TreeMap<Date, HistoryClass> Data) {
         this.years = years;
@@ -68,55 +75,48 @@ public class SelectedYears extends Fragment {
         pieChart = root.findViewById(R.id.idPieChart);
         Animation animAlpha = AnimationUtils.loadAnimation(getContext(), R.anim.animka3);
         Animation animbeta = AnimationUtils.loadAnimation(getContext(), R.anim.animka);
-        pieChart.setRotationEnabled(true);
-        pieChart.setUsePercentValues(true);
-        pieChart.setCenterTextColor(Color.BLACK);
-        pieChart.setEntryLabelTextSize(15f);
-        pieChart.setEntryLabelTypeface(Typeface.DEFAULT_BOLD);
-        pieChart.setCenterTextTypeface(Typeface.SERIF);
-        pieChart.setEntryLabelColor(Color.BLACK);
-        pieChart.setCenterTextSize(30);
-        pieChart.getDescription().setText("");
-        pieChart.setHoleRadius(60f);
-        pieChart.setTransparentCircleColor(Color.WHITE);
-        pieChart.setTransparentCircleAlpha(110);
-        pieChart.setTransparentCircleRadius(67f);
-        pieChart.setHoleColor(Color.WHITE);
-        pieChart.animateY(1000, Easing.EaseInOutCubic);
-        pieChart.setRotationAngle(20);
+        Action.SettingsPieChart(pieChart);
         center = root.findViewById(R.id.center);
         right = root.findViewById(R.id.right);
         left = root.findViewById(R.id.left);
-        textView = root.findViewById(R.id.textView);
+        textView = root.findViewById(R.id.textViewlist);
         minusbtn = root.findViewById(R.id.minusbtn);
         plusbtn = root.findViewById(R.id.plusbtn);
         stonks = root.findViewById(R.id.offer);
         cost = root.findViewById(R.id.search);
-        Action.checked = 2;
+        expandableListView = root.findViewById(R.id.expanded_menu);
+        ConstraintLayout constraintLayout = root.findViewById(R.id.bottomSheet);
+        bottomSheetBehavior = BottomSheetBehavior.from(constraintLayout);
+        TextView textViewttx = root.findViewById(R.id.textView);
+        textViewttx.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,15));
+        Action.checked = 5;
 
         center.startAnimation(animAlpha);
         center.setWidth((Action.display.getWidth()) - (Action.display.getWidth() / 2));
 
         center.setWidth((Action.display.getWidth()) - (Action.display.getWidth() / 2));
-        cost.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
-        stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
+
         cost.setChecked(true);
+
         stonks.setOnClickListener(v -> {
+            if(!check) return;
             stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
             cost.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
             pieDataSet.setValues(arraystonks);
             pieChart.notifyDataSetChanged();
             pieChart.animateY(1000, Easing.EaseInOutCubic);
+            check = false;
 
 
         });
         cost.setOnClickListener(v -> {
+            if(check) return;
             cost.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
             stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
             pieDataSet.setValues(yEntrys);
             pieChart.notifyDataSetChanged();
             pieChart.animateY(1000, Easing.EaseInOutCubic);
-            System.out.println(cost.isSelected()+" "+stonks.isSelected());
+            check = true;
 
         });
         if (namesAndValues.getResult() >= 0) {
@@ -126,7 +126,7 @@ public class SelectedYears extends Fragment {
             center.setBackground(Objects.requireNonNull(getContext()).getResources().getDrawable(R.drawable.redmainbtm));
             center.setText(getActivity().getResources().getString(R.string.balance)+" "+ namesAndValues.getResult());
         }
-        textView.setText(years);
+
         addDataToChart();
 
         plusbtn.setOnClickListener(v -> {
@@ -140,6 +140,27 @@ public class SelectedYears extends Fragment {
         center.setOnClickListener(v -> {
             v.startAnimation(animAlpha);
             setckickbtn();
+        });
+
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull @NotNull View bottomSheet, int newState) {
+                if (ishave){
+                    BottomSheeetForYears.Data.clear();
+                    BottomSheeetForYears.Data.putAll(Data);
+                    BottomSheeetForYears.CheckDate = years;
+                    bottomSheets.setDataList(textView, expandableListView,getActivity(), selectedYears);
+                    ishave= false;
+
+                }
+
+
+            }
+
+            @Override
+            public void onSlide(@NonNull @NotNull View bottomSheet, float slideOffset) {
+
+            }
         });
         left.setOnClickListener(v -> setckickbtn());
         right.setOnClickListener(v -> setckickbtn());
@@ -162,10 +183,11 @@ public class SelectedYears extends Fragment {
     }
 
     void setckickbtn() {
-        BottomSheeetForYears.Data.clear();
-        BottomSheeetForYears.Data.putAll(Data);
-        BottomSheeetForYears.CheckDate = textView.getText().toString();
-        bottomSheet.show(getParentFragmentManager(), "exampleBottomSheet");
+        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        } else {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }
     }
 
     void addDataToChart() {
@@ -204,4 +226,18 @@ public class SelectedYears extends Fragment {
 
     }
 
+    @Override
+    public void Update(HistoryAdapterClass historyAdapterClass) {
+        KategoriesCost.clear();
+        KategoriesStonks.clear();
+        arraystonks.clear();
+        yEntrys.clear();
+
+        Action.DataChanged(namesAndValues, center, yEntrys, arraystonks, KategoriesCost, KategoriesStonks, pieChart, pieDataSet, historyAdapterClass, getActivity());
+
+        cost.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
+        stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
+        check=true;
+        cost.setChecked(true);
+    }
 }

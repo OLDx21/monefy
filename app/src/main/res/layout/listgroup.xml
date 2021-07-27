@@ -6,16 +6,18 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
     <TextView
-
+            android:typeface="monospace"
+            android:textColor="@color/white"
             android:layout_weight="1"
             android:gravity="right"
-            android:textSize="23dp"
+            android:textSize="18dp"
             android:id="@+id/groupview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
     </TextView>
     <TextView
+            android:typeface="monospace"
             android:gravity="center"
             android:textColor="@color/white"
             
@@ -28,10 +30,10 @@
 
     </TextView>
     <TextView
-
+            android:typeface="monospace"
             android:layout_weight="1"
             android:gravity="right"
-            android:textSize="23dp"
+            android:textSize="18dp"
             android:id="@+id/groupview2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

@@ -2,12 +2,17 @@
 <LinearLayout
         android:orientation="vertical"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:background="#333333"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 <androidx.appcompat.widget.AppCompatSpinner
+        android:backgroundTint="#ffffff"
+        android:popupBackground="#333333"
+        android:entries="@array/mode"
         android:id="@+id/spinner"
+        android:theme="@style/mySpinnerItemStyle"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -15,13 +20,17 @@
 </androidx.appcompat.widget.AppCompatSpinner>
     <com.prolificinteractive.materialcalendarview.MaterialCalendarView
 
+
             android:layout_weight="35"
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:mcv_showOtherDates="all"
-            app:mcv_selectionColor="@android:color/holo_green_dark"
-            android:background="#C2DDA1"
+            app:mcv_showOtherDates="none"
+            app:mcv_selectionColor="#1565C0"
+            app:mcv_headerTextAppearance="@color/purple_500"
+            app:mcv_dateTextAppearance="@color/purple_200"
+            app:mcv_weekDayTextAppearance="@color/purple_700"
+            android:theme="@style/CalendarWidgetHeader"
             app:mcv_selectionMode="range"
 
     >

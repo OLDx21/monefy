@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class Bottom3class extends BottomSheetDialogFragment {
-    private BottomSheet.BottomSheetListener mListener;
+
 
     SQLiteDatabase sqLiteDatabase;
     ContentValues contentValues;
@@ -52,17 +53,20 @@ public class Bottom3class extends BottomSheetDialogFragment {
         GridLayout gridLayout = new GridLayout(getContext());
         gridLayout.setOrientation(0);
         gridLayout.setColumnCount(3);
+        gridLayout.setBackgroundColor(Color.parseColor("#333333"));
         ArrayList<Button> buttons = new ArrayList<>();
 
-        for(Map.Entry<String, String> s : Action.NamesAndValues.entrySet()){
+        for(int i = 0; i<DataBase.getInstance().getAllKategories().size(); i++){
             Button button = new Button(getActivity());
             button.setWidth((Action.display.getWidth()/3));
-            button.setText(s.getKey());
+            button.setTextColor(Color.WHITE);
+            button.setText(DataBase.getInstance().getAllKategories().get(i));
             button.setBackground(getActivity().getResources().getDrawable(R.drawable.customselectedbtn));
             buttons.add(button);
 
             gridLayout.addView(button);
         }
+
 
         layout.addView(gridLayout);
 
@@ -70,11 +74,6 @@ public class Bottom3class extends BottomSheetDialogFragment {
             int finalI = i;
             buttons.get(i).setOnClickListener(v1 -> {
                 v1.startAnimation(animBeta);
-                contentValues = new ContentValues();
-                contentValues.put(DBhelp.NAMES_COLUMS, buttons.get(finalI).getText().toString());
-                contentValues.put(DBhelp.VALUES_COLUMNS, (Double.parseDouble(Action.NamesAndValues.get(buttons.get(finalI).getText().toString()))+Double.parseDouble(value)));
-
-                sqLiteDatabase.update(DBhelp.TABLE_NAME1, contentValues, "names = ?", new String[]{buttons.get(finalI).getText().toString()});
 
                 contentValues = new ContentValues();
 
@@ -84,7 +83,7 @@ public class Bottom3class extends BottomSheetDialogFragment {
                 contentValues.put(DBhelp.SUMA_COLUMN, value);
                 sqLiteDatabase.insert(DBhelp.TABLE_NAME3, null, contentValues);
 
-                Toast.makeText(getActivity(), "Операція успішна!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.transuc), Toast.LENGTH_SHORT).show();
 
                 DataBase dataBase = DataBase.getInstance();
                 dataBase.addLine(date, new HistoryClass(buttons.get(finalI).getText().toString(), date.toString(), value, "minus"));
@@ -105,18 +104,7 @@ public class Bottom3class extends BottomSheetDialogFragment {
         return v;
     }
 
-    public interface BottomSheetListener {
-        void onButtonClicked(String text);
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
 
-        try {
-            mListener = (BottomSheet.BottomSheetListener) context;
-        } catch (ClassCastException e) {
 
-        }
-    }
 }

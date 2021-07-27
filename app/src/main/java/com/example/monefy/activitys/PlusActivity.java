@@ -2,6 +2,8 @@ package com.example.monefy.activitys;
 
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -58,8 +60,11 @@ public class PlusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.minuscost);
         ActionBar actionBar =getSupportActionBar();
+        Action.setFontActionBar(actionBar, getApplicationContext(),  getResources().getString(R.string.income));
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#666666")));
+
 
         textView = findViewById(R.id.textview2);
         button0 = findViewById(R.id.btn0);
@@ -85,7 +90,7 @@ public class PlusActivity extends AppCompatActivity {
         Animation animSeta = AnimationUtils.loadAnimation(this, R.anim.error);
 
         selectedbtm.setText(getResources().getString(R.string.ktgsel));
-        datetext.setText(Action.formatter.format(date));
+        datetext.setText(Action.formatter2.format(date));
 
 
 
@@ -104,7 +109,7 @@ public class PlusActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    textView.setBackground(getResources().getDrawable(R.drawable.customtextview));
+                    textView.setBackground(getResources().getDrawable(R.drawable.calccustom));
                 }).start();
                 return;
             }

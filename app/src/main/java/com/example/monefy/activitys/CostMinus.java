@@ -74,10 +74,10 @@ public class CostMinus extends AppCompatActivity {
         selectedbtm.setText(getResources().getString(R.string.add)+" "+kategory);
         datetext = findViewById(R.id.date);
         textView.setEnabled(false);
-         Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.animka);
+        Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.animka);
         Animation animBeta = AnimationUtils.loadAnimation(this, R.anim.animka2);
         Button[] buttons = {button0, button1, button2, button3, button4, button5, button6, button7, button8, button9, button0, buttonpoint};
-     datetext.setText(Action.formatter.format(date));
+        datetext.setText(Action.formatter2.format(date));
 
 
 
@@ -126,13 +126,6 @@ public class CostMinus extends AppCompatActivity {
             sqLiteDatabase = Action.getSqLiteDatabase();
             contentValues = new ContentValues();
 
-            contentValues.put(DBhelp.NAMES_COLUMS, kategory);
-            contentValues.put(DBhelp.VALUES_COLUMNS, (Double.parseDouble(Action.NamesAndValues.get(kategory))+Double.parseDouble(textView.getText().toString())));
-
-            sqLiteDatabase.update(DBhelp.TABLE_NAME1, contentValues, "names = ?", new String[]{kategory});
-
-
-            contentValues = new ContentValues();
 
             contentValues.put(DBhelp.CHECK_COLUMN, "minus");
             contentValues.put(DBhelp.NAME_COLUMN, kategory);

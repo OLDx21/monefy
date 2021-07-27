@@ -7,10 +7,12 @@
         android:layout_height="match_parent"
         tools:context=".ui.home.HomeFragment"
         android:orientation="vertical"
-
+        android:id="@+id/deltaRelative"
+        android:background="#333333"
        >
 
 <TextView
+        android:textColor="#339E39"
         android:id="@+id/textView"
         android:gravity="center"
         android:layout_width="match_parent"
@@ -43,7 +45,7 @@
                 android:gravity="center"
 
                 android:text="@string/cost"
-                android:textColor="@color/black" />
+                android:textColor="@color/white" />
 
         <RadioButton
                 android:typeface="monospace"
@@ -54,11 +56,11 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/selectedbtn"
+                android:background="@drawable/staybtn"
                 android:button="@null"
                 android:gravity="center"
                 android:text="@string/stonks"
-                android:textColor="@color/black" />
+                android:textColor="@color/white" />
     </RadioGroup>
 
     <com.github.mikephil.charting.charts.PieChart
@@ -75,6 +77,12 @@
             android:layout_marginRight="25dp">
 
     </com.github.mikephil.charting.charts.PieChart>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/view_flipper">
+        <include layout="@layout/testing" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
     <RelativeLayout
             android:id="@+id/rltvlay"
             android:layout_above="@+id/view_flipper"
@@ -82,52 +90,27 @@
             android:layout_height="50dp"
             android:layout_marginVertical="15dp"
     >
-        <Button
-                android:textAllCaps="false"
-                android:typeface="serif"
-                android:background="@drawable/custombtn"
-                android:id="@+id/center"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
 
-        </Button>
-        <Button
-                android:typeface="monospace"
-                android:id="@+id/left"
-                android:foregroundTint="#66CC66"
-                android:background="@null"
-                android:layout_alignParentLeft="true"
-                android:layout_width="65dp"
-                android:layout_height="match_parent"
-                android:foreground="@android:drawable/ic_menu_upload"
-                android:stateListAnimator="@null">
 
-        </Button>
-        <Button
-                android:id="@+id/right"
-                android:foregroundTint="#66CC66"
-                android:background="@null"
-                android:layout_alignParentRight="true"
-                android:layout_width="65dp"
-                android:layout_height="match_parent"
-                android:foreground="@android:drawable/ic_menu_upload"
-                android:stateListAnimator="@null">
 
-        </Button>
     </RelativeLayout>
     <ViewFlipper
+
             android:id="@+id/view_flipper"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="105dp"
+            android:layout_height="115dp"
             tools:ignore="MissingConstraints">
         <RelativeLayout
+                android:background="#333333"
                        android:layout_width="match_parent"
                        android:layout_height="match_parent"
                       android:orientation="horizontal"
+
         >
             <Button
+                    android:layout_marginBottom="2dp"
+                    android:layout_alignParentBottom="true"
                     android:id="@+id/minusbtn"
                     android:layout_marginLeft="15dp"
                     android:text="-"
@@ -139,7 +122,8 @@
 
             </Button>
             <Button
-
+                    android:layout_marginBottom="2dp"
+                    android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="15dp"
                     android:text="+"
@@ -159,6 +143,9 @@
         </RelativeLayout>
 
     </ViewFlipper>
+
+
+
 
 
 </RelativeLayout>

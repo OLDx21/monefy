@@ -11,7 +11,15 @@
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
+        <androidx.viewpager.widget.PagerTitleStrip
+                android:id="@+id/pagerTitleStrip"
+                android:textColor="#339E39"
+                android:typeface="monospace"
+                android:background="#333333"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top">
+        </androidx.viewpager.widget.PagerTitleStrip>
     </androidx.viewpager.widget.ViewPager>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

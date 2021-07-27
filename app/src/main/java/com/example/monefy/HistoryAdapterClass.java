@@ -1,9 +1,12 @@
 package com.example.monefy;
 
+import java.util.Date;
+
 public class HistoryAdapterClass {
    private String suma;
    private String check;
    private String name;
+   private Date realDate;
 
     public String getSuma() {
         return suma;
@@ -11,6 +14,14 @@ public class HistoryAdapterClass {
 
     public void setSuma(String suma) {
         this.suma = suma;
+    }
+
+    public Date getRealDate() {
+        return realDate;
+    }
+
+    public void setRealDate(Date realDate) {
+        this.realDate = realDate;
     }
 
     public String getCheck() {
@@ -33,5 +44,11 @@ public class HistoryAdapterClass {
         this.suma = suma;
         this.check = check;
         this.name = name;
+    }
+    public HistoryAdapterClass(String suma, String check, String name, Date realDate) {
+        this.suma = suma;
+        this.check = check;
+        this.name = name;
+        this.realDate = realDate;
     }
 }

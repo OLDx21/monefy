@@ -14,10 +14,12 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import com.example.monefy.*;
 import com.example.monefy.activitys.MinusActivity;
@@ -25,6 +27,7 @@ import com.example.monefy.activitys.PlusActivity;
 import com.example.monefy.bottoms.BottomSheet;
 import com.example.monefy.bottoms.BottomSheetDayHistory;
 import com.example.monefy.bottoms.BottomSheetForIntervals;
+import com.example.monefy.interfacee.DataChange;
 import com.example.monefy.ui.Dayfr.SelectedDay;
 import com.example.monefy.ui.Dayfr.Weeks;
 import com.github.mikephil.charting.animation.Easing;
@@ -37,6 +40,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
@@ -45,14 +49,16 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class IntervalDays extends Fragment {
-    public SimpleDateFormat formatter2 = new SimpleDateFormat("dd MMMM (yyyy)", Locale.getDefault());
+public class IntervalDays extends Fragment implements DataChange {
+    public static SimpleDateFormat formatter2 = new SimpleDateFormat("dd MMMM (yyyy)", Locale.getDefault());
 
-
+    BottomSheetBehavior<View> bottomSheetBehavior;
+    ExpandableListView expandableListView;
+    IntervalDays intervalDays = this;
     Button center, left, right, minusbtn, plusbtn;
     PieChart pieChart;
     BottomSheetForIntervals bottomSheet = BottomSheetForIntervals.getInstance();
-    public TextView textView;
+    public TextView textView, textviewlist;
     Date from;
     Date to;
     ArrayList<String> arrayList = new ArrayList<>();
@@ -64,6 +70,10 @@ public class IntervalDays extends Fragment {
     PieData pieData;
     ArrayList<PieEntry> yEntrys = new ArrayList<>();
     ArrayList<PieEntry> arraystonks = new ArrayList<>();
+    boolean check = true;
+    double Summa=0;
+    LinkedHashMap<String, Double> NamesMap = new LinkedHashMap<>();
+    LinkedHashMap<String, Double> StonksMap = new LinkedHashMap<>();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
@@ -72,27 +82,10 @@ public class IntervalDays extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
 
-
-
         pieChart = root.findViewById(R.id.idPieChart);
         Animation animAlpha = AnimationUtils.loadAnimation(getContext(), R.anim.animka3);
         Animation animbeta = AnimationUtils.loadAnimation(getContext(), R.anim.animka);
-        pieChart.setRotationEnabled(true);
-        pieChart.setUsePercentValues(true);
-        pieChart.setCenterTextColor(Color.BLACK);
-        pieChart.setEntryLabelTextSize(15f);
-        pieChart.setEntryLabelTypeface(Typeface.DEFAULT_BOLD);
-        pieChart.setCenterTextTypeface(Typeface.SERIF);
-        pieChart.setEntryLabelColor(Color.BLACK);
-        pieChart.setCenterTextSize(30);
-        pieChart.getDescription().setText("");
-        pieChart.setHoleRadius(60f);
-        pieChart.setTransparentCircleColor(Color.WHITE);
-        pieChart.setTransparentCircleAlpha(110);
-        pieChart.setTransparentCircleRadius(67f);
-        pieChart.setHoleColor(Color.WHITE);
-        pieChart.animateY(1000, Easing.EaseInOutCubic);
-        pieChart.setRotationAngle(20);
+        Action.SettingsPieChart(pieChart);
         center = root.findViewById(R.id.center);
         right = root.findViewById(R.id.right);
         left = root.findViewById(R.id.left);
@@ -101,7 +94,11 @@ public class IntervalDays extends Fragment {
         plusbtn = root.findViewById(R.id.plusbtn);
         stonks = root.findViewById(R.id.offer);
         cost = root.findViewById(R.id.search);
-        Action.checked = 3;
+        ConstraintLayout constraintLayout = root.findViewById(R.id.bottomSheet);
+        bottomSheetBehavior = BottomSheetBehavior.from(constraintLayout);
+        textviewlist = root.findViewById(R.id.textViewlist);
+        expandableListView = root.findViewById(R.id.expanded_menu);
+        Action.checked = 7;
 
         center.startAnimation(animAlpha);
         center.setWidth((Action.display.getWidth()) - (Action.display.getWidth() / 2));
@@ -116,25 +113,28 @@ public class IntervalDays extends Fragment {
         setData();
         center.setWidth((Action.display.getWidth()) - (Action.display.getWidth() / 2));
 
-        cost.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
-        stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
+
         cost.setChecked(true);
         stonks.setOnClickListener(v -> {
+            if(!check) return;
             stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
             cost.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
             pieDataSet.setValues(arraystonks);
             pieChart.notifyDataSetChanged();
             pieChart.animateY(1000, Easing.EaseInOutCubic);
+            check = false;
 
 
         });
 
         cost.setOnClickListener(v -> {
+            if(check) return;
             cost.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
             stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
             pieDataSet.setValues(yEntrys);
             pieChart.notifyDataSetChanged();
             pieChart.animateY(1000, Easing.EaseInOutCubic);
+            check = true;
 
         });
 
@@ -150,18 +150,21 @@ public class IntervalDays extends Fragment {
         });
 
 
+        BottomSheetForIntervals.CheckDate = arrayList;
+        bottomSheet.setDataList(textviewlist, expandableListView, getActivity(), intervalDays);
+
         center.setOnClickListener(v -> {
             v.startAnimation(animAlpha);
-            BottomSheetForIntervals.CheckDate = arrayList;
-            bottomSheet.show(getParentFragmentManager(), "exampleBottomSheet");
+
+            clickbtns();
         });
         left.setOnClickListener(v -> {
-            BottomSheetForIntervals.CheckDate = arrayList;
-            bottomSheet.show(getParentFragmentManager(), "exampleBottomSheet");
+
+            clickbtns();
         });
         right.setOnClickListener(v -> {
-            BottomSheetForIntervals.CheckDate = arrayList;
-            bottomSheet.show(getParentFragmentManager(), "exampleBottomSheet");
+
+            clickbtns();
         });
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
@@ -181,11 +184,17 @@ public class IntervalDays extends Fragment {
         });
         return root;
     }
+    void clickbtns() {
+        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        } else {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void setData( ) {
-        LinkedHashMap<String, Double> names = new LinkedHashMap<>();
-        LinkedHashMap<String, Double> stonks = new LinkedHashMap<>();
+    public void setData() {
+
 
         TreeMap<Date, HistoryClass> Data = new TreeMap<>(Collections.reverseOrder());
         String name, sumaa, check, dates;
@@ -206,17 +215,17 @@ public class IntervalDays extends Fragment {
                 Data.put(date1, new HistoryClass(name, dates, sumaa, check));
                 if (check.equals("minus")) {
                     results -= Double.parseDouble(sumaa);
-                    if (!names.containsKey(name)) {
-                        names.put(name, Double.parseDouble(sumaa));
+                    if (!NamesMap.containsKey(name)) {
+                        NamesMap.put(name, Double.parseDouble(sumaa));
                     } else {
-                        names.put(name, Double.parseDouble(sumaa) + names.get(name));
+                        NamesMap.put(name, Double.parseDouble(sumaa) + NamesMap.get(name));
                     }
 
                 } else {
-                    if (!stonks.containsKey(name)) {
-                        stonks.put(name, Double.parseDouble(sumaa));
+                    if (!StonksMap.containsKey(name)) {
+                        StonksMap.put(name, Double.parseDouble(sumaa));
                     } else {
-                        stonks.put(name, Double.parseDouble(sumaa) + stonks.get(name));
+                        StonksMap.put(name, Double.parseDouble(sumaa) + StonksMap.get(name));
                     }
                     results += Double.parseDouble(sumaa);
                 }
@@ -224,7 +233,7 @@ public class IntervalDays extends Fragment {
         }
 
         BottomSheetForIntervals.Data = Data;
-        for (Map.Entry<String, Double> map : names.entrySet()) {
+        for (Map.Entry<String, Double> map : NamesMap.entrySet()) {
             if (Float.parseFloat(String.valueOf(map.getValue())) > 0) {
                 yEntrys.add(new PieEntry(Float.parseFloat(String.valueOf(map.getValue())), map.getKey(), i));
                 KategoriesCost.add(map.getKey());
@@ -232,7 +241,7 @@ public class IntervalDays extends Fragment {
             }
         }
         i = 0;
-        for (Map.Entry<String, Double> map : stonks.entrySet()) {
+        for (Map.Entry<String, Double> map : StonksMap.entrySet()) {
             if (Float.parseFloat(String.valueOf(map.getValue())) > 0) {
                 arraystonks.add(new PieEntry(Float.parseFloat(String.valueOf(map.getValue())), map.getKey(), i));
                 KategoriesStonks.add(map.getKey());
@@ -248,8 +257,69 @@ public class IntervalDays extends Fragment {
             center.setText(getActivity().getResources().getString(R.string.balance) + " " + results);
 
         }
+        Summa = results;
         pieDataSet = new PieDataSet(yEntrys, "");
         pieData = new PieData();
         Action.drawChart(pieChart, pieData, pieDataSet);
+    }
+
+    @Override
+    public void Update(HistoryAdapterClass historyAdapterClass) {
+        KategoriesCost.clear();
+        KategoriesStonks.clear();
+        arraystonks.clear();
+        yEntrys.clear();
+        double value =0;
+        int i = 0;
+        if(historyAdapterClass.getCheck().equals("minus")){
+            value = Summa+Double.parseDouble(historyAdapterClass.getSuma());
+            NamesMap.put(historyAdapterClass.getName(),NamesMap.get(historyAdapterClass.getName())
+                    -Double.parseDouble(historyAdapterClass.getSuma()));
+            Summa+=Double.parseDouble(historyAdapterClass.getSuma());
+
+        }
+
+        else {
+            value = Summa-Double.parseDouble(historyAdapterClass.getSuma());
+            StonksMap.put(historyAdapterClass.getName(),
+                    StonksMap.get(historyAdapterClass.getName())-Double.parseDouble(historyAdapterClass.getSuma()));
+            Summa-=Double.parseDouble(historyAdapterClass.getSuma());
+        }
+
+
+
+        if (value<0) {
+
+            center.setBackground(getContext().getResources().getDrawable(R.drawable.redmainbtm));
+            center.setText(Objects.requireNonNull(getActivity()).getResources().getString(R.string.balance) + " -" + String.valueOf(value));
+        } else {
+            center.setBackground(getContext().getResources().getDrawable(R.drawable.custombtn));
+            center.setText(getActivity().getResources().getString(R.string.balance) + " " + String.valueOf(value));
+        }
+
+        for (Map.Entry<String, Double> s : NamesMap.entrySet()) {
+            if (s.getValue() > 0) {
+                yEntrys.add(new PieEntry(Float.parseFloat(String.valueOf(s.getValue())), s.getKey(), i));
+                KategoriesCost.add(s.getKey());
+                i += 1;
+            }
+        }
+        i=0;
+        for (Map.Entry<String, Double> s : StonksMap.entrySet()) {
+            if (s.getValue() > 0) {
+                arraystonks.add(new PieEntry(Float.parseFloat(String.valueOf(s.getValue())), s.getKey(), i));
+                KategoriesStonks.add(s.getKey());
+                i += 1;
+            }
+        }
+        pieChart.setCenterText("");
+        pieDataSet.setValues(yEntrys);
+        pieChart.notifyDataSetChanged();
+        pieChart.animateY(1000, Easing.EaseInOutCubic);
+
+        cost.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
+        stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
+        check=true;
+        cost.setChecked(true);
     }
 }

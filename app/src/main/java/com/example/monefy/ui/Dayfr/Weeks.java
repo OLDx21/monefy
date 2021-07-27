@@ -126,7 +126,19 @@ public class Weeks extends Fragment {
                 count += 1;
             }
 
-            return new SelWeek("Жодної транзакції", new NamesAndValues(), Data, new ArrayList<>());
+            return new SelWeek(viewPager.getContext().getResources().getString(R.string.wthtran), new NamesAndValues(), Data, new ArrayList<>());
+        }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            int i = 0;
+
+            for (Map.Entry<Date, ArrayList<Date>> s : MndWeek.entrySet()) {
+                if (i == position) {
+                    return formatter2.format(s.getValue().get(0)) + " - " + formatter2.format(s.getValue().get(s.getValue().size() - 1));
+                }
+                i += 1;
+            }
+            return viewPager.getContext().getResources().getString(R.string.wthtran);
         }
     }
 

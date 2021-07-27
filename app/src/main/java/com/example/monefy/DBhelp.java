@@ -13,12 +13,10 @@ public class DBhelp extends SQLiteOpenHelper {
 
     public static final String TABLE_NAME1 = "objects";
     public static final  String NAMES_COLUMS = "names";
-    public static final  String VALUES_COLUMNS = "value";
 
-    public static final String TABLE_NAME2 = "addmoney";
-    public static final  String DATE_COLUMS = "date";
-    public static final  String SUMA_COLUMS = "suma";
-    public static final  String TAG_COLUMS = "tag";
+
+    public static final String TABLE_NAME2 = "profname";
+    public static final  String NAMES_COLUMS2 = "namesprof";
 
     public static final String TABLE_NAME3 = "history";
     public static final String CHECK_COLUMN = "checked";
@@ -35,8 +33,8 @@ public class DBhelp extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("create table " + TABLE_NAME1 + "(" + NAMES_COLUMS + " text," + VALUES_COLUMNS + " text"+")");
-        db.execSQL("create table " + TABLE_NAME2 + "(" + DATE_COLUMS + " text," + SUMA_COLUMS + " text,"+ TAG_COLUMS + " text"+")");
+        db.execSQL("create table " + TABLE_NAME1 + "(" + NAMES_COLUMS + " text" + ")");
+        db.execSQL("create table " + TABLE_NAME2 + "(" + NAMES_COLUMS2 + " text" + ")");
         db.execSQL("create table " + TABLE_NAME3 + "(" + CHECK_COLUMN + " text," + NAME_COLUMN + " text,"+ DATE_COLUMN + " date,"+ SUMA_COLUMN+ " text"+")");
 
 

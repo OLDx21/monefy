@@ -49,4 +49,11 @@
             android:label="@string/interval"
             tools:layout="@layout/fragment_home"/>
 
+    <fragment
+
+            android:id="@+id/settings"
+            android:name="com.example.monefy.ui.SettingsClass"
+            android:label="@string/settings"
+            tools:layout="@layout/fragmentsettings"/>
+
 </navigation>

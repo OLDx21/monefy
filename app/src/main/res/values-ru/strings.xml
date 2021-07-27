@@ -6,7 +6,8 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Добавить категорию</string>
+    <string name="action_settings">Добавить категорию расходов</string>
+    <string name="kategoryprof">Добавить категорию прибыли</string>
 
     <string name="menu_home">Все</string>
     <string name="menu_gallery">Год</string>
@@ -25,9 +26,25 @@
     <string name="settings">Настройки</string>
     <string name="onlyview">Только просмотр</string>
     <string name="greatjob">Успешно добавлено!</string>
+    <string name="wthtran">Без транзакций</string>
+    <string name="expence">Новый расход</string>
+    <string name="income">Новый доход</string>
+    <string name="namektg">Название</string>
+    <string name="havektg">Такая категория уже существуетc!</string>
+    <string name="update">Обновить</string>
+    <string name="delete">Удалить</string>
+    <string name="language">Язык</string>
+    <string name="transuc">Операция успешная!</string>
+    <string name="other">Другое</string>
+    <string name="clearall">Удалить все данные</string>
+    <string name="specification">Будут удалены абсолютно все данные!</string>
     <string-array name="mode">
         <item>Интервал</item>
         <item>Выбор дат</item>
     </string-array>
-
+    <string-array name="languages">
+        <item>Русский</item>
+        <item>Українська</item>
+        <item>English</item>
+    </string-array>
 </resources>

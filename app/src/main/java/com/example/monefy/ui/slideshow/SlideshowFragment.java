@@ -18,6 +18,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import com.example.monefy.*;
+import com.example.monefy.bottoms.BottomSheetForDays;
 import com.example.monefy.ui.Dayfr.Days;
 import com.example.monefy.ui.Dayfr.SelectedYears;
 import com.example.monefy.ui.gallery.GalleryFragment;
@@ -87,6 +88,18 @@ public class SlideshowFragment extends Fragment {
             }
 
             return new Days(new Date(), new NamesAndValues(), Data);
+        }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            int i = 0;
+
+            for (Map.Entry<Date, NamesAndValues> s : Action.NamesAndValuesForDays.entrySet()) {
+                if (i == position) {
+                    return Action.formatter2.format(s.getKey());
+                }
+                i += 1;
+            }
+            return  viewPager.getContext().getString(R.string.wthtran);
         }
 
 

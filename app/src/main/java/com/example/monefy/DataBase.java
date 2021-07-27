@@ -19,6 +19,10 @@ public class DataBase {
 
     private ArrayList<String> profit = new ArrayList<>();
 
+    private ArrayList<String> AllKategories = new ArrayList<>();
+
+    private ArrayList<String> AllKategoriesProfit = new ArrayList<>();
+
     public static DataBase getInstance() {
         return dataBase;
     }
@@ -35,8 +39,38 @@ public class DataBase {
         }
     }
 
+    public void addIntoAllKategoryProfit(String kategory){
+        this.AllKategoriesProfit.add(kategory);
+    }
+
+    public ArrayList<String> getAllKategoriesProfit(){
+        return this.AllKategoriesProfit;
+    }
+
+    public void addIntoAllKategory(String kategory, String array){
+        if(array.equals(COST)) {
+            this.AllKategories.add(kategory);
+        }
+        else {
+            this.AllKategoriesProfit.add(kategory);
+
+        }
+    }
+
+    public ArrayList<String> getAllKategories(){
+        return this.AllKategories;
+    }
+
     public void addLine(Date date, HistoryClass historyClass) {
         this.Data.put(date, historyClass);
+    }
+
+    public void UpdateLine(Date whereDate, HistoryClass historyClass) {
+        this.Data.put(whereDate, historyClass);
+    }
+
+    public void DeleteLine(Date whereDate ) {
+        this.Data.remove(whereDate);
     }
 
     public void addKategory(String kategory, String array) {
@@ -49,6 +83,14 @@ public class DataBase {
                 cost.add(kategory);
             }
         }
+    }
+    public void clearAll() {
+        this.Data.clear();
+        this.cost.clear();
+        this.profit.clear();
+        this.AllKategoriesProfit.clear();
+        this.AllKategories.clear();
+
     }
 
     public void CreateDB(SQLiteDatabase sqLiteDatabase) {
@@ -79,6 +121,41 @@ public class DataBase {
                     profit.add(name);
                 }
 
+            }
+
+            while (cursor.moveToNext());
+            cursor.close();
+
+        }
+        cursor = sqLiteDatabase.query(DBhelp.TABLE_NAME1, null, null, null, null, null, null);
+
+
+        if (cursor.moveToFirst()) {
+            nameid = cursor.getColumnIndex(DBhelp.NAMES_COLUMS);
+
+            do {
+
+                name = cursor.getString(nameid);
+                AllKategories.add(name);
+
+            }
+
+            while (cursor.moveToNext());
+            cursor.close();
+
+        }
+
+        cursor = sqLiteDatabase.query(DBhelp.TABLE_NAME2, null, null, null, null, null, null);
+
+
+        if (cursor.moveToFirst()) {
+            nameid = cursor.getColumnIndex(DBhelp.NAMES_COLUMS2);
+
+            do {
+
+                name = cursor.getString(nameid);
+                System.out.println(name);
+                AllKategoriesProfit.add(name);
             }
 
             while (cursor.moveToNext());

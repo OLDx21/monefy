@@ -39,21 +39,22 @@ public class GalleryFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
 
         setData();
-
-        MyAdapter adapter = new MyAdapter(getChildFragmentManager(), Data);
         viewPager = root.findViewById(R.id.view_pager);
+        GalleryFragment.MyAdapter adapter = new GalleryFragment.MyAdapter(getChildFragmentManager(), Data, viewPager);
+
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(Action.NamesAndValuesForYears.size());
+        viewPager.setCurrentItem(Action.NamesAndValuesForYears.size() - 1);
 
         return root;
     }
 
     public static class MyAdapter extends FragmentPagerAdapter {
         TreeMap<Date, HistoryClass> Data;
-
-        MyAdapter(@NonNull FragmentManager fm, TreeMap<Date, HistoryClass> Data) {
+        ViewPager viewPager;
+        MyAdapter(@NonNull FragmentManager fm, TreeMap<Date, HistoryClass> Data, ViewPager viewPager) {
             super(fm);
             this.Data = Data;
+            this.viewPager = viewPager;
         }
 
         @Override
@@ -71,14 +72,26 @@ public class GalleryFragment extends Fragment {
             Date date;
             for (Map.Entry<String, NamesAndValues> s : Action.NamesAndValuesForYears.entrySet()) {
                 if (i == position) {
-                    System.out.println(s.getKey());
+
                     date = new Date(s.getKey());
                     return new SelectedYears(format.format(date), s.getValue(), Data);
                 }
                 i += 1;
             }
 
-            return new SelectedYears("Жодної транзакції", new NamesAndValues(), Data);
+            return new SelectedYears(viewPager.getContext().getResources().getString(R.string.wthtran), new NamesAndValues(), Data);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            int i = 0;
+            for (Map.Entry<String, NamesAndValues> s : Action.NamesAndValuesForYears.entrySet()) {
+                if (i == position) {
+                    return format.format(new Date(s.getKey()));
+                }
+                i += 1;
+            }
+            return viewPager.getContext().getResources().getString(R.string.wthtran);
         }
     }
 

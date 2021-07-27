@@ -5,12 +5,14 @@ public class HistoryClass {
     private String date;
     private String suma;
 
+
     public HistoryClass(String name, String date, String suma, String check) {
         this.name = name;
         this.date = date;
         this.suma = suma;
         this.check = check;
     }
+
 
     public String getName() {
         return name;

@@ -12,7 +12,6 @@
         android:layout_height="30dp">
 </TextView>
 <ExpandableListView
-
         android:gravity="center"
         android:id="@+id/expanded_menu"
         android:layout_width="match_parent"

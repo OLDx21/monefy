@@ -1,6 +1,7 @@
 package com.example.monefy.ui.Dayfr;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -47,6 +48,7 @@ public class Months extends Fragment {
     TreeMap<Date, HistoryClass> Data;
     public static SimpleDateFormat format = new SimpleDateFormat("yyyy.MM", new Locale("uk", "UA"));
     ViewPager viewPager;
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -98,11 +100,19 @@ public class Months extends Fragment {
                 count += 1;
             }
 
-            return new SelMonth("Жодної транзакції", new NamesAndValues(), Data);
+            return new SelMonth(viewPager.getContext().getResources().getString(R.string.wthtran), new NamesAndValues(), Data);
         }
         @Override
         public CharSequence getPageTitle(int position) {
-            return "Title " + position;
+            int i = 0;
+
+            for (Map.Entry<Date, NamesAndValues> s : Action.NamesAndValuesForMonth.entrySet()) {
+                if (i == position) {
+                    return Action.format.format(s.getKey());
+                }
+                i += 1;
+            }
+            return viewPager.getContext().getResources().getString(R.string.wthtran);
         }
     }
 

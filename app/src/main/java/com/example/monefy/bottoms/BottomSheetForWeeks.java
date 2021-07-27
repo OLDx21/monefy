@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import com.example.monefy.*;
+import com.example.monefy.interfacee.DataChange;
 import com.example.monefy.ui.gallery.GalleryFragment;
 import com.example.monefy.ui.slideshow.SlideshowFragment;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -19,8 +20,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import java.util.*;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class BottomSheetForWeeks extends BottomSheetDialogFragment {
-    private BottomSheet.BottomSheetListener mListener;
+public class BottomSheetForWeeks   {
+
     public static BottomSheetForWeeks bottomSheet = new BottomSheetForWeeks();
     public static TreeMap<Date, HistoryClass> Data = new TreeMap<>(Collections.reverseOrder());
     public static ArrayList<Date> CheckDate = new ArrayList<>();
@@ -29,22 +30,20 @@ public class BottomSheetForWeeks extends BottomSheetDialogFragment {
         return bottomSheet;
     }
 
-    TextView textView;
-    ExpandableListView expandableListView;
+
     List<String> listDataParent = new ArrayList<String>();
     LinkedHashMap<String, List<HistoryAdapterClass>> listDataChild = new LinkedHashMap<>();
     ArrayList<List<HistoryAdapterClass>> arrayList = new ArrayList<>();
 
     @SuppressLint("SimpleDateFormat")
     @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.bottom, container, false);
+
+    public void setDataList(TextView textView, ExpandableListView expandableListView, Context context, DataChange dataChange) {
+
         listDataParent.clear();
         listDataChild.clear();
         arrayList.clear();
-        textView = v.findViewById(R.id.textView);
-        expandableListView = v.findViewById(R.id.expanded_menu);
+
         int i = 0;
         String date = "";
         boolean bool = true;
@@ -74,7 +73,7 @@ public class BottomSheetForWeeks extends BottomSheetDialogFragment {
                 colors = new ArrayList<>();
                 date = Action.formatter.format(s.getKey());
                 listDataParent.add(date);
-                colors.add(new HistoryAdapterClass(s.getValue().getSuma(), s.getValue().getCheck(), s.getValue().getName()));
+                colors.add(new HistoryAdapterClass(s.getValue().getSuma(), s.getValue().getCheck(), s.getValue().getName(), s.getKey()));
 
                 if (i == Data.size() - 1) {
 
@@ -84,7 +83,7 @@ public class BottomSheetForWeeks extends BottomSheetDialogFragment {
                 continue;
             }
             if (date.equals(Action.formatter.format(s.getKey()))) {
-                colors.add(new HistoryAdapterClass(s.getValue().getSuma(), s.getValue().getCheck(), s.getValue().getName()));
+                colors.add(new HistoryAdapterClass(s.getValue().getSuma(), s.getValue().getCheck(), s.getValue().getName(), s.getKey()));
 
             } else {
 
@@ -92,7 +91,7 @@ public class BottomSheetForWeeks extends BottomSheetDialogFragment {
                 colors = new ArrayList<>();
                 date = Action.formatter.format(s.getKey());
                 listDataParent.add(date);
-                colors.add(new HistoryAdapterClass(s.getValue().getSuma(), s.getValue().getCheck(), s.getValue().getName()));
+                colors.add(new HistoryAdapterClass(s.getValue().getSuma(), s.getValue().getCheck(), s.getValue().getName(), s.getKey()));
             }
             if (i == Data.size() - 1) {
 
@@ -108,25 +107,16 @@ public class BottomSheetForWeeks extends BottomSheetDialogFragment {
         }
 
 
-        ExpandbleListAdapter listAdapter = new ExpandbleListAdapter(listDataChild, getActivity());
+        ExpandbleListAdapter listAdapter = new ExpandbleListAdapter(listDataChild, context, dataChange, expandableListView);
         expandableListView.setAdapter(listAdapter);
         if (listDataParent.size() == 0) {
-            textView.setText("Жодної транзакції");
+            textView.setText(context.getResources().getString(R.string.wthtran));
         }
 
-        return v;
+
     }
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
 
-        try {
-            mListener = (BottomSheet.BottomSheetListener) context;
-        } catch (ClassCastException e) {
-
-        }
-    }
 
 }
