@@ -73,7 +73,7 @@ public class Weeks extends Fragment {
     public static class MyAdapter extends FragmentPagerAdapter {
         TreeMap<Date, HistoryClass> Data;
         ViewPager viewPager;
-        public SimpleDateFormat formatter2 = new SimpleDateFormat("dd MMMM", Locale.getDefault());
+        public static SimpleDateFormat formatter2 = new SimpleDateFormat("dd MMMM", Locale.getDefault());
 
         MyAdapter(@NonNull FragmentManager fm, TreeMap<Date, HistoryClass> Data, ViewPager viewPager) {
             super(fm);

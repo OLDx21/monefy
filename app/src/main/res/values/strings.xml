@@ -37,6 +37,7 @@
     <string name="other">Other</string>
     <string name="clearall">Delete all data</string>
     <string name="specification">Absolutely all data will be deleted!</string>
+    <string name="updtran">Transaction update</string>
     <string-array name="mode">
         <item>Interval</item>
         <item>Choice of dates</item>

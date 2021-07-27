@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment implements DataChange {
     double summa=0;
     BottomSheetBehavior<View> bottomSheetBehavior;
     boolean check = true, ishave = true;
-    int action;
+
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -265,7 +265,7 @@ public class HomeFragment extends Fragment implements DataChange {
         if (sum2<0) {
 
             center.setBackground(getContext().getResources().getDrawable(R.drawable.redmainbtm));
-            center.setText(Objects.requireNonNull(getActivity()).getResources().getString(R.string.balance) + " -" + String.valueOf(sum2));
+            center.setText(Objects.requireNonNull(getActivity()).getResources().getString(R.string.balance) + " " + String.valueOf(sum2));
         } else {
             center.setBackground(getContext().getResources().getDrawable(R.drawable.custombtn));
             center.setText(getActivity().getResources().getString(R.string.balance) + " " + String.valueOf(sum2));
@@ -306,7 +306,8 @@ public class HomeFragment extends Fragment implements DataChange {
         if (value<0) {
 
             center.setBackground(getContext().getResources().getDrawable(R.drawable.redmainbtm));
-            center.setText(Objects.requireNonNull(getActivity()).getResources().getString(R.string.balance) + " -" + String.valueOf(value));
+            center.setText(Objects.requireNonNull(getActivity()).getResources().getString(R.string.balance) + " " + String.valueOf(value));
+
         } else {
             center.setBackground(getContext().getResources().getDrawable(R.drawable.custombtn));
             center.setText(getActivity().getResources().getString(R.string.balance) + " " + String.valueOf(value));

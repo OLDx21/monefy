@@ -3,6 +3,8 @@ package com.example.monefy.activitys;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -57,9 +59,11 @@ public class CostUpdate extends AppCompatActivity {
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.minuscost);
-        ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar =getSupportActionBar();
+        Action.setFontActionBar(actionBar, getApplicationContext(),  getResources().getString(R.string.updtran));
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#666666")));
         textView = findViewById(R.id.textview2);
         button0 = findViewById(R.id.btn0);
         button1 = findViewById(R.id.btn1);
@@ -135,7 +139,7 @@ public class CostUpdate extends AppCompatActivity {
             contentValues.put(DBhelp.SUMA_COLUMN, textView.getText().toString());
             sqLiteDatabase.update(DBhelp.TABLE_NAME3, contentValues, "date2 = ?", new String[]{historyAdapterClass.getRealDate().toString()});
 
-            Toast.makeText(CostUpdate.this, "Успіх!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CostUpdate.this, getResources().getString(R.string.transuc), Toast.LENGTH_SHORT).show();
 
             DataBase dataBase = DataBase.getInstance();
             dataBase.UpdateLine(historyAdapterClass.getRealDate(), new HistoryClass(historyAdapterClass.getName(),

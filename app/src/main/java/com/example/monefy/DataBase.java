@@ -154,7 +154,6 @@ public class DataBase {
             do {
 
                 name = cursor.getString(nameid);
-                System.out.println(name);
                 AllKategoriesProfit.add(name);
             }
 

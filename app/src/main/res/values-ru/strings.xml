@@ -38,6 +38,7 @@
     <string name="other">Другое</string>
     <string name="clearall">Удалить все данные</string>
     <string name="specification">Будут удалены абсолютно все данные!</string>
+    <string name="updtran">Обновление транзакции</string>
     <string-array name="mode">
         <item>Интервал</item>
         <item>Выбор дат</item>

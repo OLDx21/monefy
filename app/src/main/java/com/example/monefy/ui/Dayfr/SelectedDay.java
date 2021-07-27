@@ -31,14 +31,11 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class SelectedDay extends Fragment implements DataChange {
-
+    public static Calendar calendar;
     public static Date date;
     SelectedDay selectedDay = this;
     BottomSheetBehavior<View> bottomSheetBehavior;
@@ -56,15 +53,14 @@ public class SelectedDay extends Fragment implements DataChange {
     ArrayList<PieEntry> yEntrys = new ArrayList<>();
     ArrayList<PieEntry> arraystonks = new ArrayList<>();
     boolean check = true;
-    double Summa=0;
+    double Summa = 0;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-
-
-
-
+        date = calendar.getTime();
+        date.setSeconds(new Date().getSeconds());
+        date.setMinutes(new Date().getMinutes());
         pieChart = root.findViewById(R.id.idPieChart);
         Animation animAlpha = AnimationUtils.loadAnimation(getContext(), R.anim.animka3);
         Animation animbeta = AnimationUtils.loadAnimation(getContext(), R.anim.animka);
@@ -94,11 +90,12 @@ public class SelectedDay extends Fragment implements DataChange {
         textView.setText(Action.formatter2.format(date));
         addDataSet();
 
+
         center.setWidth((Action.display.getWidth()) - (Action.display.getWidth() / 2));
 
         cost.setChecked(true);
         stonks.setOnClickListener(v -> {
-            if(!check) return;
+            if (!check) return;
             stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
             cost.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
             pieDataSet.setValues(arraystonks);
@@ -110,7 +107,7 @@ public class SelectedDay extends Fragment implements DataChange {
         });
 
         cost.setOnClickListener(v -> {
-            if(check) return;
+            if (check) return;
             cost.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
             stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
             pieDataSet.setValues(yEntrys);
@@ -119,6 +116,7 @@ public class SelectedDay extends Fragment implements DataChange {
             check = true;
 
         });
+
 
         plusbtn.setOnClickListener(v -> {
             v.startAnimation(animbeta);
@@ -166,6 +164,7 @@ public class SelectedDay extends Fragment implements DataChange {
 
         return root;
     }
+
     void clickbtns() {
         if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -175,7 +174,7 @@ public class SelectedDay extends Fragment implements DataChange {
     }
 
 
-    private void addDataSet( ) {
+    private void addDataSet() {
         double result = 0;
         Action.NamesAndValuesForSelectedDay.clear();
         Action.StonksNamesAndValuesForSelectedDay.clear();
@@ -262,25 +261,23 @@ public class SelectedDay extends Fragment implements DataChange {
         KategoriesStonks.clear();
         arraystonks.clear();
         yEntrys.clear();
-        double value =0;
+        double value = 0;
         int i = 0;
-        if(historyAdapterClass.getCheck().equals("minus")){
-            value = Summa+Double.parseDouble(historyAdapterClass.getSuma());
-            Action.NamesAndValuesForSelectedDay.put(historyAdapterClass.getName(),Action.NamesAndValuesForSelectedDay.get(historyAdapterClass.getName())
-                    -Double.parseDouble(historyAdapterClass.getSuma()));
-            Summa+=Double.parseDouble(historyAdapterClass.getSuma());
+        if (historyAdapterClass.getCheck().equals("minus")) {
+            value = Summa + Double.parseDouble(historyAdapterClass.getSuma());
+            Action.NamesAndValuesForSelectedDay.put(historyAdapterClass.getName(), Action.NamesAndValuesForSelectedDay.get(historyAdapterClass.getName())
+                    - Double.parseDouble(historyAdapterClass.getSuma()));
+            Summa += Double.parseDouble(historyAdapterClass.getSuma());
 
-        }
-        else {
-            value = Summa-Double.parseDouble(historyAdapterClass.getSuma());
+        } else {
+            value = Summa - Double.parseDouble(historyAdapterClass.getSuma());
             Action.StonksNamesAndValuesForSelectedDay.put(historyAdapterClass.getName(),
-                    Action.StonksNamesAndValuesForSelectedDay.get(historyAdapterClass.getName())-Double.parseDouble(historyAdapterClass.getSuma()));
-            Summa-=Double.parseDouble(historyAdapterClass.getSuma());
+                    Action.StonksNamesAndValuesForSelectedDay.get(historyAdapterClass.getName()) - Double.parseDouble(historyAdapterClass.getSuma()));
+            Summa -= Double.parseDouble(historyAdapterClass.getSuma());
         }
 
 
-
-        if (value<0) {
+        if (value < 0) {
 
             center.setBackground(getContext().getResources().getDrawable(R.drawable.redmainbtm));
             center.setText(Objects.requireNonNull(getActivity()).getResources().getString(R.string.balance) + " -" + String.valueOf(value));
@@ -296,7 +293,7 @@ public class SelectedDay extends Fragment implements DataChange {
                 i += 1;
             }
         }
-        i=0;
+        i = 0;
         for (Map.Entry<String, Double> s : Action.StonksNamesAndValuesForSelectedDay.entrySet()) {
             if (s.getValue() > 0) {
                 arraystonks.add(new PieEntry(Float.parseFloat(String.valueOf(s.getValue())), s.getKey(), i));
@@ -311,7 +308,7 @@ public class SelectedDay extends Fragment implements DataChange {
 
         cost.setBackground(getActivity().getResources().getDrawable(R.drawable.selectedbtn));
         stonks.setBackground(getActivity().getResources().getDrawable(R.drawable.staybtn));
-        check=true;
+        check = true;
         cost.setChecked(true);
     }
 }

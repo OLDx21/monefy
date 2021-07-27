@@ -31,6 +31,7 @@ import androidx.core.view.GravityCompat;
 import com.example.monefy.*;
 import com.example.monefy.bottoms.BottomSheet;
 import com.example.monefy.ui.Dayfr.SelectedDay;
+import com.example.monefy.ui.Dayfr.Weeks;
 import com.example.monefy.ui.home.HomeFragment;
 import com.example.monefy.ui.intervdays.IntervalDays;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -90,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
             Action.formatter3 = new SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault());
             Action.format = new SimpleDateFormat("MMMM, yyyy", Locale.getDefault());
             IntervalDays.formatter2 = new SimpleDateFormat("dd MMMM (yyyy)", Locale.getDefault());
+            Weeks.MyAdapter.formatter2 = new SimpleDateFormat("dd MMMM", Locale.getDefault());
             Action.CheckLang = false;
         }
 
@@ -174,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
                 final Spinner spinner = promptsView.findViewById(R.id.spinner);
                 final MaterialCalendarView datePicker = promptsView.findViewById(R.id.calendarView);
+
 
 
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -269,7 +272,9 @@ public class MainActivity extends AppCompatActivity {
 
                     Calendar calendar = Calendar.getInstance();
                     calendar.set(year, monthOfYear, dayOfMonth);
+                    SelectedDay.calendar = calendar;
                     SelectedDay.date = calendar.getTime();
+                    System.out.println(calendar.getTime());
                     drawer.closeDrawer(GravityCompat.START);
                     Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.dayselected);
                     btnday.setClickable(true);
@@ -427,10 +432,10 @@ public class MainActivity extends AppCompatActivity {
 
                             DataBase.getInstance().addKategory(textInputLayout.getEditText().getText().toString(), array);
 
-
                             DoIntent doIntent = DoIntent.getInstance();
                             doIntent.setDoIntent(MainActivity.this, MainActivity.class);
                             Intent intent1 = doIntent.getDoIntent();
+                            intent1.putExtra("fragmentNumber", Action.checked); //for example
                             startActivity(intent1);
 
                         })

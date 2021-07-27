@@ -79,7 +79,6 @@ public class Bottom2class extends BottomSheetDialogFragment {
             buttons.get(i).setOnClickListener(v1 -> {
                 contentValues = new ContentValues();
 
-
                 contentValues.put(DBhelp.CHECK_COLUMN, "plus");
                 contentValues.put(DBhelp.NAME_COLUMN, buttons.get(finalI).getText().toString());
                 contentValues.put(DBhelp.DATE_COLUMN, date.toString());
@@ -88,9 +87,13 @@ public class Bottom2class extends BottomSheetDialogFragment {
 
 
                 DataBase dataBase = DataBase.getInstance();
+
                 dataBase.addLine(date, new HistoryClass(buttons.get(finalI).getText().toString(), date.toString(), value, "plus"));
+
                 dataBase.addKategory(buttons.get(finalI).getText().toString(), DataBase.PROFIT);
+
                 Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.transuc), Toast.LENGTH_SHORT).show();
+
                 DoIntent doIntent = DoIntent.getInstance();
                 doIntent.setDoIntent(getContext(), com.example.monefy.activitys.MainActivity.class);
                 Intent intent = doIntent.getDoIntent();
