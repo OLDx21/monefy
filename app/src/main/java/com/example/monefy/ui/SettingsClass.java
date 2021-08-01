@@ -96,10 +96,6 @@ public class SettingsClass extends Fragment {
             fileOutputStream.write(sb1.getBytes());
             fileOutputStream.close();
 
-
-
-
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -115,10 +111,7 @@ public class SettingsClass extends Fragment {
         View promptsView = li.inflate(R.layout.dialogdeleteallorno, null);
         @SuppressLint("ResourceType") AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getActivity(), R.style.MyDialogTheme);
 
-
         mDialogBuilder.setView(promptsView);
-
-
 
         mDialogBuilder
                 .setCancelable(false)

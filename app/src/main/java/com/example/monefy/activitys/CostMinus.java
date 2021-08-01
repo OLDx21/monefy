@@ -30,7 +30,6 @@ public class CostMinus extends AppCompatActivity {
     Matcher matcher;
     SQLiteDatabase sqLiteDatabase;
     ContentValues contentValues;
-    String check;
     TextView datetext;
     public static Date date;
     public static int checked;
@@ -122,7 +121,6 @@ public class CostMinus extends AppCompatActivity {
         selectedbtm.setOnClickListener(v -> {
             if(textView.getText().toString().isEmpty()) return;
             v.startAnimation(animAlpha);
-            check = Action.NamesAndValues.get(kategory);
             sqLiteDatabase = Action.getSqLiteDatabase();
             contentValues = new ContentValues();
 

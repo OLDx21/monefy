@@ -24,149 +24,16 @@
             android:layout_height="match_parent"
             android:layout_gravity="left"
             android:fitsSystemWindows="true"
-            app:itemTextAppearance="@style/NavDrawerTextStyle"
-            app:itemBackground="@drawable/calccustom"
-            android:theme="@style/NavigationTheme"
+            android:theme="@style/RobotoTextViewStyle"
+            app:itemBackground="@drawable/toogle"
             app:itemIconPadding="28dp"
-            app:itemHorizontalPadding="40dp"
+            app:headerLayout="@layout/nav_header_main"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            app:itemTextColor="@color/white"
+            app:menu="@menu/activity_main_drawer"
+            android:paddingRight="10dp"
 
-
-
-
-        <RelativeLayout
-                android:background="#333333"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical">
-            <LinearLayout
-
-                    android:layout_marginVertical="100dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                <Button
-                        android:textColor="#ffffff"
-                        android:typeface="monospace"
-                        android:textAllCaps="false"
-                        android:layout_weight="1"
-                        android:text="@string/menu_slideshow"
-                        android:background="@drawable/calccustom"
-                        android:layout_margin="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/allday">
-
-                </Button>
-                <Button
-                        android:textColor="#ffffff"
-                        android:typeface="monospace"
-                        android:textAllCaps="false"
-                        android:layout_weight="1"
-                        android:text="@string/week_day"
-                        android:background="@drawable/calccustom"
-                        android:layout_margin="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/week">
-
-                </Button>
-                <Button
-                        android:textColor="#ffffff"
-                        android:typeface="monospace"
-                        android:textAllCaps="false"
-                        android:layout_weight="1"
-                        android:text="@string/month"
-                        android:background="@drawable/calccustom"
-                        android:layout_margin="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/month">
-
-                </Button>
-                <Button
-                        android:textColor="#ffffff"
-                        android:typeface="monospace"
-                        android:textAllCaps="false"
-                        android:layout_weight="1"
-                        android:text="@string/menu_gallery"
-                        android:background="@drawable/calccustom"
-                        android:layout_margin="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/year">
-
-                </Button>
-                <Button
-                        android:textColor="#ffffff"
-                        android:typeface="monospace"
-                        android:textAllCaps="false"
-                        android:layout_weight="1"
-                        android:text="@string/menu_home"
-                        android:background="@drawable/calccustomvtwo"
-                        android:layout_margin="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/all">
-
-                </Button>
-                <Button
-                        android:textColor="#ffffff"
-                        android:typeface="monospace"
-                        android:textAllCaps="false"
-                        android:layout_weight="1"
-                        android:text="@string/interval"
-                        android:background="@drawable/calccustom"
-                        android:layout_margin="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/interval">
-
-                </Button>
-
-                <Button
-                        android:textColor="#ffffff"
-                        android:typeface="monospace"
-                        android:drawableLeft="@android:drawable/ic_menu_today"
-                        android:textAllCaps="false"
-                        android:layout_weight="1"
-                        android:text="@string/menu_day"
-                        android:background="@drawable/calccustom"
-                        android:layout_margin="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/day">
-
-                </Button>
-                <Button
-                        android:textColor="#ffffff"
-                        android:typeface="monospace"
-                        android:drawableLeft="@android:drawable/ic_menu_preferences"
-                        android:textAllCaps="false"
-                        android:layout_weight="1"
-                        android:text="@string/settings"
-                        android:background="@drawable/calccustom"
-                        android:layout_margin="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/settings">
-
-                </Button>
-
-
-
-            </LinearLayout>
-
-
-
-
-
-
-
-
-        </RelativeLayout>
+            >
 
     </com.google.android.material.navigation.NavigationView>
 

@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/purple_200" android:state_checked="true" />
-    <item android:drawable="@color/white" android:state_pressed="true" />
-    <item android:drawable="@color/white" />
+
+    <item android:state_checked="true" android:drawable="@drawable/calccustomvtwo" />
+    <item android:state_checked="false" android:drawable="@drawable/calccustom" />
+
 </selector>

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import com.example.monefy.*;
+import com.example.monefy.interfacee.BottomSheet;
 import com.example.monefy.interfacee.DataChange;
 import com.example.monefy.ui.gallery.GalleryFragment;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -19,7 +20,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import java.util.*;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class BottomSheeetForYears   {
+public class BottomSheeetForYears  implements BottomSheet {
 
     public static BottomSheeetForYears bottomSheet = new BottomSheeetForYears();
     public static TreeMap<Date, HistoryClass> Data = new TreeMap<>(Collections.reverseOrder());
@@ -36,7 +37,7 @@ public class BottomSheeetForYears   {
 
     @SuppressLint("SimpleDateFormat")
     @Nullable
-
+    @Override
     public void setDataList(TextView textView, ExpandableListView expandableListView, Context context, DataChange dataChange) {
 
         listDataParent.clear();

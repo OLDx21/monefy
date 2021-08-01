@@ -2,53 +2,46 @@ package com.example.monefy.activitys;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.text.Layout;
 import android.text.SpannableString;
+import android.text.style.AlignmentSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.view.*;
-import android.widget.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.DatePicker;
+import android.widget.Spinner;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
-import com.example.monefy.*;
-import com.example.monefy.bottoms.BottomSheet;
-import com.example.monefy.ui.Dayfr.SelectedDay;
-import com.example.monefy.ui.Dayfr.Weeks;
-import com.example.monefy.ui.home.HomeFragment;
-import com.example.monefy.ui.intervdays.IntervalDays;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.navigation.NavigationView;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import com.example.monefy.Action;
+import com.example.monefy.DataBase;
+import com.example.monefy.R;
+import com.example.monefy.ui.Dayfr.SelectedDay;
+import com.example.monefy.ui.Dayfr.Weeks;
+import com.example.monefy.ui.intervdays.IntervalDays;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
-import com.prolificinteractive.materialcalendarview.format.DayFormatter;
-import com.prolificinteractive.materialcalendarview.format.TitleFormatter;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -57,16 +50,15 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TreeMap;
 
-import static android.content.res.Resources.getSystem;
 import static com.example.monefy.DBhelp.*;
 
 public class MainActivity extends AppCompatActivity {
-    Button btnall, btnyear, btnday, allday, allweeks, month, interval, settings;
+
 
     private AppBarConfiguration mAppBarConfiguration;
     SQLiteDatabase sqLiteDatabase;
     ContentValues contentValues;
-
+    MenuItem[] items;
 
 
     @Override
@@ -79,13 +71,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     @SuppressLint({"NewApi", "WrongConstant"})
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(Action.CheckLang) {
+        if (Action.CheckLang) {
             read();
             Action.formatter2 = new SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.getDefault());
             Action.formatter3 = new SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault());
@@ -95,12 +86,13 @@ public class MainActivity extends AppCompatActivity {
             Action.CheckLang = false;
         }
 
+
         Action.Createdb(this);
         sqLiteDatabase = Action.getSqLiteDatabase();
         setContentView(R.layout.activity_main);
 
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#666666")));
 
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#666666")));
         Action.setFontActionBar(getSupportActionBar(), getApplicationContext(), getResources().getString(R.string.app_name));
 
 
@@ -114,138 +106,29 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-
-
-        btnall = findViewById(R.id.all);
-        btnday = findViewById(R.id.day);
-        btnyear = findViewById(R.id.year);
-        allday = findViewById(R.id.allday);
-        allweeks = findViewById(R.id.week);
-        month = findViewById(R.id.month);
-        interval = findViewById(R.id.interval);
-        settings = findViewById(R.id.settings);
-        Button[] buttons = {btnall, btnday, btnyear, allday, allweeks, month, interval, settings};
-
-
-        setlistener(R.id.settings, drawer, settings, buttons);
-        setlistener(R.id.nav_home, drawer, btnall, buttons);
-        setlistener(R.id.nav_gallery, drawer, btnyear, buttons);
-        setlistener(R.id.nav_slideshow, drawer, allday, buttons);
-        setlistener(R.id.weekselected, drawer, allweeks, buttons);
-        setlistener(R.id.motnhselected, drawer, month, buttons);
-        btnall.setClickable(false);
-        if (getIntent().getIntExtra("fragmentNumber", 0) == 1) {
-            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.dayselected);
-            ControlButtons(btnday, buttons);
-
+        @SuppressLint("RestrictedApi") Menu menu = navigationView.getMenu();
+        MenuItem item;
+        SpannableString s;
+        for (int i = 0; i < menu.size(); i++) {
+            if (i != 5 && i != 6) {
+                item = menu.getItem(i);
+                s = new SpannableString(menu.getItem(i).getTitle());
+                s.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, s.length(), 0);
+                item.setTitle(s);
+            }
         }
-        if (getIntent().getIntExtra("fragmentNumber", 0) == 3) {
-            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.nav_slideshow);
-            ControlButtons(allday, buttons);
-        }
-        if (getIntent().getIntExtra("fragmentNumber", 0) == 4) {
-            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.weekselected);
-            ControlButtons(allweeks, buttons);
-        }
-        if (getIntent().getIntExtra("fragmentNumber", 0) == 5) {
-            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.nav_gallery);
-            ControlButtons(btnyear, buttons);
-        }
-        if (getIntent().getIntExtra("fragmentNumber", 0) == 6) {
-            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.motnhselected);
-            ControlButtons(month, buttons);
-        }
-        if (getIntent().getIntExtra("fragmentNumber", 0) == 7) {
-            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.intervaldays);
-            ControlButtons(interval, buttons);
+        items = new MenuItem[6];
+        items[0] = navigationView.getMenu().getItem(0);
+        items[1] = navigationView.getMenu().getItem(1);
+        items[2] = navigationView.getMenu().getItem(2);
+        items[3] = navigationView.getMenu().getItem(3);
+        items[4] = navigationView.getMenu().getItem(4);
+        items[5] = navigationView.getMenu().getItem(7);
+        setListener(navigationView);
 
-        }
-        btnday.setClickable(true);
-        interval.setClickable(true);
-        interval.setOnClickListener(v -> {
-            ControlButtons(interval, buttons);
-            interval.setClickable(true);
-
-                LayoutInflater li = LayoutInflater.from(MainActivity.this);
-                View promptsView = li.inflate(R.layout.datesdia, null);
-                AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(MainActivity.this, R.style.MyDialogTheme);
-
-
-                mDialogBuilder.setView(promptsView);
-
-                final Spinner spinner = promptsView.findViewById(R.id.spinner);
-                final MaterialCalendarView datePicker = promptsView.findViewById(R.id.calendarView);
-
-
-
-                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        switch (spinner.getSelectedItemPosition()) {
-                            case 0:
-                                datePicker.setSelectionMode(3);
-                                break;
-                            case 1:
-                                datePicker.setSelectionMode(2);
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-
-                mDialogBuilder
-                        .setCancelable(false)
-
-                        .setNegativeButton(getResources().getString(R.string.skas),
-                                (dialog, id) -> {
-                                    interval.setClickable(true);
-                                    dialog.cancel();
-                                }
-
-                        )
-
-                        .setPositiveButton(getResources().getString(R.string.okay),
-                                (dialog, id) -> {
-
-                                    if (datePicker.getSelectedDates().isEmpty()) {
-                                        return;
-                                    }
-                                    TreeMap<Date, Date> dateTreeMap = new TreeMap<>();
-                                    Calendar calendar = Calendar.getInstance();
-                                    CalendarDay calendarDay;
-                                    for (int i = 0; i < datePicker.getSelectedDates().size(); i++) {
-                                        calendarDay = datePicker.getSelectedDates().get(i);
-                                        calendar.set(calendarDay.getYear(), calendarDay.getMonth() - 1, calendarDay.getDay());
-                                        dateTreeMap.put(calendar.getTime(), calendar.getTime());
-
-
-                                    }
-                                    IntervalDays.dateTreeMap = dateTreeMap;
-                                    drawer.closeDrawer(GravityCompat.START);
-                                    Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.intervaldays);
-                                    interval.setClickable(true);
-                                    dialog.cancel();
-                                }
-                        );
-                AlertDialog alertDialog = mDialogBuilder.create();
-
-                alertDialog.show();
-                alertDialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#1565C0"));
-                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#1565C0"));
-
-
-        });
-
-
-        btnday.setOnClickListener(v -> {
-            ControlButtons(btnday, buttons);
-            btnday.setClickable(true);
-
+        navigationView.getMenu().getItem(5).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
                 LayoutInflater li = LayoutInflater.from(MainActivity.this);
                 View promptsView = li.inflate(R.layout.dialogaddtovar, null);
                 @SuppressLint("ResourceType") AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(MainActivity.this, R.style.MyDialogTheme);
@@ -262,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
                         .setNegativeButton(getResources().getString(R.string.skas),
                                 (dialog, id) -> {
-                                    btnday.setClickable(true);
+
                                     dialog.cancel();
                                 });
 
@@ -274,21 +157,132 @@ public class MainActivity extends AppCompatActivity {
                     calendar.set(year, monthOfYear, dayOfMonth);
                     SelectedDay.calendar = calendar;
                     SelectedDay.date = calendar.getTime();
-                    System.out.println(calendar.getTime());
+
                     drawer.closeDrawer(GravityCompat.START);
-                    Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.dayselected);
-                    btnday.setClickable(true);
+                    Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.dayselected);
+                    item.setChecked(true);
                     alertDialog.cancel();
 
                 });
-
                 alertDialog.show();
-
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#1565C0"));
-
+                return true;
+            }
         });
+        navigationView.getMenu().getItem(6).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                LayoutInflater li2 = LayoutInflater.from(MainActivity.this);
+                View promptsView2 = li2.inflate(R.layout.datesdia, null);
+                AlertDialog.Builder mDialogBuilder2 = new AlertDialog.Builder(MainActivity.this, R.style.MyDialogTheme);
 
 
+                mDialogBuilder2.setView(promptsView2);
+
+                final Spinner spinner = promptsView2.findViewById(R.id.spinner);
+                final MaterialCalendarView datePicker2 = promptsView2.findViewById(R.id.calendarView);
+
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        switch (spinner.getSelectedItemPosition()) {
+                            case 0:
+                                datePicker2.setSelectionMode(3);
+                                break;
+                            case 1:
+                                datePicker2.setSelectionMode(2);
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+                mDialogBuilder2
+                        .setCancelable(false)
+
+                        .setNegativeButton(getResources().getString(R.string.skas),
+                                (dialog, id) -> {
+
+                                    dialog.cancel();
+                                }
+                        )
+
+                        .setPositiveButton(getResources().getString(R.string.okay),
+                                (dialog, id) -> {
+
+                                    if (datePicker2.getSelectedDates().isEmpty()) {
+                                        return;
+                                    }
+                                    TreeMap<Date, Date> dateTreeMap = new TreeMap<>();
+                                    Calendar calendar = Calendar.getInstance();
+                                    CalendarDay calendarDay;
+                                    for (int i = 0; i < datePicker2.getSelectedDates().size(); i++) {
+                                        calendarDay = datePicker2.getSelectedDates().get(i);
+                                        calendar.set(calendarDay.getYear(), calendarDay.getMonth() - 1, calendarDay.getDay());
+                                        dateTreeMap.put(calendar.getTime(), calendar.getTime());
+                                    }
+                                    IntervalDays.dateTreeMap = dateTreeMap;
+                                    drawer.closeDrawer(GravityCompat.START);
+                                    Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.intervaldays);
+                                    item.setChecked(true);
+                                    dialog.cancel();
+                                }
+                        );
+                AlertDialog alertDialog2 = mDialogBuilder2.create();
+                alertDialog2.show();
+                alertDialog2.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#1565C0"));
+                alertDialog2.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#1565C0"));
+                return true;
+            }
+        });
+        if (getIntent().getIntExtra("fragmentNumber", 0) == 1) {
+            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.dayselected);
+            navigationView.getMenu().getItem(5).setChecked(true);
+        }
+        if (getIntent().getIntExtra("fragmentNumber", 0) == 3) {
+            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.nav_slideshow);
+            navigationView.getMenu().getItem(0).setChecked(true);
+        }
+        if (getIntent().getIntExtra("fragmentNumber", 0) == 4) {
+            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.weekselected);
+            navigationView.getMenu().getItem(1).setChecked(true);
+        }
+        if (getIntent().getIntExtra("fragmentNumber", 0) == 5) {
+            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.nav_gallery);
+            navigationView.getMenu().getItem(3).setChecked(true);
+        }
+        if (getIntent().getIntExtra("fragmentNumber", 0) == 6) {
+            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.motnhselected);
+            navigationView.getMenu().getItem(2).setChecked(true);
+        }
+        if (getIntent().getIntExtra("fragmentNumber", 0) == 7) {
+            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.intervaldays);
+            navigationView.getMenu().getItem(6).setChecked(true);
+        }
+
+    }
+
+    public void setListener(NavigationView view) {
+        for (int i = 0; i < items.length; i++) {
+            if (i == 5 || i == 6) {
+                continue;
+            }
+            items[i].setOnMenuItemClickListener(item -> {
+                ControlItems(item, items);
+                return false;
+            });
+        }
+    }
+
+    public void ControlItems(MenuItem menuItem, MenuItem[] items) {
+        for (int i = 0; i < items.length; i++) {
+            items[i].setEnabled(true);
+        }
+        menuItem.setEnabled(false);
     }
 
     @Override
@@ -312,17 +306,13 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         MenuItem item;
         SpannableString s;
-        for(int i = 0; i<menu.size(); i++){
+        for (int i = 0; i < menu.size(); i++) {
             item = menu.getItem(i);
             s = new SpannableString(menu.getItem(i).getTitle());
             s.setSpan(new ForegroundColorSpan(Color.WHITE), 0, s.length(), 0);
             item.setTitle(s);
 
         }
-
-
-
-
         return true;
     }
 
@@ -331,30 +321,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
-    }
-
-
-    void setlistener(int id, DrawerLayout drawer, Button button, Button[] buttons) {
-        button.setOnClickListener(v -> {
-            Action.position = null;
-            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(id);
-            drawer.closeDrawer(GravityCompat.START);
-            ControlButtons(button, buttons);
-        });
-
-    }
-
-    public void ControlButtons(Button button, Button[] buttons) {
-
-        for (int i = 0; i < buttons.length; i++) {
-            buttons[i].setBackground(getResources().getDrawable(R.drawable.calccustom));
-            buttons[i].setClickable(true);
-        }
-        if(button.getId()!=btnday.getId()) {
-            button.setClickable(false);
-        }
-        button.setBackground(getResources().getDrawable(R.drawable.calccustomvtwo));
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -394,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public AlertDialog createAlertDialog(String TableName, String RowName, String array){
+    public AlertDialog createAlertDialog(String TableName, String RowName, String array) {
         LayoutInflater li = LayoutInflater.from(MainActivity.this);
         View promptsView = li.inflate(R.layout.dialogaddkomp, null);
         AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(MainActivity.this, R.style.MyDialogTheme);
@@ -420,23 +386,16 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, getResources().getString(R.string.havektg), Toast.LENGTH_LONG).show();
                                 return;
                             }
-
-                            sqLiteDatabase = Action.getSqLiteDatabase();
-                            contentValues = new ContentValues();
-                            contentValues.put(RowName, textInputLayout.getEditText().getText().toString());
-
-
-                            sqLiteDatabase.insert(TableName, null, contentValues);
-                            Toast.makeText(MainActivity.this, getResources().getString(R.string.greatjob), Toast.LENGTH_LONG).show();
-                            DataBase.getInstance().addIntoAllKategory(textInputLayout.getEditText().getText().toString(), array);
-
-                            DataBase.getInstance().addKategory(textInputLayout.getEditText().getText().toString(), array);
-
-                            DoIntent doIntent = DoIntent.getInstance();
-                            doIntent.setDoIntent(MainActivity.this, MainActivity.class);
-                            Intent intent1 = doIntent.getDoIntent();
-                            intent1.putExtra("fragmentNumber", Action.checked); //for example
-                            startActivity(intent1);
+                            new Thread(() -> {
+                                sqLiteDatabase = Action.getSqLiteDatabase();
+                                contentValues = new ContentValues();
+                                contentValues.put(RowName, textInputLayout.getEditText().getText().toString());
+                                sqLiteDatabase.insert(TableName, null, contentValues);
+                                DataBase.getInstance().addIntoAllKategory(textInputLayout.getEditText().getText().toString(), array);
+                                DataBase.getInstance().addKategory(textInputLayout.getEditText().getText().toString(), array);
+                            }).start();
+                            Snackbar.make(mAppBarConfiguration.getDrawerLayout(), getResources().getString(R.string.greatjob), Snackbar.LENGTH_LONG).show();
+                            dialog.cancel();
 
                         })
                 .setNegativeButton(getResources().getString(R.string.skas),

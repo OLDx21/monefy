@@ -1,23 +1,18 @@
 package com.example.monefy;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
-import com.example.monefy.activitys.MainActivity;
-import com.example.monefy.activitys.MinusActivity;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -29,8 +24,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.PriorityBlockingQueue;
 
 public class Action {
 
@@ -38,7 +31,6 @@ public class Action {
 
     public static boolean CheckLang = true;
     public static Integer position;
-    public static Date date;
     public static int checked;
     public static boolean ishave = true;
     public static Display display;
@@ -51,7 +43,6 @@ public class Action {
 
 
 
-    public static HashMap<String, String> NamesAndValues = new HashMap<>();
     public static TreeMap<Date, HistoryClass> SelectedDay = new TreeMap<Date, HistoryClass>(Collections.reverseOrder());
     public static HashMap<String, Double> NamesAndValuesForSelectedDay = new HashMap<>();
     public static LinkedHashMap<String, NamesAndValues> NamesAndValuesForYears = new LinkedHashMap<>();
@@ -213,8 +204,11 @@ public class Action {
         }
         pieChart.setCenterText("");
         pieDataSet.setValues(yEntrys);
-        pieChart.notifyDataSetChanged();
-        pieChart.animateY(1000, Easing.EaseInOutCubic);
+        ((Activity)context).runOnUiThread(()->{
+            pieChart.notifyDataSetChanged();
+            pieChart.animateY(1000, Easing.EaseInOutCubic);
+        });
+
 
 
 

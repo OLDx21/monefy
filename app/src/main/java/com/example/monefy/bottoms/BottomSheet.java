@@ -1,28 +1,20 @@
 package com.example.monefy.bottoms;
 
-import com.example.monefy.*;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import com.example.monefy.*;
 import com.example.monefy.interfacee.DataChange;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class BottomSheet {
+public class BottomSheet implements com.example.monefy.interfacee.BottomSheet {
 
     public static BottomSheet bottomSheet = new BottomSheet();
 
@@ -39,7 +31,7 @@ public class BottomSheet {
 
     @SuppressLint("SimpleDateFormat")
     @Nullable
-
+    @Override
     public void setDataList(TextView textView, ExpandableListView expandableListView, Context context, DataChange dataChange) {
         treeMap.clear();
         arrayList.clear();

@@ -6,18 +6,21 @@
             app:startDestination="@+id/nav_home">
 
     <fragment
+            android:tag="ALLDAY"
             android:id="@+id/nav_home"
             android:name="com.example.monefy.ui.home.HomeFragment"
             android:label="@string/menu_home"
             tools:layout="@layout/fragment_home"/>
 
     <fragment
+            android:tag="YEARS"
             android:id="@+id/nav_gallery"
             android:name="com.example.monefy.ui.gallery.GalleryFragment"
             android:label="@string/menu_gallery"
             tools:layout="@layout/fragment_gallery"/>
 
     <fragment
+            android:tag="DAYS"
             android:id="@+id/nav_slideshow"
             android:name="com.example.monefy.ui.slideshow.SlideshowFragment"
             android:label="@string/menu_slideshow"
@@ -29,7 +32,7 @@
             android:label="@string/menu_day"
             tools:layout="@layout/fragment_home"/>
     <fragment
-
+            android:tag="WEEKS"
             android:id="@+id/weekselected"
             android:name="com.example.monefy.ui.Dayfr.Weeks"
             android:label="@string/week_day"
@@ -37,20 +40,20 @@
 
     </fragment>
     <fragment
-
+            android:tag="MONTHS"
             android:id="@+id/motnhselected"
             android:name="com.example.monefy.ui.Dayfr.Months"
             android:label="@string/month"
             tools:layout="@layout/fragment_slideshow"/>
     <fragment
-
+            android:tag="INTERVALDAYS"
             android:id="@+id/intervaldays"
             android:name="com.example.monefy.ui.intervdays.IntervalDays"
             android:label="@string/interval"
             tools:layout="@layout/fragment_home"/>
 
     <fragment
-
+            android:tag="SETTINGS"
             android:id="@+id/settings"
             android:name="com.example.monefy.ui.SettingsClass"
             android:label="@string/settings"

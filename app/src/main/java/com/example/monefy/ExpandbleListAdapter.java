@@ -1,6 +1,7 @@
 package com.example.monefy;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -149,7 +150,6 @@ public class ExpandbleListAdapter extends BaseExpandableListAdapter {
         textView.setText(String.valueOf(getChild(groupPosition, childPosition)));
         textView1.setText(Child.get(header[groupPosition]).get(childPosition).getSuma());
 
-
         convertView.setOnClickListener((v) -> {
 
             CostUpdate.historyAdapterClass = Child.get(header[groupPosition]).get(childPosition);
@@ -173,6 +173,7 @@ public class ExpandbleListAdapter extends BaseExpandableListAdapter {
                 public boolean onMenuItemSelected(MenuBuilder menu, MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.opt1:
+                            new Thread(()->{
                             Action.getSqLiteDatabase().delete(DBhelp.TABLE_NAME3, "date2 = ?", new String[]{Child.get(header[groupPosition]).get(childPosition).getRealDate().toString()});
                             DataBase.getInstance().DeleteLine(Child.get(header[groupPosition]).get(childPosition).getRealDate());
                             action.Update(Child.get(header[groupPosition]).get(childPosition));
@@ -182,8 +183,12 @@ public class ExpandbleListAdapter extends BaseExpandableListAdapter {
                                 Child.remove(header[groupPosition]);
                                 header = Child.keySet().toArray(new String[0]);
                             }
-                            notifyDataSetChanged();
 
+                                ((Activity)context).runOnUiThread(()->{
+                                    notifyDataSetChanged();
+                                });
+
+                            }).start();
                             return false;
 
                         default:

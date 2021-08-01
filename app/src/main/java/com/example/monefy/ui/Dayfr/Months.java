@@ -1,45 +1,20 @@
 package com.example.monefy.ui.Dayfr;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import com.example.monefy.*;
-import com.example.monefy.ui.Dayfr.Days;
-import com.example.monefy.ui.Dayfr.SelectedYears;
-import com.example.monefy.ui.gallery.GalleryFragment;
-import com.example.monefy.ui.slideshow.SlideshowFragment;
-import org.jetbrains.annotations.NotNull;
 
-import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.IsoFields;
-import java.time.temporal.TemporalAdjusters;
 import java.util.*;
-import java.util.stream.IntStream;
-
-import static java.util.stream.Collectors.toList;
 
 public class Months extends Fragment {
 
@@ -100,7 +75,7 @@ public class Months extends Fragment {
                 count += 1;
             }
 
-            return new SelMonth(viewPager.getContext().getResources().getString(R.string.wthtran), new NamesAndValues(), Data);
+            return new SelMonth(new Date(),new NamesAndValues(), Data);
         }
         @Override
         public CharSequence getPageTitle(int position) {

@@ -35,10 +35,12 @@
     <string name="delete">Удалить</string>
     <string name="language">Язык</string>
     <string name="transuc">Операция успешная!</string>
-    <string name="other">Другое</string>
+    <string name="controlmanag">Управление данными</string>
     <string name="clearall">Удалить все данные</string>
     <string name="specification">Будут удалены абсолютно все данные!</string>
     <string name="updtran">Обновление транзакции</string>
+    <string name="controlcateg">Управление категориями</string>
+    <string name="category">Категории</string>
     <string-array name="mode">
         <item>Интервал</item>
         <item>Выбор дат</item>

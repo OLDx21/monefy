@@ -3,109 +3,173 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:background="#333333"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
-    <RelativeLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <ScrollView
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginVertical="40dp"
-    >
-
-        <TextView
-                android:typeface="monospace"
-                android:id="@+id/tvText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:textSize="16dp"
-                android:text="@string/language"
-                android:textColor="#FFFFFF"/>
-
-        <View
+            android:layout_height="match_parent">
+        <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:layout_toLeftOf="@id/tvText"
-                android:background="#1E1B1B"
-        />
+                android:layout_height="match_parent">
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="40dp"
+            >
 
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"
-                android:layout_toRightOf="@id/tvText"
-                android:background="#1E1B1B"
-        />
+                <TextView
+                        android:typeface="monospace"
+                        android:id="@+id/tvText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textSize="16dp"
+                        android:text="@string/language"
+                        android:textColor="#FFFFFF"/>
 
-    </RelativeLayout>
-    <Spinner
-            android:id="@+id/spinnerlang"
-            android:backgroundTint="#ffffff"
-            android:popupBackground="#333333"
-            android:theme="@style/mySpinnerItemStyle"
-            android:entries="@array/languages"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_toLeftOf="@id/tvText"
+                        android:background="#1E1B1B"
+                />
 
-    </Spinner>
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginVertical="40dp"
-    >
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="16dp"
+                        android:layout_toRightOf="@id/tvText"
+                        android:background="#1E1B1B"
+                />
 
-        <TextView
-                android:typeface="monospace"
-                android:id="@+id/textSettings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:textSize="16dp"
-                android:text="@string/other"
-                android:textColor="#FFFFFF"/>
+            </RelativeLayout>
+            <Spinner
+                    android:id="@+id/spinnerlang"
+                    android:backgroundTint="#ffffff"
+                    android:popupBackground="#333333"
+                    android:theme="@style/mySpinnerItemStyle"
+                    android:entries="@array/languages"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
 
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:layout_toLeftOf="@id/textSettings"
-                android:background="#1E1B1B"
-        />
+            </Spinner>
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="40dp"
+            >
 
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"
-                android:layout_toRightOf="@id/textSettings"
-                android:background="#1E1B1B"
-        />
+                <TextView
+                        android:typeface="monospace"
+                        android:id="@+id/textSettings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textSize="16dp"
+                        android:text="@string/controlmanag"
+                        android:textColor="#FFFFFF"/>
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_toLeftOf="@id/textSettings"
+                        android:background="#1E1B1B"
+                />
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="16dp"
+                        android:layout_toRightOf="@id/textSettings"
+                        android:background="#1E1B1B"
+                />
 
 
-    </RelativeLayout>
-    <Button
-            android:id="@+id/deleteallbtn"
-            android:textColor="@color/white"
-            android:typeface="monospace"
-            android:textSize="16sp"
-            android:textAllCaps="false"
-            android:text="@string/clearall"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/setbtncustom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            </RelativeLayout>
+            <Button
+                    android:id="@+id/deleteallbtn"
+                    android:textColor="@color/white"
+                    android:typeface="monospace"
+                    android:textSize="16sp"
+                    android:textAllCaps="false"
+                    android:text="@string/clearall"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/setbtncustom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-    </Button>
+            </Button>
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="40dp"
+            >
+
+                <TextView
+                        android:typeface="monospace"
+                        android:id="@+id/controlcateg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textSize="16dp"
+                        android:text="@string/controlcateg"
+                        android:textColor="#FFFFFF"/>
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_toLeftOf="@id/controlcateg"
+                        android:background="#1E1B1B"
+                />
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="16dp"
+                        android:layout_toRightOf="@id/controlcateg"
+                        android:background="#1E1B1B"
+                />
+
+
+            </RelativeLayout>
+            <Button
+                    android:id="@+id/category"
+                    android:textColor="@color/white"
+                    android:typeface="monospace"
+                    android:textSize="16sp"
+                    android:textAllCaps="false"
+                    android:text="@string/category"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/setbtncustom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+            </Button>
+        </LinearLayout>
+    </ScrollView>
+
 
 
 </LinearLayout>

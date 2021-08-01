@@ -1,50 +1,33 @@
 package com.example.monefy.ui.Dayfr;
 
-import android.annotation.SuppressLint;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import com.example.monefy.*;
-import com.example.monefy.ui.Dayfr.Days;
-import com.example.monefy.ui.Dayfr.SelectedYears;
-import com.example.monefy.ui.gallery.GalleryFragment;
-import com.example.monefy.ui.slideshow.SlideshowFragment;
-import org.jetbrains.annotations.NotNull;
 
-import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.IsoFields;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
-import java.util.stream.IntStream;
-
-import static java.util.stream.Collectors.toList;
 
 public class Weeks extends Fragment {
 
     static ArrayList<String> arrayList = new ArrayList<>();
     static ArrayList<String> arrayList2 = new ArrayList<>();
     static TreeMap<Date, ArrayList<Date>> MndWeek = new TreeMap<>();
+
 
     TreeMap<Date, HistoryClass> Data = new TreeMap<>();
     public static SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd", new Locale("uk", "UA"));
@@ -57,8 +40,12 @@ public class Weeks extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
 
+
+
+
         setData();
         viewPager = root.findViewById(R.id.view_pager);
+
         Weeks.MyAdapter adapter = new Weeks.MyAdapter(getChildFragmentManager(), Data, viewPager);
 
         viewPager.setAdapter(adapter);
@@ -83,6 +70,7 @@ public class Weeks extends Fragment {
 
         @Override
         public int getCount() {
+
             if (MndWeek.isEmpty())
                 return 1;
             return MndWeek.size();
@@ -119,14 +107,13 @@ public class Weeks extends Fragment {
 
                         }
                     }
-                    return new SelWeek(formatter2.format(s.getValue().get(0)) + " - " + formatter2.format(s.getValue().get(s.getValue().size() - 1)),
-                            new NamesAndValues(names, result, stonks), Data, s.getValue());
+                    return new SelWeek(new NamesAndValues(names, result, stonks), Data, s.getValue());
 
                 }
                 count += 1;
             }
 
-            return new SelWeek(viewPager.getContext().getResources().getString(R.string.wthtran), new NamesAndValues(), Data, new ArrayList<>());
+            return new SelWeek(new NamesAndValues(), Data, new ArrayList<>());
         }
         @Override
         public CharSequence getPageTitle(int position) {
@@ -149,6 +136,7 @@ public class Weeks extends Fragment {
         Action.NamesAndValuesForWeeks.clear();
         DataBase dataBase = DataBase.getInstance();
         Data = dataBase.getData();
+
 
         LinkedHashMap<String, Double> names = new LinkedHashMap<>();
         ArrayList<String> names2 = dataBase.getArray(DataBase.COST);
@@ -250,9 +238,8 @@ public class Weeks extends Fragment {
                     arrayList.add(calendar3.getTime());
                 }
                 MndWeek.put(date1, arrayList);
+
             }
-
-
 
     }
 

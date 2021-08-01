@@ -109,26 +109,28 @@
 
         >
             <Button
+                    android:foreground="@drawable/ic_action_name"
                     android:layout_marginBottom="2dp"
                     android:layout_alignParentBottom="true"
                     android:id="@+id/minusbtn"
                     android:layout_marginLeft="15dp"
-                    android:text="-"
-                    android:textSize="55dp"
-                    android:textColor="#FF6666"
+                    android:foregroundTint="#FF6666"
+                    android:scaleType="centerInside"
+                    android:textAlignment="center"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:background="@drawable/roundedbutton">
+                    android:background="@drawable/roundedbutton"
+                    android:gravity="center|center_vertical|center_horizontal">
 
             </Button>
             <Button
+                    android:foreground="@android:drawable/ic_input_add"
+                    android:foregroundTint="#339E39"
                     android:layout_marginBottom="2dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="15dp"
                     android:text="+"
-                    android:textColor="#66CC66"
-                    android:textSize="55dp"
                     android:id="@+id/plusbtn"
                     android:background="@drawable/button_states"
                     android:layout_width="100dp"

@@ -1,12 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
-
+<menu
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" >
+<group android:checkableBehavior="single"  android:id="@+id/menu_one"  >
     <item
 
-            android:id="@+id/saverbtn"
-            android:title="Назад"
-            app:showAsAction="always"
-            android:icon="@android:drawable/ic_menu_save"/>
+            android:gravity="center_horizontal"
+            app:iconTint="@drawable/toogle"
+            android:id="@+id/nav_slideshow"
+            android:title="@string/menu_slideshow"
+            android:orderInCategory="100"
+            app:showAsAction="never"/>
 
+
+</group>
+    <group android:checkableBehavior="single"  android:id="@+id/menu_two">
+    <item
+            app:iconTint="@drawable/toogle"
+            android:id="@+id/weekselected"
+          android:title="@string/week_day"
+            android:orderInCategory="100"
+            app:showAsAction="never"
+            android:gravity="center_horizontal"
+          />
+</group>
+    <group android:checkableBehavior="single"  android:id="@+id/menu_three">
+        <item
+                app:iconTint="@drawable/toogle"
+                android:id="@+id/motnhselected"
+                android:title="@string/month"
+                android:orderInCategory="100"
+                app:showAsAction="never"
+                android:gravity="center_horizontal"
+        />
+    </group>
+    <group android:checkableBehavior="single"  android:id="@+id/menu_fo">
+        <item
+                app:iconTint="@drawable/toogle"
+                android:id="@+id/nav_gallery"
+                android:title="@string/menu_gallery"
+                android:orderInCategory="100"
+                app:showAsAction="never"
+                android:gravity="center_horizontal"
+        />
+    </group>
+    <group android:checkableBehavior="single"  android:id="@+id/all">
+        <item
+                app:iconTint="@drawable/toogle"
+                android:id="@+id/nav_home"
+                android:title="@string/menu_home"
+                android:orderInCategory="100"
+                app:showAsAction="never"
+
+        />
+    </group>
+    <group android:checkableBehavior="single"  android:id="@+id/menu_five" >
+        <item
+               android:iconTint="@color/white"
+                android:icon="@android:drawable/ic_menu_today"
+                app:iconTint="@drawable/toogle"
+                android:id="@+id/dayselecteddd"
+                android:title="@string/menu_day"
+                android:orderInCategory="100"
+                app:showAsAction="never"
+                android:gravity="center_horizontal"
+        />
+    </group>
+    <group android:checkableBehavior="single"  android:id="@+id/menu_six">
+        <item
+                android:icon="@android:drawable/ic_menu_preferences"
+                app:iconTint="@drawable/toogle"
+                android:id="@+id/intervaldayssss"
+                android:title="@string/interval"
+                android:orderInCategory="100"
+                app:showAsAction="never"
+                android:gravity="center_horizontal"
+        />
+    </group>
+    <group android:checkableBehavior="single"  android:id="@+id/menu_seven">
+        <item
+
+                app:iconTint="@drawable/toogle"
+                android:id="@+id/settings"
+                android:title="@string/settings"
+                android:orderInCategory="100"
+                app:showAsAction="never"
+                android:gravity="center_horizontal"
+        />
+    </group>
 </menu>

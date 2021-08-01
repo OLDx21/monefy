@@ -34,10 +34,12 @@
     <string name="delete">Delete</string>
     <string name="language">Language</string>
     <string name="transuc">Operation successful!</string>
-    <string name="other">Other</string>
+    <string name="controlmanag">Data management</string>
     <string name="clearall">Delete all data</string>
     <string name="specification">Absolutely all data will be deleted!</string>
     <string name="updtran">Transaction update</string>
+    <string name="controlcateg">Сategory management</string>
+    <string name="category">Categories</string>
     <string-array name="mode">
         <item>Interval</item>
         <item>Choice of dates</item>

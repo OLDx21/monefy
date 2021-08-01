@@ -12,13 +12,14 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import com.example.monefy.*;
+import com.example.monefy.interfacee.BottomSheet;
 import com.example.monefy.interfacee.DataChange;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.*;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class BottomSheetDayHistory   {
+public class BottomSheetDayHistory implements BottomSheet {
 
     public static BottomSheetDayHistory bottomSheet = new BottomSheetDayHistory();
 
@@ -33,7 +34,7 @@ public class BottomSheetDayHistory   {
 
     @SuppressLint("SimpleDateFormat")
     @Nullable
-
+    @Override
     public void setDataList(TextView textView, ExpandableListView expandableListView, Context context, DataChange dataChange) {
 
         listDataParent.clear();

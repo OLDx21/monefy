@@ -3,24 +3,18 @@ package com.example.monefy.bottoms;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import com.example.monefy.*;
+import com.example.monefy.interfacee.BottomSheet;
 import com.example.monefy.interfacee.DataChange;
-import com.example.monefy.ui.gallery.GalleryFragment;
-import com.example.monefy.ui.slideshow.SlideshowFragment;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.*;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class BottomSheetForIntervals {
+public class BottomSheetForIntervals implements BottomSheet {
 
     public static BottomSheetForIntervals bottomSheet = new BottomSheetForIntervals();
     public static TreeMap<Date, HistoryClass> Data = new TreeMap<>(Collections.reverseOrder());
@@ -37,7 +31,7 @@ public class BottomSheetForIntervals {
 
     @SuppressLint("SimpleDateFormat")
     @Nullable
-
+    @Override
     public void setDataList(TextView textView, ExpandableListView expandableListView, Context context, DataChange dataChange) {
 
         listDataParent.clear();

@@ -9,8 +9,6 @@
         android:paddingBottom="32dp"
         android:id="@+id/bottomSheet"
         app:behavior_peekHeight="50dp"
-
-
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
 
@@ -26,6 +24,7 @@
                 android:orientation="horizontal"
                 tools:ignore="MissingConstraints">
             <Button
+                    android:textColor="@color/white"
                     android:textAllCaps="false"
                     android:typeface="serif"
                     android:background="@drawable/custombtn"
@@ -40,7 +39,7 @@
             <Button
                     android:typeface="monospace"
                     android:id="@+id/left"
-                    android:foregroundTint="#46FF46"
+                    android:foregroundTint="#43CA4A"
                     android:background="@null"
                     android:layout_alignParentLeft="true"
                     android:layout_width="65dp"
@@ -51,7 +50,7 @@
             </Button>
             <Button
                     android:id="@+id/right"
-                    android:foregroundTint="#46FF46"
+                    android:foregroundTint="#43CA4A"
                     android:background="@null"
                     android:layout_alignParentRight="true"
                     android:layout_width="65dp"
@@ -62,8 +61,15 @@
             </Button>
 
         </RelativeLayout>
+
+        <ScrollView
+                android:fillViewport="true"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
         <LinearLayout
-                android:layout_weight="1"
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -75,17 +81,20 @@
                     android:layout_height="30dp"
                     tools:ignore="MissingConstraints">
             </TextView>
-            <ExpandableListView
 
-                    android:gravity="center"
-                    android:id="@+id/expanded_menu"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                <ExpandableListView
 
-            </ExpandableListView>
+                        android:gravity="center"
+                        android:id="@+id/expanded_menu"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                </ExpandableListView>
+
+
         </LinearLayout>
 
-
+        </ScrollView>
 
     </LinearLayout>
 
