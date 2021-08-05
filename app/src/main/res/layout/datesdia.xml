@@ -5,11 +5,11 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#333333"
+        android:background="@color/maincolor"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 <androidx.appcompat.widget.AppCompatSpinner
-        android:backgroundTint="#ffffff"
-        android:popupBackground="#333333"
+        android:backgroundTint="@color/textcolor"
+        android:popupBackground="@color/maincolor"
         android:entries="@array/mode"
         android:id="@+id/spinner"
         android:theme="@style/mySpinnerItemStyle"

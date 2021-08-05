@@ -63,7 +63,7 @@ public class CostUpdate extends AppCompatActivity {
         Action.setFontActionBar(actionBar, getApplicationContext(),  getResources().getString(R.string.updtran));
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#666666")));
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.barcolor)));
         textView = findViewById(R.id.textview2);
         button0 = findViewById(R.id.btn0);
         button1 = findViewById(R.id.btn1);

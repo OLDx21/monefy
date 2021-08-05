@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">monefy</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -41,6 +41,14 @@
     <string name="updtran">Обновление транзакции</string>
     <string name="controlcateg">Управление категориями</string>
     <string name="category">Категории</string>
+    <string name="deletecategory">Удаление категории</string>
+    <string name="titledltctg">Все записи данной категории будут удалены!</string>
+    <string name="newname">Новое название</string>
+    <string name="theme">Тема</string>
+    <string name="darktheme">Темная тема</string>
+    <string name="clickagain">Нажмите еще раз для выхода!</string>
+    <string name="importantmessage">Пока нет ни одной категории прибыли! Чтобы добавить новую, нажмите "три точки" на верхней панели</string>
+    <string name="importantmessage2">В настоящее время категорий расходов нет! Чтобы добавить новую, нажмите на «три точки» на верхней панели</string>
     <string-array name="mode">
         <item>Интервал</item>
         <item>Выбор дат</item>

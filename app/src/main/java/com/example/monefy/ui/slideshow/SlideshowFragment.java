@@ -1,28 +1,18 @@
 package com.example.monefy.ui.slideshow;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import com.example.monefy.*;
-import com.example.monefy.bottoms.BottomSheetForDays;
 import com.example.monefy.ui.Dayfr.Days;
-import com.example.monefy.ui.Dayfr.SelectedYears;
-import com.example.monefy.ui.gallery.GalleryFragment;
-import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,28 +20,29 @@ import java.util.*;
 public class SlideshowFragment extends Fragment {
 
 
-
     TreeMap<Date, HistoryClass> Data = new TreeMap<>();
     public static SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd", new Locale("uk", "UA"));
     ViewPager viewPager;
+    public int days;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
+        viewPager = root.findViewById(R.id.view_pager);
 
         setData();
-        viewPager = root.findViewById(R.id.view_pager);
-        SlideshowFragment.MyAdapter adapter = new SlideshowFragment.MyAdapter(getChildFragmentManager(), Data, viewPager);
+
+        SlideshowFragment.MyAdapter adapter = new SlideshowFragment.MyAdapter(getChildFragmentManager(), Data, viewPager, days);
 
         viewPager.setAdapter(adapter);
-
         if (Action.position == null) {
-            viewPager.setCurrentItem(Action.NamesAndValuesForDays.size() - 1);
+
+            viewPager.setCurrentItem(days);
         } else {
+            System.out.println(Action.position);
             viewPager.setCurrentItem(Action.position);
         }
-
 
         return root;
     }
@@ -59,53 +50,61 @@ public class SlideshowFragment extends Fragment {
     public static class MyAdapter extends FragmentPagerAdapter {
         TreeMap<Date, HistoryClass> Data;
         ViewPager viewPager;
+        int days;
+        Calendar calendar = Calendar.getInstance();
 
-        MyAdapter(@NonNull FragmentManager fm, TreeMap<Date, HistoryClass> Data, ViewPager viewPager) {
+        MyAdapter(@NonNull FragmentManager fm, TreeMap<Date, HistoryClass> Data, ViewPager viewPager, int days) {
             super(fm);
             this.Data = Data;
             this.viewPager = viewPager;
+            this.days = days;
         }
 
         @Override
         public int getCount() {
-            if (Action.NamesAndValuesForDays.isEmpty())
+            if (days == 0)
                 return 1;
-            return Action.NamesAndValuesForDays.size();
+            return days + 1;
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            int i = 0;
+            if (Data.isEmpty())
+                return new Days(new Date(), new NamesAndValues(), Data);
+            calendar.setTime(Data.keySet().iterator().next());
+            calendar.add(Calendar.DATE, position);
 
             for (Map.Entry<Date, NamesAndValues> s : Action.NamesAndValuesForDays.entrySet()) {
-                if (i == position) {
+                if (format.format(s.getKey()).equals(format.format(calendar.getTime()))) {
+
                     Action.position = viewPager.getCurrentItem();
                     return new Days(s.getKey(), s.getValue(), Data);
                 }
-                i += 1;
             }
+            Action.position = viewPager.getCurrentItem();
 
-            return new Days(new Date(), new NamesAndValues(), Data);
+            return new Days(calendar.getTime(), new NamesAndValues(), Data);
         }
+
         @Override
         public CharSequence getPageTitle(int position) {
-            int i = 0;
+            if (Data.isEmpty())
+                return viewPager.getContext().getString(R.string.wthtran);
+            calendar.setTime(Data.keySet().iterator().next());
+            calendar.add(Calendar.DATE, position);
 
-            for (Map.Entry<Date, NamesAndValues> s : Action.NamesAndValuesForDays.entrySet()) {
-                if (i == position) {
-                    return Action.formatter2.format(s.getKey());
-                }
-                i += 1;
+            if (!Action.NamesAndValuesForDays.isEmpty()) {
+                return Action.formatter2.format(calendar.getTime());
             }
-            return  viewPager.getContext().getString(R.string.wthtran);
+            return viewPager.getContext().getString(R.string.wthtran);
         }
 
 
     }
 
-    public void setData( ) {
+    public void setData() {
         Action.NamesAndValuesForDays.clear();
         DataBase dataBase = DataBase.getInstance();
         LinkedHashMap<String, Double> names = new LinkedHashMap<>();
@@ -178,32 +177,6 @@ public class SlideshowFragment extends Fragment {
         }
 
         long milliseconds = new Date(lastdate).getTime() - Action.NamesAndValuesForDays.keySet().iterator().next().getTime();
-        int days = (int) (milliseconds / (24 * 60 * 60 * 1000));
-
-        Calendar c = Calendar.getInstance();
-
-        for (int in = 0; in <= days; in++) {
-
-            c.setTime(new Date(lastdate));
-            c.add(Calendar.DATE, -in);
-
-            if (!containsKey(format.format(c.getTime()))) {
-                Action.NamesAndValuesForDays.put(c.getTime(), new NamesAndValues());
-            }
-        }
-
-
+        days = (int) (milliseconds / (24 * 60 * 60 * 1000));
     }
-
-
-    boolean containsKey(String date) {
-        for (Map.Entry<Date, NamesAndValues> s : Action.NamesAndValuesForDays.entrySet()) {
-            if (date.equals(format.format(s.getKey()))) {
-                return true;
-            }
-
-        }
-        return false;
-    }
-
 }

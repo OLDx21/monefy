@@ -44,12 +44,10 @@ public class Action {
 
 
     public static TreeMap<Date, HistoryClass> SelectedDay = new TreeMap<Date, HistoryClass>(Collections.reverseOrder());
-    public static HashMap<String, Double> NamesAndValuesForSelectedDay = new HashMap<>();
-    public static LinkedHashMap<String, NamesAndValues> NamesAndValuesForYears = new LinkedHashMap<>();
+    public static TreeMap<Date, NamesAndValues> NamesAndValuesForYears = new TreeMap<>();
     public static TreeMap<Date, NamesAndValues> NamesAndValuesForDays = new TreeMap<Date, NamesAndValues>();
-    public static HashMap<String, Double> StonksNamesAndValuesForSelectedDay = new HashMap<>();
     public static LinkedHashMap<String, NamesAndValues> NamesAndValuesForWeeks = new LinkedHashMap<>();
-    public static LinkedHashMap<Date, NamesAndValues> NamesAndValuesForMonth = new LinkedHashMap<>();
+    public static TreeMap<Date, NamesAndValues> NamesAndValuesForMonth = new TreeMap<>();
 
     public static ArrayList<Integer> colors = new ArrayList<>();
 
@@ -57,10 +55,9 @@ public class Action {
     static DBhelp dBhelp;
 
     static {
-
-        colors.add(Color.parseColor("#00CCFF"));
         colors.add(Color.parseColor("#FF6600"));
         colors.add(Color.parseColor("#FF33CC"));
+        colors.add(Color.parseColor("#00CCFF"));
         colors.add(Color.parseColor("#9933FF"));
         colors.add(Color.parseColor("#6633FF"));
         colors.add(Color.parseColor("#3366CC"));
@@ -98,7 +95,7 @@ public class Action {
         pieDataSet.setValueLinePart1Length(0.3f);
         pieDataSet.setValueLinePart2Length(0.4f);
         pieDataSet.setValueLineWidth(2f);
-        pieDataSet.setValueTextColor(Color.WHITE);
+        pieDataSet.setValueTextColor(pieChart.getContext().getResources().getColor(R.color.textcolor));
         pieDataSet.setValueTypeface(Typeface.MONOSPACE);
         pieDataSet.setValueLinePart1OffsetPercentage(80); // Line starts outside of chart
         pieDataSet.setUsingSliceColorAsValueLineColor(true);
@@ -111,7 +108,7 @@ public class Action {
         Legend legend = pieChart.getLegend();
 
         legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setTextColor(Color.WHITE);
+        legend.setTextColor(pieChart.getContext().getResources().getColor(R.color.textcolor));
         legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
         legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
@@ -144,7 +141,7 @@ public class Action {
     public static void SettingsPieChart(PieChart pieChart){
         pieChart.setRotationEnabled(true);
         pieChart.setUsePercentValues(true);
-        pieChart.setCenterTextColor(Color.WHITE);
+        pieChart.setCenterTextColor(pieChart.getContext().getResources().getColor(R.color.textcolor));
         pieChart.setEntryLabelTextSize(15f);
         pieChart.setEntryLabelTypeface(Typeface.MONOSPACE);
         pieChart.setEntryLabelColor(Color.BLACK);
@@ -152,10 +149,10 @@ public class Action {
         pieChart.setCenterTextTypeface(Typeface.MONOSPACE);
         pieChart.getDescription().setText("");
         pieChart.setHoleRadius(60f);
-        pieChart.setTransparentCircleColor(Color.parseColor("#666666"));
+        pieChart.setTransparentCircleColor(pieChart.getContext().getResources().getColor(R.color.TransparentCircleColor));
         pieChart.setTransparentCircleAlpha(110);
         pieChart.setTransparentCircleRadius(67f);
-        pieChart.setHoleColor(Color.parseColor("#333333"));
+        pieChart.setHoleColor(pieChart.getContext().getResources().getColor(R.color.maincolor));
         pieChart.animateY(1000, Easing.EaseInOutCubic);
         pieChart.setRotationAngle(20);
 

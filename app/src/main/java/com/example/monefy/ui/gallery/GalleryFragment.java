@@ -1,29 +1,24 @@
 package com.example.monefy.ui.gallery;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import com.example.monefy.*;
-import com.example.monefy.ui.Dayfr.SelectedDay;
 import com.example.monefy.ui.Dayfr.SelectedYears;
-import com.github.mikephil.charting.data.PieEntry;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 // STOPSHIP: 07.07.2021
@@ -33,6 +28,7 @@ public class GalleryFragment extends Fragment {
     public static SimpleDateFormat format = new SimpleDateFormat("yyyy", new Locale("uk", "UA"));
     ViewPager viewPager;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -69,12 +65,11 @@ public class GalleryFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             int i = 0;
-            Date date;
-            for (Map.Entry<String, NamesAndValues> s : Action.NamesAndValuesForYears.entrySet()) {
+
+            for (Map.Entry<Date, NamesAndValues> s : Action.NamesAndValuesForYears.entrySet()) {
                 if (i == position) {
 
-                    date = new Date(s.getKey());
-                    return new SelectedYears(format.format(date), s.getValue(), Data);
+                    return new SelectedYears(format.format(s.getKey()), s.getValue(), Data);
                 }
                 i += 1;
             }
@@ -85,9 +80,9 @@ public class GalleryFragment extends Fragment {
         @Override
         public CharSequence getPageTitle(int position) {
             int i = 0;
-            for (Map.Entry<String, NamesAndValues> s : Action.NamesAndValuesForYears.entrySet()) {
+            for (Map.Entry<Date, NamesAndValues> s : Action.NamesAndValuesForYears.entrySet()) {
                 if (i == position) {
-                    return format.format(new Date(s.getKey()));
+                    return format.format(s.getKey());
                 }
                 i += 1;
             }
@@ -95,6 +90,7 @@ public class GalleryFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void setData() {
         Action.NamesAndValuesForYears.clear();
         DataBase dataBase = DataBase.getInstance();
@@ -137,7 +133,7 @@ public class GalleryFragment extends Fragment {
 
 
             } else {
-                Action.NamesAndValuesForYears.put(lastdate, new NamesAndValues(names, result));
+                Action.NamesAndValuesForYears.put(new Date(lastdate), new NamesAndValues(names, result));
                 result = 0;
                 names = new LinkedHashMap<>();
                 lastdate = s.getKey().toString();
@@ -160,18 +156,43 @@ public class GalleryFragment extends Fragment {
                 }
             }
             if (i == Data.size() - 1) {
-
-                Action.NamesAndValuesForYears.put(lastdate, new NamesAndValues(names, result, stonks));
+                Action.NamesAndValuesForYears.put(new Date(lastdate), new NamesAndValues(names, result, stonks));
                 break;
-
             }
 
             lastdate = s.getKey().toString();
             i += 1;
         }
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date(lastdate));
+
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.setTime(new Date(Data.keySet().iterator().next().toString()));
+
+        int year = (int) ChronoUnit.YEARS.between(LocalDateTime.ofInstant(Instant.ofEpochMilli(Calendar.getInstance().getTimeInMillis()), ZoneId.systemDefault()),
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(calendar.getTimeInMillis()), ZoneId.systemDefault()));
+
+        for (int in = 0; in <= year; in++) {
+
+            calendar.setTime(new Date(lastdate));
+            calendar.add(Calendar.YEAR, -in);
+
+            if (!containsKey(format.format(calendar.getTime()))) {
+                Action.NamesAndValuesForYears.put(calendar.getTime(), new NamesAndValues());
+            }
+        }
+        calendar = null;
+        calendar1 = null;
 
     }
-
+    boolean containsKey(String date) {
+        for (Map.Entry<Date, NamesAndValues> s : Action.NamesAndValuesForYears.entrySet()) {
+            if (date.equals(format.format(s.getKey()))) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

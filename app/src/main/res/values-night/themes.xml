@@ -1,16 +1,138 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Base application theme. -->
-    <style name="Theme.Monefy" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Monefy" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="actionOverflowMenuStyle">@style/popupOverflowMenu</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="Theme.Monefy.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.Monefy.AppBarOverlay" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="actionOverflowMenuStyle">@style/popupOverflowMenu</item>
+    </style>
+
+    <style name="Theme.Monefy.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+
+    </style>
+    <style name="NavDrawerTextStyle">
+
+        <item name="android:textSize">16sp</item> <!-- Размер текста -->
+        <item name="android:textAllCaps">true</item>
+        <item name="android:itemBackground">@color/teal_700</item>
+        <item name="android:textColor">#000000</item>
+    </style>  <!-- Если chaked = true, то цвет текста оранжевый -->
+    <style name="StyleButton">
+        <item name="background">@drawable/calccustom</item>
+        <item name="android:minWidth">20dip</item>
+        <item name="android:padding">20dip</item>
+    </style>  <!-- Если chaked = true, то цвет текста оранжевый -->
+    <style name="NavigationTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginBottom">03dp</item>
+        <item name="android:state_checked">@drawable/calccustom</item>
+        <item name="android:state_pressed">@drawable/calccustomvtwo</item>
+    </style>
+    <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker" tools:targetApi="lollipop">
+        <item name="android:headerBackground">@color/purple_200</item>
+        <item name="android:calendarTextColor">@color/purple_700</item>
+        <item name="android:dayOfWeekBackground">@color/purple_700</item>
+        <item name="android:yearListSelectorColor">@color/teal_200</item>
+        <item name="android:datePickerMode">calendar</item>
+        <item name="android:minDate">01/01/2000</item>
+    </style>
+    <style name="datepicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">#3E3E3E</item>                   <!--header background-->
+        <item name="android:windowBackground">#333333</item>     <!--calendar background-->
+        <item name="android:colorControlActivated" tools:targetApi="lollipop">#1565C0</item> <!--selected day-->
+        <item name="android:textColorPrimary">#B3B2B2</item> <!--days of the month-->
+        <item name="android:textColorSecondary">#B3B2B2</item>
+
+
+    </style>
+    <style name="Theme.NewPr.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="SwitchTextAppearance" parent="@android:style/TextAppearance.Holo.Small">
+        <item name="android:textColor">@android:color/holo_green_dark</item>
+    </style>
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">#333333</item>
+
+    </style>
+    <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="titleTextColor">#FFFFFF</item>
+    </style>
+
+    <style name="MyEditTextTheme">
+
+        <item name="colorControlActivated">@color/blue</item>
+
+    </style>
+
+    <style name="CalendarWidgetHeader">
+
+        <item name="android:textColor">#B3B2B2</item>
+    </style>
+
+    <style name="popupMenuStyle" parent="@android:style/Widget.PopupMenu">
+        <item name="overlapAnchor">false</item>
+        <!-- Required for Lollipop. -->
+        <item name="android:overlapAnchor" tools:targetApi="lollipop">false</item>
+        <item name="android:textColorHighlight">#FFFFFF</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:icon">@android:drawable/ic_menu_delete</item>
+        <item name="android:showAsAction">always</item>
+
+
+        <item name="android:popupBackground">@drawable/popup</item>
+        <item name="android:itemBackground">@drawable/popup</item>
+
+
+    </style>
+
+    <style name="AppTheme" parent="android:Theme.Holo.Light">
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:itemBackground">@drawable/popup</item>
+        <item name="android:background" tools:targetApi="o">@android:color/transparent</item>
+        <item name="android:iconTint" tools:targetApi="o">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:popupMenuStyle">@style/popupMenuStyle</item>
+    </style>
+    <style name="popupOverflowMenu" parent="@style/Widget.MaterialComponents.PopupMenu.Overflow">
+
+
+        <item name="android:popupBackground">@drawable/menuitemback</item>
+    </style>
+    <style name="RobotoTextViewStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:fontFamily" tools:ignore="DuplicateDefinition">monospace</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="itemIconTint">@color/white</item>
+        <item name="android:clickable">?android:checkable</item>
+        <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">center</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:listDivider">@android:color/transparent</item>
+
+
+
+    </style>
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:minWidth">100dp</item>
+
+
+    </style>
+
 </resources>

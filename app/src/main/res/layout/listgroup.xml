@@ -7,10 +7,10 @@
         android:orientation="horizontal">
     <TextView
             android:typeface="monospace"
-            android:textColor="@color/white"
+            android:textColor="@color/textcolor"
             android:layout_weight="1"
             android:gravity="right"
-            android:textSize="18dp"
+            android:textSize="16dp"
             android:id="@+id/groupview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -33,7 +33,7 @@
             android:typeface="monospace"
             android:layout_weight="1"
             android:gravity="right"
-            android:textSize="18dp"
+            android:textSize="16dp"
             android:id="@+id/groupview2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

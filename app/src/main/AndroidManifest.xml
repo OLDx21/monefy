@@ -33,7 +33,7 @@
         <activity
 
                 android:screenOrientation="portrait"
-                android:name=".activitys.CostMinus">
+                android:name=".activitys.MngCategories">
 
         </activity>
         <activity

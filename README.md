@@ -33,7 +33,7 @@
 
 Экран настроек:
 
-![photo_2021-07-27_14-26-23](https://user-images.githubusercontent.com/71173909/127199668-61e3a888-ba3f-49b0-a1e6-c3844a0a5e11.jpg)
+!![image](https://user-images.githubusercontent.com/71173909/128214013-29a0cd30-de15-48e3-ae01-680b5b973e27.png)
 
 
 

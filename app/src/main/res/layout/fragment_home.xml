@@ -8,7 +8,7 @@
         tools:context=".ui.home.HomeFragment"
         android:orientation="vertical"
         android:id="@+id/deltaRelative"
-        android:background="#333333"
+        android:background="@color/maincolor"
        >
 
 <TextView
@@ -45,7 +45,7 @@
                 android:gravity="center"
 
                 android:text="@string/cost"
-                android:textColor="@color/white" />
+                android:textColor="@color/textcolor" />
 
         <RadioButton
                 android:typeface="monospace"
@@ -60,7 +60,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:text="@string/stonks"
-                android:textColor="@color/white" />
+                android:textColor="@color/textcolor" />
     </RadioGroup>
 
     <com.github.mikephil.charting.charts.PieChart
@@ -90,9 +90,6 @@
             android:layout_height="50dp"
             android:layout_marginVertical="15dp"
     >
-
-
-
     </RelativeLayout>
     <ViewFlipper
 
@@ -102,14 +99,14 @@
             android:layout_height="115dp"
             tools:ignore="MissingConstraints">
         <RelativeLayout
-                android:background="#333333"
+                android:background="@color/maincolor"
                        android:layout_width="match_parent"
                        android:layout_height="match_parent"
                       android:orientation="horizontal"
 
         >
             <Button
-                    android:foreground="@drawable/ic_action_name"
+                    android:foreground="@android:drawable/ic_input_add"
                     android:layout_marginBottom="2dp"
                     android:layout_alignParentBottom="true"
                     android:id="@+id/minusbtn"
@@ -125,7 +122,7 @@
             </Button>
             <Button
                     android:foreground="@android:drawable/ic_input_add"
-                    android:foregroundTint="#339E39"
+                    android:foregroundTint="@color/circlecolorbtn"
                     android:layout_marginBottom="2dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"

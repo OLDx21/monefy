@@ -1,8 +1,8 @@
 package com.example.monefy.ui;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,27 +11,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import com.example.monefy.*;
 import com.example.monefy.activitys.MainActivity;
+import com.example.monefy.activitys.MngCategories;
 import org.jetbrains.annotations.NotNull;
-import androidx.appcompat.app.AlertDialog;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class SettingsClass extends Fragment {
 
     Spinner spinner;
     Button deleteall;
+    Button button;
+    CheckBox darktheme;
+
 
     @Nullable
     @Override
@@ -39,35 +36,56 @@ public class SettingsClass extends Fragment {
         View root = inflater.inflate(R.layout.fragmentsettings, container, false);
         spinner = root.findViewById(R.id.spinnerlang);
         deleteall = root.findViewById(R.id.deleteallbtn);
+        button = root.findViewById(R.id.ctgmng);
+        darktheme = root.findViewById(R.id.darktheme);
         Animation animbeta = AnimationUtils.loadAnimation(getContext(), R.anim.animka);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("AppSettingPrefs", 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Action.checked = 8;
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            darktheme.setChecked(true);
+        }
+
+
+        darktheme.setOnClickListener(v -> {
+            if (darktheme.isChecked()) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                editor.putBoolean("NightMode", true);
+                editor.apply();
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                editor.putBoolean("NightMode", false);
+                editor.apply();
+            }
+        });
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position==0){
+                if (position == 0) {
                     return;
                 }
-                String lang = "";
 
-                switch (spinner.getSelectedItem().toString()){
+                switch (spinner.getSelectedItem().toString()) {
                     case "English":
-                        lang = "en";
+                        editor.putString("Languages", "en");
+                        editor.apply();
                         break;
                     case "Українська":
-                        lang = "uk";
+                        editor.putString("Languages", "uk");
+                        editor.apply();
                         break;
                     case "Русский":
-                        lang = "ru";
+                        editor.putString("Languages", "ru");
+                        editor.apply();
                         break;
 
 
                 }
 
 
-                write(lang);
-
                 Action.CheckLang = true;
-                DoIntent doIntent  = DoIntent.getInstance();
+                DoIntent doIntent = DoIntent.getInstance();
                 doIntent.setDoIntent(getContext(), MainActivity.class);
                 Intent intent = doIntent.getDoIntent();
                 startActivity(intent);
@@ -79,6 +97,14 @@ public class SettingsClass extends Fragment {
 
             }
         });
+        button.setOnClickListener(v -> {
+            v.startAnimation(animbeta);
+            DoIntent doIntent = DoIntent.getInstance();
+            doIntent.setDoIntent(getContext(), MngCategories.class);
+            Intent intent = doIntent.getDoIntent();
+            startActivity(intent);
+
+        });
 
         deleteall.setOnClickListener(v -> {
             v.startAnimation(animbeta);
@@ -89,23 +115,9 @@ public class SettingsClass extends Fragment {
         });
         return root;
     }
-    public void write(String sb1){
-        try {
-
-            FileOutputStream fileOutputStream = getActivity().openFileOutput("saveinfo", Context.MODE_PRIVATE);
-            fileOutputStream.write(sb1.getBytes());
-            fileOutputStream.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
 
-    }
-
-    public AlertDialog CreateDialog(){
+    public AlertDialog CreateDialog() {
 
         LayoutInflater li = LayoutInflater.from(getActivity());
         View promptsView = li.inflate(R.layout.dialogdeleteallorno, null);
@@ -121,26 +133,26 @@ public class SettingsClass extends Fragment {
 
                             dialog.cancel();
                         }).setPositiveButton(getResources().getString(R.string.okay),
-                (dialog, id) -> {
-                    SQLiteDatabase sqLiteDatabase = Action.getSqLiteDatabase();
+                        (dialog, id) -> {
+                            SQLiteDatabase sqLiteDatabase = Action.getSqLiteDatabase();
 
-                    sqLiteDatabase.execSQL("drop table if exists " + DBhelp.TABLE_NAME1);
-                    sqLiteDatabase.execSQL("drop table if exists " + DBhelp.TABLE_NAME2);
-                    sqLiteDatabase.execSQL("drop table if exists " + DBhelp.TABLE_NAME3);
+                            sqLiteDatabase.execSQL("drop table if exists " + DBhelp.TABLE_NAME1);
+                            sqLiteDatabase.execSQL("drop table if exists " + DBhelp.TABLE_NAME2);
+                            sqLiteDatabase.execSQL("drop table if exists " + DBhelp.TABLE_NAME3);
 
-                    sqLiteDatabase.execSQL("create table " + DBhelp.TABLE_NAME1 + "(" + DBhelp.NAMES_COLUMS + " text" + ")");
-                    sqLiteDatabase.execSQL("create table " + DBhelp.TABLE_NAME2 + "(" + DBhelp.NAMES_COLUMS2 + " text" + ")");
-                    sqLiteDatabase.execSQL("create table " + DBhelp.TABLE_NAME3 + "(" + DBhelp.CHECK_COLUMN + " text," + DBhelp.NAME_COLUMN + " text,"+ DBhelp.DATE_COLUMN + " date,"+ DBhelp.SUMA_COLUMN+ " text"+")");
-                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.transuc), Toast.LENGTH_SHORT).show();
+                            sqLiteDatabase.execSQL("create table " + DBhelp.TABLE_NAME1 + "(" + DBhelp.NAMES_COLUMS + " text" + ")");
+                            sqLiteDatabase.execSQL("create table " + DBhelp.TABLE_NAME2 + "(" + DBhelp.NAMES_COLUMS2 + " text" + ")");
+                            sqLiteDatabase.execSQL("create table " + DBhelp.TABLE_NAME3 + "(" + DBhelp.CHECK_COLUMN + " text," + DBhelp.NAME_COLUMN + " text," + DBhelp.DATE_COLUMN + " date," + DBhelp.SUMA_COLUMN + " text" + ")");
+                            Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.transuc), Toast.LENGTH_SHORT).show();
 
-                    DataBase.getInstance().clearAll();
+                            DataBase.getInstance().clearAll();
 
-                    DoIntent doIntent = DoIntent.getInstance();
-                    doIntent.setDoIntent(getActivity(), MainActivity.class);
-                    Intent intent = doIntent.getDoIntent();
-                    startActivity(intent);
+                            DoIntent doIntent = DoIntent.getInstance();
+                            doIntent.setDoIntent(getActivity(), MainActivity.class);
+                            Intent intent = doIntent.getDoIntent();
+                            startActivity(intent);
 
-                });
+                        });
 
         AlertDialog alertDialog = mDialogBuilder.create();
         alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.customdialog));
@@ -151,7 +163,6 @@ public class SettingsClass extends Fragment {
 
         return alertDialog;
     }
-
 
 
 }

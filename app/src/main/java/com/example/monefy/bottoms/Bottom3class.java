@@ -2,10 +2,8 @@ package com.example.monefy.bottoms;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +21,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 
 public class Bottom3class extends BottomSheetDialogFragment {
 
@@ -53,13 +50,13 @@ public class Bottom3class extends BottomSheetDialogFragment {
         GridLayout gridLayout = new GridLayout(getContext());
         gridLayout.setOrientation(0);
         gridLayout.setColumnCount(3);
-        gridLayout.setBackgroundColor(Color.parseColor("#333333"));
+        gridLayout.setBackgroundColor(getResources().getColor(R.color.maincolor));
         ArrayList<Button> buttons = new ArrayList<>();
 
         for(int i = 0; i<DataBase.getInstance().getAllKategories().size(); i++){
             Button button = new Button(getActivity());
             button.setWidth((Action.display.getWidth()/3));
-            button.setTextColor(Color.WHITE);
+            button.setTextColor(getResources().getColor(R.color.textcolor));
             button.setText(DataBase.getInstance().getAllKategories().get(i));
             button.setBackground(getActivity().getResources().getDrawable(R.drawable.customselectedbtn));
             buttons.add(button);

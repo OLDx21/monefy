@@ -18,7 +18,7 @@
             android:layout_height="match_parent">
     </include>
     <com.google.android.material.navigation.NavigationView
-            android:background="#333333"
+            android:background="@color/maincolor"
             android:id="@+id/nav_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -29,9 +29,11 @@
             app:itemIconPadding="28dp"
             app:headerLayout="@layout/nav_header_main"
             android:paddingLeft="10dp"
-            app:itemTextColor="@color/white"
+            app:itemTextColor="@color/textcolor"
             app:menu="@menu/activity_main_drawer"
             android:paddingRight="10dp"
+            android:stateListAnimator="@null"
+            android:elevation="0dp"
 
             >
 

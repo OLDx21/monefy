@@ -3,10 +3,6 @@ package com.example.monefy.bottoms;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
@@ -15,7 +11,6 @@ import com.example.monefy.*;
 import com.example.monefy.interfacee.BottomSheet;
 import com.example.monefy.interfacee.DataChange;
 import com.example.monefy.ui.gallery.GalleryFragment;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.*;
 
@@ -62,7 +57,7 @@ public class BottomSheeetForYears  implements BottomSheet {
             if (bool) {
                 bool = false;
                 colors = new ArrayList<>();
-                date = Action.formatter.format(s.getKey());
+                date = Action.formatter3.format(s.getKey());
                 listDataParent.add(date);
                 colors.add(new HistoryAdapterClass(s.getValue().getSuma(), s.getValue().getCheck(), s.getValue().getName(), s.getKey()));
 
@@ -72,13 +67,13 @@ public class BottomSheeetForYears  implements BottomSheet {
                 i += 1;
                 continue;
             }
-            if (date.equals(Action.formatter.format(s.getKey()))) {
+            if (date.equals(Action.formatter3.format(s.getKey()))) {
                 colors.add(new HistoryAdapterClass(s.getValue().getSuma(), s.getValue().getCheck(), s.getValue().getName(), s.getKey()));
 
             } else {
                 arrayList.add(colors);
                 colors = new ArrayList<>();
-                date = Action.formatter.format(s.getKey());
+                date = Action.formatter3.format(s.getKey());
                 listDataParent.add(date);
                 colors.add(new HistoryAdapterClass(s.getValue().getSuma(), s.getValue().getCheck(), s.getValue().getName(), s.getKey()));
             }

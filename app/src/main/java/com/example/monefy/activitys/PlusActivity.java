@@ -1,7 +1,6 @@
 package com.example.monefy.activitys;
 
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -19,9 +18,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.monefy.Action;
-import com.example.monefy.bottoms.Bottom2class;
-import com.example.monefy.DoIntent;
 import com.example.monefy.R;
+import com.example.monefy.bottoms.Bottom2class;
 
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -63,7 +61,7 @@ public class PlusActivity extends AppCompatActivity {
         Action.setFontActionBar(actionBar, getApplicationContext(),  getResources().getString(R.string.income));
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#666666")));
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.barcolor)));
 
 
         textView = findViewById(R.id.textview2);

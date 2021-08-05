@@ -5,6 +5,6 @@
         android:id="@+id/bottom_sheetplus"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".activitys.CostMinus">
+        tools:context=".activitys.MngCategories">
 
 </LinearLayout>

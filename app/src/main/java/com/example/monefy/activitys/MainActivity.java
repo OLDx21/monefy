@@ -2,6 +2,7 @@ package com.example.monefy.activitys;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -24,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -43,7 +45,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
-import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -59,15 +60,23 @@ public class MainActivity extends AppCompatActivity {
     SQLiteDatabase sqLiteDatabase;
     ContentValues contentValues;
     MenuItem[] items;
-
+    private static long back_pressed;
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(MainActivity.this, "Натисніть ще раз для виходу", Toast.LENGTH_LONG).show();
+
         if (Action.bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             Action.bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             Action.bottomSheetBehavior.setDraggable(true);
+            return;
         }
+        if (back_pressed + 2000 > System.currentTimeMillis()) {
+            System.exit(1);
+        } else {
+            Toast.makeText(getBaseContext(), getResources().getString(R.string.clickagain), Toast.LENGTH_SHORT).show();
+        }
+        back_pressed = System.currentTimeMillis();
+
 
     }
 
@@ -77,12 +86,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Action.CheckLang) {
-            read();
+            SharedPreferences sharedPreferences = getSharedPreferences("AppSettingPrefs", 0);
+            if (sharedPreferences.getBoolean("NightMode", false)) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
+
+            Locale locale = new Locale(sharedPreferences.getString("Languages", "en"));
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+
             Action.formatter2 = new SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.getDefault());
             Action.formatter3 = new SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault());
             Action.format = new SimpleDateFormat("MMMM, yyyy", Locale.getDefault());
             IntervalDays.formatter2 = new SimpleDateFormat("dd MMMM (yyyy)", Locale.getDefault());
-            Weeks.MyAdapter.formatter2 = new SimpleDateFormat("dd MMMM", Locale.getDefault());
+            Weeks.MyAdapter.formatter2 = new SimpleDateFormat("dd MMMM (yyyy)", Locale.getDefault());
             Action.CheckLang = false;
         }
 
@@ -92,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#666666")));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.barcolor)));
         Action.setFontActionBar(getSupportActionBar(), getApplicationContext(), getResources().getString(R.string.app_name));
 
 
@@ -110,8 +130,9 @@ public class MainActivity extends AppCompatActivity {
         MenuItem item;
         SpannableString s;
         for (int i = 0; i < menu.size(); i++) {
-            if (i != 5 && i != 6) {
+            if (i != 5 && i != 7) {
                 item = menu.getItem(i);
+
                 s = new SpannableString(menu.getItem(i).getTitle());
                 s.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, s.length(), 0);
                 item.setTitle(s);
@@ -124,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         items[3] = navigationView.getMenu().getItem(3);
         items[4] = navigationView.getMenu().getItem(4);
         items[5] = navigationView.getMenu().getItem(7);
+
         setListener(navigationView);
 
         navigationView.getMenu().getItem(5).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -239,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
         if (getIntent().getIntExtra("fragmentNumber", 0) == 1) {
             Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.dayselected);
             navigationView.getMenu().getItem(5).setChecked(true);
@@ -264,25 +287,21 @@ public class MainActivity extends AppCompatActivity {
             navigationView.getMenu().getItem(6).setChecked(true);
         }
 
+
     }
 
     public void setListener(NavigationView view) {
+
         for (int i = 0; i < items.length; i++) {
-            if (i == 5 || i == 6) {
-                continue;
-            }
             items[i].setOnMenuItemClickListener(item -> {
-                ControlItems(item, items);
+                Action.position = null;
+                for (int g = 0; g < items.length; g++) {
+                    items[g].setEnabled(true);
+                }
+                item.setEnabled(false);
                 return false;
             });
         }
-    }
-
-    public void ControlItems(MenuItem menuItem, MenuItem[] items) {
-        for (int i = 0; i < items.length; i++) {
-            items[i].setEnabled(true);
-        }
-        menuItem.setEnabled(false);
     }
 
     @Override
@@ -309,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < menu.size(); i++) {
             item = menu.getItem(i);
             s = new SpannableString(menu.getItem(i).getTitle());
-            s.setSpan(new ForegroundColorSpan(Color.WHITE), 0, s.length(), 0);
+            s.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.textcolor)), 0, s.length(), 0);
             item.setTitle(s);
 
         }
@@ -323,42 +342,6 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void read() {
-        String output = "";
-
-        try {
-            FileInputStream fileinput = this.openFileInput("saveinfo");
-            InputStreamReader reader = new InputStreamReader(fileinput);
-
-            BufferedReader bufferedReader = new BufferedReader(reader);
-            StringBuilder stringBuffer = new StringBuilder();
-            String line;
-
-            while ((line = bufferedReader.readLine()) != null) {
-                stringBuffer.append(line + "\n");
-            }
-
-            output = stringBuffer.toString();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (output.isEmpty()) {
-            return;
-        }
-
-        Locale locale = new Locale(output.trim());
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getBaseContext().getResources().updateConfiguration(config,
-                getBaseContext().getResources().getDisplayMetrics());
-
-    }
 
     public AlertDialog createAlertDialog(String TableName, String RowName, String array) {
         LayoutInflater li = LayoutInflater.from(MainActivity.this);

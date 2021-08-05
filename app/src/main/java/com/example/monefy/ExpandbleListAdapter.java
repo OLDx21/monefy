@@ -98,7 +98,7 @@ public class ExpandbleListAdapter extends BaseExpandableListAdapter {
         if (sum < 0) {
             textView1.setTextColor(Color.parseColor("#FF6666"));
         } else {
-            textView1.setTextColor(Color.parseColor("#66CC66"));
+            textView1.setTextColor(context.getResources().getColor(R.color.inbottomgreencolor));
         }
         textView2.setText(String.valueOf(Child.get(header[groupPosition]).size()));
         textView1.setText(String.valueOf(sum));
@@ -235,7 +235,7 @@ public class ExpandbleListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return false;
+        return true;
     }
 
 

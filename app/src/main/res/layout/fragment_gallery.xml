@@ -16,7 +16,7 @@
           android:id="@+id/pagerTitleStrip"
           android:textColor="#339E39"
           android:typeface="monospace"
-          android:background="#333333"
+          android:background="@color/maincolor"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_gravity="top">

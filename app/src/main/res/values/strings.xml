@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">monefy</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -40,6 +40,14 @@
     <string name="updtran">Transaction update</string>
     <string name="controlcateg">Сategory management</string>
     <string name="category">Categories</string>
+    <string name="deletecategory">Delete a category</string>
+    <string name="titledltctg">All entries in this category will be deleted!</string>
+    <string name="newname">New name</string>
+    <string name="theme">Theme</string>
+    <string name="darktheme">Dark theme</string>
+    <string name="clickagain">Press once again to exit!</string>
+    <string name="importantmessage">There are currently no profit categories! To add a new category, click on the "three dots" on the top bar</string>
+    <string name="importantmessage2">There are currently no expense categories! To add a new one, click on the "three dots" on the top bar</string>
     <string-array name="mode">
         <item>Interval</item>
         <item>Choice of dates</item>

@@ -6,7 +6,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:background="#333333"
+        android:background="@color/maincolor"
         android:padding="10dp">
 
     <RelativeLayout
@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <TextView
-                android:textColor="#ffffff"
+                android:textColor="@color/textcolor"
                 android:id="@+id/date"
                 android:gravity="center"
                 android:textSize="20dp"
@@ -27,7 +27,7 @@
                 android:id="@+id/line1"
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
-                android:background="#666666" />
+                android:background="@color/dopcolor" />
         <EditText
                 android:maxLength="9"
                 android:textSize="35sp"
@@ -35,7 +35,7 @@
                 android:gravity="center"
                 android:background="@drawable/calccustom"
                 android:id="@+id/textview2"
-                android:textColor="#ffffff"
+                android:textColor="@color/textcolor"
                 android:typeface="monospace"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
@@ -57,7 +57,7 @@
                 android:layout_alignEnd="@+id/textview2"
                 android:layout_marginRight="3dp"
                 android:background="@android:drawable/ic_input_delete"
-                android:backgroundTint="#ffffff"
+                android:backgroundTint="@color/deletebtncolor"
                 android:backgroundTintMode="src_in"
                 tools:targetApi="lollipop">
 
@@ -66,7 +66,7 @@
     </RelativeLayout>
 
     <LinearLayout
-            android:background="#333333"
+            android:background="@color/maincolor"
             android:orientation="vertical"
             android:layout_weight="1"
             android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content">
             <Button
                     android:typeface="monospace"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/textcolor"
                     android:id="@+id/btn1"
                     android:layout_margin="3dp"
                     android:stateListAnimator="@null"
@@ -92,7 +92,7 @@
             </Button>
             <Button
                     android:typeface="monospace"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/textcolor"
                     android:id="@+id/btn2"
                     android:layout_margin="3dp"
                     android:stateListAnimator="@null"
@@ -106,7 +106,7 @@
             </Button>
             <Button
                     android:typeface="monospace"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/textcolor"
                     android:id="@+id/btn3"
                     android:layout_margin="3dp"
                     android:stateListAnimator="@null"
@@ -127,7 +127,7 @@
                 android:layout_height="wrap_content">
             <Button
                     android:typeface="monospace"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/textcolor"
                     android:id="@+id/btn4"
                     android:layout_margin="3dp"
                     android:stateListAnimator="@null"
@@ -141,7 +141,7 @@
             </Button>
             <Button
                     android:typeface="monospace"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/textcolor"
                     android:id="@+id/btn5"
                     android:layout_margin="3dp"
                     android:stateListAnimator="@null"
@@ -156,7 +156,7 @@
 
             <Button
                     android:typeface="monospace"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/textcolor"
                     android:id="@+id/btn6"
                     android:layout_margin="3dp"
                     android:stateListAnimator="@null"
@@ -176,7 +176,7 @@
                 android:layout_height="wrap_content">
             <Button
                     android:typeface="monospace"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/textcolor"
                     android:id="@+id/btn7"
                     android:layout_margin="3dp"
                     android:stateListAnimator="@null"
@@ -191,7 +191,7 @@
 
             <Button
                     android:typeface="monospace"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/textcolor"
                     android:id="@+id/btn8"
                     android:layout_margin="3dp"
                     android:stateListAnimator="@null"
@@ -205,7 +205,7 @@
             </Button>
             <Button
                     android:typeface="monospace"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/textcolor"
                     android:id="@+id/btn9"
                     android:layout_margin="3dp"
                     android:stateListAnimator="@null"
@@ -225,7 +225,7 @@
                 android:layout_height="wrap_content">
             <Button
                     android:typeface="monospace"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/textcolor"
                     android:id="@+id/btnpoint"
                     android:layout_margin="3dp"
                     android:stateListAnimator="@null"
@@ -240,7 +240,7 @@
 
             <Button
                     android:typeface="monospace"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/textcolor"
                     android:id="@+id/btn0"
                     android:layout_margin="3dp"
                     android:stateListAnimator="@null"
@@ -254,7 +254,7 @@
             </Button>
             <Button
                     android:typeface="monospace"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/textcolor"
                     android:id="@+id/btnravno"
                     android:layout_margin="3dp"
                     android:stateListAnimator="@null"
@@ -274,7 +274,7 @@
                 android:layout_height="wrap_content">
             <Button
                     android:typeface="monospace"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/textcolor"
                     android:id="@+id/selectedbtn"
                     android:layout_margin="3dp"
                     android:stateListAnimator="@null"

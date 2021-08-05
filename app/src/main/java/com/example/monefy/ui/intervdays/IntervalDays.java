@@ -44,7 +44,7 @@ public class IntervalDays extends Fragment implements DataChange {
         to = (Date) dateTreeMap.keySet().toArray()[dateTreeMap.size() - 1];
 
         for (Map.Entry<Date, Date> s : dateTreeMap.entrySet()) {
-            arrayList.add(Action.formatter.format(s.getValue()));
+            arrayList.add(Action.formatter3.format(s.getValue()));
         }
 
         controller.setContextAndInit(getContext(), root, null, this, bottomSheets, false, new Method() {
@@ -76,7 +76,7 @@ public class IntervalDays extends Fragment implements DataChange {
             dates = s.getValue().getDate();
             date1 = new Date(dates);
 
-            if (arrayList.contains(Action.formatter.format(date1))) {
+            if (arrayList.contains(Action.formatter3.format(date1))) {
                 Data.put(date1, new HistoryClass(name, dates, sumaa, check));
                 if (check.equals("minus")) {
                     results -= Double.parseDouble(sumaa);

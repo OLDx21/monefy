@@ -84,7 +84,6 @@ public class Controller {
         expandableListView = root.findViewById(R.id.expanded_menu);
         center.startAnimation(animAlpha);
         cost.setChecked(true);
-        Action.bottomSheetBehavior = bottomSheetBehavior;
         center.setWidth((Action.display.getWidth()) - (Action.display.getWidth() / 2));
 
         stonks.setOnClickListener(v -> {
@@ -112,7 +111,12 @@ public class Controller {
         });
         plusbtn.setOnClickListener(v -> {
                 v.startAnimation(animbeta);
+
             if(activeMainButton) {
+                if(DataBase.getInstance().getAllKategoriesProfit().isEmpty()){
+                    Snackbar.make(v, context.getResources().getString(R.string.importantmessage), Snackbar.LENGTH_LONG).show();
+                    return;
+                }
                 PlusActivity.check = Action.checked;
                 PlusActivity.date = date;
                 doIntent.setDoIntent(context, PlusActivity.class);
@@ -127,6 +131,10 @@ public class Controller {
         minusbtn.setOnClickListener(v -> {
             v.startAnimation(animbeta);
             if(activeMainButton) {
+                if(DataBase.getInstance().getAllKategories().isEmpty()){
+                    Snackbar.make(v, context.getResources().getString(R.string.importantmessage2), Snackbar.LENGTH_LONG).show();
+                    return;
+                }
                 MinusActivity.date = date;
                 MinusActivity.check = Action.checked;
                 doIntent.setDoIntent(context, MinusActivity.class);
@@ -142,6 +150,7 @@ public class Controller {
             @Override
             public void onStateChanged(@NonNull @NotNull View bottomSheet, int newState) {
                 if (ishave) {
+                    Action.bottomSheetBehavior = bottomSheetBehavior;
                     method.setDate();
                     bottomSheets.setDataList(textViewlist, expandableListView, context, dataChange);
                     ishave = false;

@@ -61,7 +61,7 @@ public class BottomSheetForMonths implements BottomSheet {
 
                 bool = false;
                 colors = new ArrayList<>();
-                date = Action.formatter.format(s.getKey());
+                date = Action.formatter3.format(s.getKey());
                 listDataParent.add(date);
                 colors.add(new HistoryAdapterClass(s.getValue().getSuma(), s.getValue().getCheck(), s.getValue().getName(), s.getKey()));
 
@@ -72,14 +72,14 @@ public class BottomSheetForMonths implements BottomSheet {
                 i += 1;
                 continue;
             }
-            if (date.equals(Action.formatter.format(s.getKey()))) {
+            if (date.equals(Action.formatter3.format(s.getKey()))) {
                 colors.add(new HistoryAdapterClass(s.getValue().getSuma(), s.getValue().getCheck(), s.getValue().getName(), s.getKey()));
 
             } else {
 
                 arrayList.add(colors);
                 colors = new ArrayList<>();
-                date = Action.formatter.format(s.getKey());
+                date = Action.formatter3.format(s.getKey());
                 listDataParent.add(date);
                 colors.add(new HistoryAdapterClass(s.getValue().getSuma(), s.getValue().getCheck(), s.getValue().getName(), s.getKey()));
             }
