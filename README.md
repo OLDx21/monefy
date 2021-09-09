@@ -29,7 +29,11 @@
 
 Меню переключения режимов:
 
-![photo_2021-07-27_14-26-00](https://user-images.githubusercontent.com/71173909/127199654-a72b05f4-6271-4257-bf5a-6a2a9c0da59e.jpg)
+![image](https://user-images.githubusercontent.com/71173909/132660791-d6143888-d1c7-4b3b-b2aa-452478b21a0a.png)
+
+Экран просмотра статистики: 
+
+![image](https://user-images.githubusercontent.com/71173909/132660749-879d8a03-73bc-4707-a06b-a3a53187b47d.png)
 
 Экран настроек:
 
