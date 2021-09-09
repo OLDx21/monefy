@@ -39,25 +39,20 @@ public class DataBase {
         }
     }
 
-    public void addIntoAllKategoryProfit(String kategory){
-        this.AllKategoriesProfit.add(kategory);
-    }
-
-    public ArrayList<String> getAllKategoriesProfit(){
+    public ArrayList<String> getAllKategoriesProfit() {
         return this.AllKategoriesProfit;
     }
 
-    public void addIntoAllKategory(String kategory, String array){
-        if(array.equals(COST)) {
+    public void addIntoAllKategory(String kategory, String array) {
+        if (array.equals(COST)) {
             this.AllKategories.add(kategory);
-        }
-        else {
+        } else {
             this.AllKategoriesProfit.add(kategory);
 
         }
     }
 
-    public ArrayList<String> getAllKategories(){
+    public ArrayList<String> getAllKategories() {
         return this.AllKategories;
     }
 
@@ -65,11 +60,11 @@ public class DataBase {
         this.Data.put(date, historyClass);
     }
 
-    public void UpdateLine(Date whereDate, HistoryClass historyClass) {
+    public void updateLine(Date whereDate, HistoryClass historyClass) {
         this.Data.put(whereDate, historyClass);
     }
 
-    public void DeleteLine(Date whereDate ) {
+    public void deleteLine(Date whereDate) {
         this.Data.remove(whereDate);
     }
 
@@ -84,6 +79,7 @@ public class DataBase {
             }
         }
     }
+
     public void clearAll() {
         this.Data.clear();
         this.cost.clear();
@@ -94,7 +90,6 @@ public class DataBase {
     }
 
     public void CreateDB(SQLiteDatabase sqLiteDatabase) {
-
         Cursor cursor = sqLiteDatabase.query(DBhelp.TABLE_NAME3, null, null, null, null, null, null);
         String name, sumaa, check, dates;
         int nameid, suma, checkint, date;

@@ -24,20 +24,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class SettingsClass extends Fragment {
 
-    Spinner spinner;
-    Button deleteall;
-    Button button;
-    CheckBox darktheme;
-
 
     @Nullable
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragmentsettings, container, false);
-        spinner = root.findViewById(R.id.spinnerlang);
-        deleteall = root.findViewById(R.id.deleteallbtn);
-        button = root.findViewById(R.id.ctgmng);
-        darktheme = root.findViewById(R.id.darktheme);
+        Spinner spinner = root.findViewById(R.id.spinnerlang);
+        Button deleteall = root.findViewById(R.id.deleteallbtn);
+        Button button = root.findViewById(R.id.ctgmng);
+        CheckBox darktheme = root.findViewById(R.id.darktheme);
         Animation animbeta = AnimationUtils.loadAnimation(getContext(), R.anim.animka);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("AppSettingPrefs", 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();

@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.dayselected, R.id.intervaldays, R.id.motnhselected, R.id.weekselected, R.id.settings)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.dayselected, R.id.intervaldays, R.id.motnhselected, R.id.weekselected, R.id.settings, R.id.stat)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         MenuItem item;
         SpannableString s;
         for (int i = 0; i < menu.size(); i++) {
-            if (i != 5 && i != 7) {
+            if (i != 6 && i != 8) {
                 item = menu.getItem(i);
 
                 s = new SpannableString(menu.getItem(i).getTitle());
@@ -138,19 +138,23 @@ public class MainActivity extends AppCompatActivity {
                 item.setTitle(s);
             }
         }
-        items = new MenuItem[6];
+        items = new MenuItem[7];
         items[0] = navigationView.getMenu().getItem(0);
         items[1] = navigationView.getMenu().getItem(1);
         items[2] = navigationView.getMenu().getItem(2);
         items[3] = navigationView.getMenu().getItem(3);
         items[4] = navigationView.getMenu().getItem(4);
         items[5] = navigationView.getMenu().getItem(7);
+        items[6] = navigationView.getMenu().getItem(8);
 
-        setListener(navigationView);
+        setListener();
 
-        navigationView.getMenu().getItem(5).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        navigationView.getMenu().getItem(6).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                for(int i = 0; i<items.length; i++){
+                    items[i].setEnabled(true);
+                }
                 LayoutInflater li = LayoutInflater.from(MainActivity.this);
                 View promptsView = li.inflate(R.layout.dialogaddtovar, null);
                 @SuppressLint("ResourceType") AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(MainActivity.this, R.style.MyDialogTheme);
@@ -191,9 +195,12 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        navigationView.getMenu().getItem(6).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        navigationView.getMenu().getItem(5).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                for(int i = 0; i<items.length; i++){
+                    items[i].setEnabled(true);
+                }
                 LayoutInflater li2 = LayoutInflater.from(MainActivity.this);
                 View promptsView2 = li2.inflate(R.layout.datesdia, null);
                 AlertDialog.Builder mDialogBuilder2 = new AlertDialog.Builder(MainActivity.this, R.style.MyDialogTheme);
@@ -290,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void setListener(NavigationView view) {
+    public void setListener() {
 
         for (int i = 0; i < items.length; i++) {
             items[i].setOnMenuItemClickListener(item -> {

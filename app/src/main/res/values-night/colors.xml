@@ -23,4 +23,5 @@
     <color name="back">#666666</color>
     <color name="TransparentCircleColor">#666666</color>
     <color name="deletebtncolor">#ffffff</color>
+    <color name="itemcolorback">#3366FF</color>
 </resources>

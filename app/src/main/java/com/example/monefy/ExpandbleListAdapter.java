@@ -175,7 +175,7 @@ public class ExpandbleListAdapter extends BaseExpandableListAdapter {
                         case R.id.opt1:
                             new Thread(()->{
                             Action.getSqLiteDatabase().delete(DBhelp.TABLE_NAME3, "date2 = ?", new String[]{Child.get(header[groupPosition]).get(childPosition).getRealDate().toString()});
-                            DataBase.getInstance().DeleteLine(Child.get(header[groupPosition]).get(childPosition).getRealDate());
+                            DataBase.getInstance().deleteLine(Child.get(header[groupPosition]).get(childPosition).getRealDate());
                             action.Update(Child.get(header[groupPosition]).get(childPosition));
                             Child.get(header[groupPosition]).remove(childPosition);
 

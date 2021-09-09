@@ -49,6 +49,8 @@
     <string name="clickagain">Натисніть ще раз для виходу!</string>
     <string name="importantmessage">Наразі нема жодної категорії прибутку! Щоб додати нову, натисніть на "три крапки" на верхній панелі</string>
     <string name="importantmessage2">Наразі нема жодної категорії витрати! Щоб додати нову, натисніть на "три крапки" на верхній панелі</string>
+    <string name="page">Сторінка: </string>
+    <string name="stat">Статистика</string>
     <string-array name="mode">
         <item>Інтервал</item>
         <item>Вибір дат</item>

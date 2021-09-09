@@ -49,6 +49,8 @@
     <string name="clickagain">Нажмите еще раз для выхода!</string>
     <string name="importantmessage">Пока нет ни одной категории прибыли! Чтобы добавить новую, нажмите "три точки" на верхней панели</string>
     <string name="importantmessage2">В настоящее время категорий расходов нет! Чтобы добавить новую, нажмите на «три точки» на верхней панели</string>
+    <string name="page">Страница: </string>
+    <string name="stat">Статистика</string>
     <string-array name="mode">
         <item>Интервал</item>
         <item>Выбор дат</item>

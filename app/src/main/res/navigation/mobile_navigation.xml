@@ -58,5 +58,11 @@
             android:name="com.example.monefy.ui.SettingsClass"
             android:label="@string/settings"
             tools:layout="@layout/fragmentsettings"/>
+    <fragment
+            android:tag="stat"
+            android:id="@+id/stat"
+            android:name="com.example.monefy.ui.Statistics"
+            android:label="@string/settings"
+            tools:layout="@layout/fragment_statistics"/>
 
 </navigation>

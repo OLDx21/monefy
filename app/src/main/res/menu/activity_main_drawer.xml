@@ -55,6 +55,19 @@
 
         />
     </group>
+
+    <group android:checkableBehavior="single" android:id="@+id/menu_six">
+        <item
+
+                app:iconTint="@drawable/toogle"
+                android:id="@+id/intervaldayssss"
+                android:title="@string/interval"
+                android:orderInCategory="100"
+                app:showAsAction="never"
+                android:gravity="center_horizontal"
+
+        />
+    </group>
     <group android:checkableBehavior="single" android:id="@+id/menu_five">
         <item
                 android:iconTint="@color/white"
@@ -68,16 +81,14 @@
 
         />
     </group>
-    <group android:checkableBehavior="single" android:id="@+id/menu_six">
+    <group android:checkableBehavior="single" android:id="@+id/menu_eigth">
         <item
-
                 app:iconTint="@drawable/toogle"
-                android:id="@+id/intervaldayssss"
-                android:title="@string/interval"
+                android:id="@+id/stat"
+                android:title="@string/stat"
                 android:orderInCategory="100"
                 app:showAsAction="never"
                 android:gravity="center_horizontal"
-
         />
     </group>
     <group android:checkableBehavior="single" android:id="@+id/menu_seven">
@@ -91,4 +102,5 @@
                 android:gravity="center_horizontal"
         />
     </group>
+
 </menu>

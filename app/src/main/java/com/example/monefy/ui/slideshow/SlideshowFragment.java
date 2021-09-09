@@ -40,7 +40,7 @@ public class SlideshowFragment extends Fragment {
 
             viewPager.setCurrentItem(days);
         } else {
-            System.out.println(Action.position);
+
             viewPager.setCurrentItem(Action.position);
         }
 
@@ -64,7 +64,7 @@ public class SlideshowFragment extends Fragment {
         public int getCount() {
             if (days == 0)
                 return 1;
-            return days + 1;
+            return days+1;
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
@@ -107,76 +107,8 @@ public class SlideshowFragment extends Fragment {
     public void setData() {
         Action.NamesAndValuesForDays.clear();
         DataBase dataBase = DataBase.getInstance();
-        LinkedHashMap<String, Double> names = new LinkedHashMap<>();
-        ArrayList<String> names2 = dataBase.getArray(DataBase.COST);
         Data = dataBase.getData();
-        LinkedHashMap<String, Double> stonks = new LinkedHashMap<>();
-        ArrayList<String> stonks2 = dataBase.getArray(DataBase.PROFIT);
+        days = FacadeMethods.getInstance().setDataDays(Action.NamesAndValuesForDays);
 
-
-        String dates;
-        int i = 0;
-        for (int in = 0; in < names2.size(); in++) {
-            names.put(names2.get(in), 0.0);
-        }
-        for (int in = 0; in < stonks2.size(); in++) {
-            stonks.put(stonks2.get(in), 0.0);
-        }
-
-        if (Data.isEmpty()) {
-            return;
-        }
-        double result = 0;
-        String lastdate = Data.keySet().iterator().next().toString();
-        dates = format.format(Data.keySet().iterator().next());
-        for (Map.Entry<Date, HistoryClass> s : Data.entrySet()) {
-
-
-            if (dates.equals(format.format(s.getKey()))) {
-                if (s.getValue().getCheck().equals("plus")) {
-                    stonks.put(s.getValue().getName(), Double.parseDouble(s.getValue().getSuma()) + stonks.get(s.getValue().getName()));
-                    result += Double.parseDouble(s.getValue().getSuma());
-                } else {
-                    names.put(s.getValue().getName(), Double.parseDouble(s.getValue().getSuma()) + names.get(s.getValue().getName()));
-                    result -= Double.parseDouble(s.getValue().getSuma());
-                }
-
-
-            } else {
-                Action.NamesAndValuesForDays.put(new Date(lastdate), new NamesAndValues(names, result, stonks));
-                result = 0;
-                stonks = new LinkedHashMap<>();
-                names = new LinkedHashMap<>();
-                lastdate = s.getKey().toString();
-                dates = format.format(s.getKey());
-                for (int in = 0; in < names2.size(); in++) {
-                    names.put(names2.get(in), 0.0);
-
-                }
-                for (int in = 0; in < stonks2.size(); in++) {
-
-                    stonks.put(stonks2.get(in), 0.0);
-                }
-
-                if (s.getValue().getCheck().equals("plus")) {
-                    result += Double.parseDouble(s.getValue().getSuma());
-                    stonks.put(s.getValue().getName(), Double.parseDouble(s.getValue().getSuma()) + stonks.get(s.getValue().getName()));
-                } else {
-                    result -= Double.parseDouble(s.getValue().getSuma());
-                    names.put(s.getValue().getName(), Double.parseDouble(s.getValue().getSuma()) + names.get(s.getValue().getName()));
-                }
-            }
-            if (i == Data.size() - 1) {
-
-                Action.NamesAndValuesForDays.put(new Date(lastdate), new NamesAndValues(names, result, stonks));
-
-            }
-
-            lastdate = s.getKey().toString();
-            i += 1;
-        }
-
-        long milliseconds = new Date(lastdate).getTime() - Action.NamesAndValuesForDays.keySet().iterator().next().getTime();
-        days = (int) (milliseconds / (24 * 60 * 60 * 1000));
     }
 }

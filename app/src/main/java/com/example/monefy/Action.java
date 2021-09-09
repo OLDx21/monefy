@@ -41,8 +41,6 @@ public class Action {
     public static SimpleDateFormat formatter3 = new SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault());
     public static SimpleDateFormat format = new SimpleDateFormat("MMMM, yyyy", Locale.getDefault());
 
-
-
     public static TreeMap<Date, HistoryClass> SelectedDay = new TreeMap<Date, HistoryClass>(Collections.reverseOrder());
     public static TreeMap<Date, NamesAndValues> NamesAndValuesForYears = new TreeMap<>();
     public static TreeMap<Date, NamesAndValues> NamesAndValuesForDays = new TreeMap<Date, NamesAndValues>();

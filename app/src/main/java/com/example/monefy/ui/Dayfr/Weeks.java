@@ -117,7 +117,6 @@ public class Weeks extends Fragment {
 
             for (Map.Entry<Date, ArrayList<Date>> s : MndWeek.entrySet()) {
                 if (i == position) {
-                   // System.out.println(formatter2.format(s.getValue().get(0)));
                     return formatter2.format(s.getValue().get(0)) + " - " + formatter2.format(s.getValue().get(s.getValue().size() - 1));
                 }
                 i += 1;
@@ -134,113 +133,10 @@ public class Weeks extends Fragment {
         Action.NamesAndValuesForWeeks.clear();
         DataBase dataBase = DataBase.getInstance();
         Data = dataBase.getData();
+        FacadeMethods.getInstance().setDataWeeks(Data, MndWeek);
 
+        arrayList.addAll(dataBase.getArray(DataBase.COST));
+        arrayList2.addAll(dataBase.getArray(DataBase.PROFIT));
 
-        LinkedHashMap<String, Double> names = new LinkedHashMap<>();
-        ArrayList<String> names2 = dataBase.getArray(DataBase.COST);
-        LinkedHashMap<String, Double> stonks = new LinkedHashMap<>();
-        ArrayList<String> stonks2 = dataBase.getArray(DataBase.PROFIT);
-
-        String dates;
-        int i = 0;
-        Date date1;
-        for (int in = 0; in < names2.size(); in++) {
-            names.put(names2.get(in), 0.0);
-        }
-        for (int in = 0; in < stonks2.size(); in++) {
-            stonks.put(stonks2.get(in), 0.0);
-        }
-
-        if (Data.isEmpty()) {
-            return;
-        }
-        double result = 0;
-        String lastdate = format.format(Data.keySet().iterator().next());
-        dates = format.format(Data.keySet().iterator().next());
-
-
-        for (Map.Entry<Date, HistoryClass> s : Data.entrySet()) {
-
-
-            if (dates.equals(format.format(s.getKey()))) {
-                if (s.getValue().getCheck().equals("plus")) {
-                    stonks.put(s.getValue().getName(), Double.parseDouble(s.getValue().getSuma()) + stonks.get(s.getValue().getName()));
-                    result += Double.parseDouble(s.getValue().getSuma());
-                } else {
-                    names.put(s.getValue().getName(), Double.parseDouble(s.getValue().getSuma()) + names.get(s.getValue().getName()));
-                    result -= Double.parseDouble(s.getValue().getSuma());
-                }
-
-
-            } else {
-                Action.NamesAndValuesForWeeks.put(lastdate, new NamesAndValues(names, result, stonks));
-                result = 0;
-                stonks = new LinkedHashMap<>();
-                names = new LinkedHashMap<>();
-                lastdate = format.format(s.getKey());
-                dates = format.format(s.getKey());
-                for (int in = 0; in < names2.size(); in++) {
-                    names.put(names2.get(in), 0.0);
-                }
-                for (int in = 0; in < stonks2.size(); in++) {
-                    stonks.put(stonks2.get(in), 0.0);
-                }
-
-                if (s.getValue().getCheck().equals("plus")) {
-                    result += Double.parseDouble(s.getValue().getSuma());
-                    stonks.put(s.getValue().getName(), Double.parseDouble(s.getValue().getSuma()) + stonks.get(s.getValue().getName()));
-                } else {
-                    result -= Double.parseDouble(s.getValue().getSuma());
-                    names.put(s.getValue().getName(), Double.parseDouble(s.getValue().getSuma()) + names.get(s.getValue().getName()));
-                }
-            }
-            if (i == Data.size() - 1) {
-
-                Action.NamesAndValuesForWeeks.put(lastdate, new NamesAndValues(names, result, stonks));
-                lastdate = s.getKey().toString();
-                break;
-
-            }
-
-            lastdate = format.format(s.getKey());
-            i += 1;
-        }
-        arrayList.addAll(names2);
-        arrayList2.addAll(stonks2);
-
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date(lastdate));
-
-        Calendar calendar1 = Calendar.getInstance();
-        calendar1.setTime(new Date(Data.keySet().iterator().next().toString()));
-
-        Calendar calendar3 = Calendar.getInstance();
-        calendar3.setTime(calendar.getTime());
-
-        int weeks = (int) ChronoUnit.WEEKS.between(LocalDateTime.ofInstant(Instant.ofEpochMilli(calendar1.getTimeInMillis()), ZoneId.systemDefault()),
-                LocalDateTime.ofInstant(Instant.ofEpochMilli(calendar.getTimeInMillis()), ZoneId.systemDefault()));
-
-        ArrayList<Date> arrayList;
-
-        for (int in = 0; in <= weeks; in++) {
-
-            if (in != 0) {
-                calendar.add(Calendar.DATE, -7);
-            }
-            calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-            date1 = calendar.getTime();
-            arrayList = new ArrayList<>();
-
-            for (int g = 0; g < 7; g++) {
-                calendar3.setTime(date1);
-                calendar3.add(Calendar.DATE, +g);
-                arrayList.add(calendar3.getTime());
-            }
-            MndWeek.put(date1, arrayList);
-        }
-        calendar = null;
-        calendar1 = null;
-        calendar3 = null;
     }
 }

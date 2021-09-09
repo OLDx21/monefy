@@ -142,7 +142,7 @@ public class CostUpdate extends AppCompatActivity {
             Toast.makeText(CostUpdate.this, getResources().getString(R.string.transuc), Toast.LENGTH_SHORT).show();
 
             DataBase dataBase = DataBase.getInstance();
-            dataBase.UpdateLine(historyAdapterClass.getRealDate(), new HistoryClass(historyAdapterClass.getName(),
+            dataBase.updateLine(historyAdapterClass.getRealDate(), new HistoryClass(historyAdapterClass.getName(),
                     historyAdapterClass.getRealDate().toString(), textView.getText().toString(), historyAdapterClass.getCheck()));
 
 

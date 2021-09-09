@@ -48,6 +48,8 @@
     <string name="clickagain">Press once again to exit!</string>
     <string name="importantmessage">There are currently no profit categories! To add a new category, click on the "three dots" on the top bar</string>
     <string name="importantmessage2">There are currently no expense categories! To add a new one, click on the "three dots" on the top bar</string>
+    <string name="page">Page: </string>
+    <string name="stat">Statistics</string>
     <string-array name="mode">
         <item>Interval</item>
         <item>Choice of dates</item>
